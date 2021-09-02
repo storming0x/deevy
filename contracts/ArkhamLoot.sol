@@ -266,6 +266,10 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
     constructor(address minterAddress) ERC721("Arkham Loot", "ALOOT") public Ownable() {
         minter = minterAddress;
     }
+
+    function setMinter(address newMinterAddress) external onlyOwner {
+        newMinter = newMinterAddress;
+    }
     
     function random(string memory input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));

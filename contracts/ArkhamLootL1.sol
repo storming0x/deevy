@@ -29,6 +29,9 @@ contract ArkhamLootL1 is Ownable {
         l2Target = newL2Target;
     }
 
+    /*
+        @notice This claims your bag in L2.
+    */
     function warpBag(
         uint256 lootId,
         uint256 maxSubmissionCost,
