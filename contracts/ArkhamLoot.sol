@@ -11,27 +11,48 @@ import { ERC721 } from "./ERC721.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import { Base64 } from "./Base64.sol";
 
-contract Loot is ERC721, ReentrancyGuard, Ownable {
+contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
 
     string[] private weapons = [
-        "Warhammer",
-        "Quarterstaff",
-        "Maul",
-        "Mace",
-        "Club",
-        "Katana",
-        "Falchion",
-        "Scimitar",
-        "Long Sword",
-        "Short Sword",
-        "Ghost Wand",
-        "Grave Wand",
-        "Bone Wand",
-        "Wand",
-        "Grimoire",
-        "Chronicle",
-        "Tome",
-        "Book"
+        ".18 Derringer",
+        ".38 Revolver",
+        ".45 Automatic",
+        ".357 Magnum",
+        "Alien Device",
+        "Ancient Spear",
+        "Athame",
+        "Axe",
+        "Brass Knuckles",
+        "Brazier of Souls",
+        "Bullwhip",
+        "Carbine Rifle",
+        "Cavalry Saber",
+        "Chime of Ra",
+        "Cross",
+        "Crowbar",
+        "Cursed Sphere",
+        "Deputy's Revolver",
+        "Dynamite",
+        "Elephant Gun",
+        "Enchanted Cane",
+        "Enchanted Knife",
+        "Fetch Stick",
+        "Flamethrower",
+        "Gladius of Carcosa",
+        "Golden Sword of Y'ha-Talla",
+        "Holy Water",
+        "Kerosene",
+        "Knife",
+        "Lamp of Alhazred",
+        "Molotov Cocktail",
+        "Petrifying Solution",
+        "Powder of Ibn-Ghazi",
+        "Rifle",
+        "Ritual Blade",
+        "Shotgun",
+        "Sword of Glory",
+        "Tommy Gun",
+        "Yithian Rifle"
     ];
     
     string[] private chestArmor = [
@@ -157,6 +178,60 @@ contract Loot is ERC721, ReentrancyGuard, Ownable {
         "of the Twins"
     ];
 
+    /*
+        Source: http://www.arkhamhorrorwiki.com/Investigator#List_of_Investigators
+
+        Agnes Baker	Waitress	Velma's Diner	5	5	2	Innsmouth Horror
+        Akachi Onyele	Shaman	Ye Olde Magick Shoppe	7	3	1	Innsmouth Horror
+        Amanda Sharpe	Student	Bank of Arkham	5	5	3	
+        "Ashcan" Pete	Drifter	River Docks	4	6	1	
+        Bob Jenkins	Salesman	General Store	4	6	1	
+        Calvin Wright	Damned	Train Station	4	5	2	N/A
+        Carolyn Fern	Psychologist	Arkham Asylum	6	4	2	
+        Charlie Kane	Politician	Administration Building	4	6	2	Kingsport Horror
+        Daisy Walker	Librarian	Library	5	5	2	Kingsport Horror
+        Darrell Simmons	Photographer	Newspaper	4	6	2	
+        Dexter Drake	Magician	Ye Olde Magick Shoppe	5	5	2	
+        Diana Stanley	Redeemed Cultist	General Store	4	6	1	Dunwich Horror
+        Finn Edwards	Bootlegger	Bank of Arkham	4	6	1	Innsmouth Horror
+        George Barnaby	Lawyer	Library	7	3	2	Innsmouth Horror
+        Gloria Goldberg	Author	Velma's Diner	6	4	2	
+        Hank Samson	Farmhand	General Store	5	6	2	Innsmouth Horror
+        Harvey Walters	Professor	Administration Building	7	3	2	
+        Jacqueline Fine	Psychic	Curiositie Shoppe	7	3	2	Dunwich Horror
+        Jenny Barnes	Dilettante	Train Station	6	4	1	
+        Jim Culver	Musician	Velma's Diner	6	4	2	Dunwich Horror
+        Joe Diamond	Private Eye	Police Station	4	6	3	
+        Kate Winthrop	Scientist	Science Building	6	4	1	
+        Leo Anderson	Expedition Leader	River Docks	5	5	2	Dunwich Horror
+        Lily Chen	Martial Artist	Ye Olde Magick Shoppe	4-7	7-4	2	Kingsport Horror
+        Lola Hayes	Actress	Arkham Asylum	6	4	2	Kingsport Horror
+        Luke Robinson	Dreamer	The Dreamlands	7	3	1	Kingsport Horror
+        Mandy Thompson	Researcher	Library	5	5	2	
+        Marie Lambeau	Entertainer	Ma's Boarding House	6	4	2	Dunwich Horror
+        Mark Harrigan	Soldier	South Church	3	7	1	Dunwich Horror
+        Michael McGlen	Gangster	Ma's Boarding House	3	7	1	
+        Minh Thi Phan	Secretary	St. Mary's Hospital	6	4	2	Innsmouth Horror
+        Monterey Jack	Archeologist	Curiositie Shoppe	3	7	2	
+        Norman Withers	Astronomer	Administration Building	6	4	2	Innsmouth Horror
+        Patrice Hathaway	Violinist	Curiositie Shoppe	5	5	2	Innsmouth Horror
+        Rex Murphy	Reporter	Newspaper	5	5	2	Kingsport Horror
+        Rita Young	Athlete	Police Station	4	6	2	Dunwich Horror
+        Roland Banks	Fed	Arkham Asylum	4	6	3	Innsmouth Horror
+        Silas Marsh	Sailor	River Docks	4	6	2	Innsmouth Horror
+        Sister Mary	Nun	South Church	7	3	1	
+        "Skids" O'Toole	Ex-Convict	Ma's Boarding House	3	7	2	Innsmouth Horror
+        Tommy Muldoon	Rookie Cop	Police Station	6	4	1	Innsmouth Horror
+        Tony Morgan	Bounty Hunter	St. Mary's Hospital	3	7	2	Kingsport Horror
+        Trish Scarborough	Spy	Newspaper	6	4	1	Innsmouth Horror
+        Ursula Downs	Explorer	Player's Choice*	5	5	2	Innsmouth Horror
+        Vincent Lee	Doctor	St. Mary's Hospital	5	5	2	
+        Wendy Adams	Urchin	Bank of Arkham	4	4	3	Kingsport Horror
+        William Yorick	Gravedigger	South Church	4	6	1	Innsmouth Horror
+        Wilson Richards	Handyman	Train Station	5	5	4	Dunwich Horror
+        Zoey Samaras	Chef	Train Station	3	7	1	Innsmouth Horror
+    */
+    
     string[] private namePrefixes = [
         "Agony", "Apocalypse", "Armageddon", "Beast", "Behemoth", "Blight", "Blood", "Bramble", 
         "Brimstone", "Brood", "Carrion", "Cataclysm", "Chimeric", "Corpse", "Corruption", "Damnation", 
