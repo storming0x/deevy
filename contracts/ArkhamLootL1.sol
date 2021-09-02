@@ -29,7 +29,7 @@ contract ArkhamLootL1 is Ownable {
         l2Target = newL2Target;
     }
 
-    function claimInL2(
+    function warpBag(
         uint256 lootId,
         uint256 maxSubmissionCost,
         uint256 maxGas,

@@ -261,10 +261,10 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Moon"
     ];
 
-    address public arbitrumMinter;
+    address public minter;
 
-    constructor(address arbitrumMinterAddress) ERC721("Arkham Loot", "ALOOT") public Ownable() {
-        arbitrumMinter = arbitrumMinterAddress;
+    constructor(address minterAddress) ERC721("Arkham Loot", "ALOOT") public Ownable() {
+        minter = minterAddress;
     }
     
     function random(string memory input) internal pure returns (uint256) {
@@ -369,7 +369,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
     }
 
     function claim(address account, uint256 tokenId) external override nonReentrant {
-        require(arbitrumMinter == msg.sender, "SENDER_ISNT_MINTER");
+        require(minter == msg.sender, "SENDER_ISNT_MINTER");
         // TODO Check token id ranges.
         require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
         _safeMint(account, tokenId);

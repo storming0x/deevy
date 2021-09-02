@@ -7,7 +7,7 @@ import { ArbSys } from "./arbitrum/ArbSys.sol";
 import { AddressAliasHelper } from "./arbitrum/AddressAliasHelper.sol";
 import { IArkhamLoot } from "./IArkhamLoot.sol";
 
-contract ArkhamLootL2 is Ownable {
+contract ArkhamLootL2Minter is Ownable {
 
     ArbSys constant public ARBSYS = ArbSys(100);
 
