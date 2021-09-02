@@ -1,8 +1,4 @@
-/**
- *Submitted for verification at Etherscan.io on 2021-08-27
-*/
-
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 
 pragma solidity 0.6.12;
 
@@ -10,6 +6,7 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import "./tokens/ERC721.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import { Base64 } from "./libs/Base64.sol";
+// import { IArkhamLoot } from "./IArkhamLoot.sol";
 
 contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
 
@@ -365,9 +362,10 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
         return output;
     }
 
-    function claim(uint256 tokenId) public nonReentrant {
+    function _claim(address account, uint256 tokenId) internal nonReentrant {
+        // TODO Check token id ranges.
         require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
-        _safeMint(_msgSender(), tokenId);
+        _safeMint(account, tokenId);
     }
     
     function ownerClaim(uint256 tokenId) public nonReentrant onlyOwner {
