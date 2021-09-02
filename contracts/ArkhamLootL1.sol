@@ -41,7 +41,7 @@ contract ArkhamLootL1 is Ownable {
         );
         require(!claimed[lootId], "ARKHAM_LOOT_ALREADY_CLAIMED");
 
-        bytes memory data = abi.encodeWithSelector(IArkhamLoot.claim.selector, lootId);
+        bytes memory data = abi.encodeWithSelector(IArkhamLoot.claim.selector, msg.sender, lootId);
 
         claimed[lootId] = true;
 

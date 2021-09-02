@@ -6,9 +6,9 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import "./tokens/ERC721.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import { Base64 } from "./libs/Base64.sol";
-// import { IArkhamLoot } from "./IArkhamLoot.sol";
+import { IArkhamLoot } from "./IArkhamLoot.sol";
 
-contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
+contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
 
     string[] private weapons = [
         ".18 Derringer",
@@ -260,6 +260,12 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
         "Sun",
         "Moon"
     ];
+
+    address public arbitrumMinter;
+
+    constructor(address arbitrumMinterAddress) ERC721("Arkham Loot", "ALOOT") public Ownable() {
+        arbitrumMinter = arbitrumMinterAddress;
+    }
     
     function random(string memory input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));
@@ -362,13 +368,14 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
         return output;
     }
 
-    function _claim(address account, uint256 tokenId) internal nonReentrant {
+    function claim(address account, uint256 tokenId) external override nonReentrant {
+        require(arbitrumMinter == msg.sender, "SENDER_ISNT_MINTER");
         // TODO Check token id ranges.
         require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
         _safeMint(account, tokenId);
     }
     
-    function ownerClaim(uint256 tokenId) public nonReentrant onlyOwner {
+    function ownerClaim(uint256 tokenId) public override nonReentrant onlyOwner {
         require(tokenId > 7777 && tokenId < 8001, "Token ID invalid");
         _safeMint(owner(), tokenId);
     }
@@ -394,6 +401,4 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
         }
         return string(buffer);
     }
-    
-    constructor() ERC721("Loot", "LOOT") public Ownable() {}
 }
