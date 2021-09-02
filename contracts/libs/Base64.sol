@@ -1,5 +1,7 @@
-
+// SPDX-License-Identifier: MIT
 /// [MIT License]
+pragma solidity 0.6.12;
+
 /// @title Base64
 /// @notice Provides a function for encoding some bytes in base64
 /// @author Brecht Devos <brecht@loopring.org>
