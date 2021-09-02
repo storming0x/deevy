@@ -7,9 +7,9 @@
 pragma solidity 0.6.12;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { ERC721 } from "./ERC721.sol";
+import "./tokens/ERC721.sol";
 import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import { Base64 } from "./Base64.sol";
+import { Base64 } from "./libs/Base64.sol";
 
 contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable {
 
