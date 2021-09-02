@@ -1,57 +1,53 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.6.12;
 
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import "./tokens/ERC721.sol";
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import { Base64 } from "./libs/Base64.sol";
-import { IArkhamLoot } from "./IArkhamLoot.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {Base64} from "./libs/Base64.sol";
+import {IArkhamLoot} from "./IArkhamLoot.sol";
 
 contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
-
+    // 18 original loot weapons
     string[] private weapons = [
         ".18 Derringer",
-        ".38 Revolver",
-        ".45 Automatic",
-        ".357 Magnum",
-        "Alien Device",
-        "Ancient Spear",
+        ".32 Colt",
+        ".45 Thompson",
         "Athame",
-        "Axe",
+        "Baseball Bat",
         "Brass Knuckles",
-        "Brazier of Souls",
         "Bullwhip",
         "Carbine Rifle",
         "Cavalry Saber",
-        "Chime of Ra",
-        "Cross",
+        "Chainsaw",
+        "Chicago Typewriter",
         "Crowbar",
-        "Cursed Sphere",
-        "Deputy's Revolver",
         "Dynamite",
         "Elephant Gun",
-        "Enchanted Cane",
+        "Enchanted Blade",
         "Enchanted Knife",
-        "Fetch Stick",
+        "Fire Axe",
         "Flamethrower",
-        "Gladius of Carcosa",
-        "Golden Sword of Y'ha-Talla",
+        "GraveDigger's Shovel",
+        "Golden Sword",
         "Holy Water",
         "Kerosene",
         "Knife",
-        "Lamp of Alhazred",
-        "Molotov Cocktail",
-        "Petrifying Solution",
-        "Powder of Ibn-Ghazi",
-        "Rifle",
+        "M1918 Bar",
+        "Machete",
+        "Mauser C96",
+        "Old Hunting Rifle",
+        "Ornate Bow",
         "Ritual Blade",
+        "Sawed-off Shotgun",
         "Shotgun",
+        "Survival Knife",
+        "Switchblade",
         "Sword of Glory",
-        "Tommy Gun",
-        "Yithian Rifle"
+        "Tommy Gun"
     ];
-    
+
     string[] private chestArmor = [
         "Divine Robe",
         "Silk Robe",
@@ -69,7 +65,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Chain Mail",
         "Ring Mail"
     ];
-    
+
     string[] private headArmor = [
         "Ancient Helm",
         "Ornate Helm",
@@ -87,7 +83,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Linen Hood",
         "Hood"
     ];
-    
+
     string[] private waistArmor = [
         "Ornate Belt",
         "War Belt",
@@ -105,7 +101,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Linen Sash",
         "Sash"
     ];
-    
+
     string[] private footArmor = [
         "Holy Greaves",
         "Ornate Greaves",
@@ -123,7 +119,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Linen Shoes",
         "Shoes"
     ];
-    
+
     string[] private handArmor = [
         "Holy Gauntlets",
         "Ornate Gauntlets",
@@ -141,13 +137,9 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Linen Gloves",
         "Gloves"
     ];
-    
-    string[] private necklaces = [
-        "Necklace",
-        "Amulet",
-        "Pendant"
-    ];
-    
+
+    string[] private necklaces = ["Necklace", "Amulet", "Pendant"];
+
     string[] private rings = [
         "Gold Ring",
         "Silver Ring",
@@ -155,7 +147,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Platinum Ring",
         "Titanium Ring"
     ];
-    
+
     string[] private suffixes = [
         "of Power",
         "of Giants",
@@ -175,69 +167,76 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "of the Twins"
     ];
 
-    /*
-        Source: http://www.arkhamhorrorwiki.com/Investigator#List_of_Investigators
-
-        Agnes Baker	Waitress	Velma's Diner	5	5	2	Innsmouth Horror
-        Akachi Onyele	Shaman	Ye Olde Magick Shoppe	7	3	1	Innsmouth Horror
-        Amanda Sharpe	Student	Bank of Arkham	5	5	3	
-        "Ashcan" Pete	Drifter	River Docks	4	6	1	
-        Bob Jenkins	Salesman	General Store	4	6	1	
-        Calvin Wright	Damned	Train Station	4	5	2	N/A
-        Carolyn Fern	Psychologist	Arkham Asylum	6	4	2	
-        Charlie Kane	Politician	Administration Building	4	6	2	Kingsport Horror
-        Daisy Walker	Librarian	Library	5	5	2	Kingsport Horror
-        Darrell Simmons	Photographer	Newspaper	4	6	2	
-        Dexter Drake	Magician	Ye Olde Magick Shoppe	5	5	2	
-        Diana Stanley	Redeemed Cultist	General Store	4	6	1	Dunwich Horror
-        Finn Edwards	Bootlegger	Bank of Arkham	4	6	1	Innsmouth Horror
-        George Barnaby	Lawyer	Library	7	3	2	Innsmouth Horror
-        Gloria Goldberg	Author	Velma's Diner	6	4	2	
-        Hank Samson	Farmhand	General Store	5	6	2	Innsmouth Horror
-        Harvey Walters	Professor	Administration Building	7	3	2	
-        Jacqueline Fine	Psychic	Curiositie Shoppe	7	3	2	Dunwich Horror
-        Jenny Barnes	Dilettante	Train Station	6	4	1	
-        Jim Culver	Musician	Velma's Diner	6	4	2	Dunwich Horror
-        Joe Diamond	Private Eye	Police Station	4	6	3	
-        Kate Winthrop	Scientist	Science Building	6	4	1	
-        Leo Anderson	Expedition Leader	River Docks	5	5	2	Dunwich Horror
-        Lily Chen	Martial Artist	Ye Olde Magick Shoppe	4-7	7-4	2	Kingsport Horror
-        Lola Hayes	Actress	Arkham Asylum	6	4	2	Kingsport Horror
-        Luke Robinson	Dreamer	The Dreamlands	7	3	1	Kingsport Horror
-        Mandy Thompson	Researcher	Library	5	5	2	
-        Marie Lambeau	Entertainer	Ma's Boarding House	6	4	2	Dunwich Horror
-        Mark Harrigan	Soldier	South Church	3	7	1	Dunwich Horror
-        Michael McGlen	Gangster	Ma's Boarding House	3	7	1	
-        Minh Thi Phan	Secretary	St. Mary's Hospital	6	4	2	Innsmouth Horror
-        Monterey Jack	Archeologist	Curiositie Shoppe	3	7	2	
-        Norman Withers	Astronomer	Administration Building	6	4	2	Innsmouth Horror
-        Patrice Hathaway	Violinist	Curiositie Shoppe	5	5	2	Innsmouth Horror
-        Rex Murphy	Reporter	Newspaper	5	5	2	Kingsport Horror
-        Rita Young	Athlete	Police Station	4	6	2	Dunwich Horror
-        Roland Banks	Fed	Arkham Asylum	4	6	3	Innsmouth Horror
-        Silas Marsh	Sailor	River Docks	4	6	2	Innsmouth Horror
-        Sister Mary	Nun	South Church	7	3	1	
-        "Skids" O'Toole	Ex-Convict	Ma's Boarding House	3	7	2	Innsmouth Horror
-        Tommy Muldoon	Rookie Cop	Police Station	6	4	1	Innsmouth Horror
-        Tony Morgan	Bounty Hunter	St. Mary's Hospital	3	7	2	Kingsport Horror
-        Trish Scarborough	Spy	Newspaper	6	4	1	Innsmouth Horror
-        Ursula Downs	Explorer	Player's Choice*	5	5	2	Innsmouth Horror
-        Vincent Lee	Doctor	St. Mary's Hospital	5	5	2	
-        Wendy Adams	Urchin	Bank of Arkham	4	4	3	Kingsport Horror
-        William Yorick	Gravedigger	South Church	4	6	1	Innsmouth Horror
-        Wilson Richards	Handyman	Train Station	5	5	4	Dunwich Horror
-        Zoey Samaras	Chef	Train Station	3	7	1	Innsmouth Horror
-    */
-    
     string[] private namePrefixes = [
-        "Agony", "Apocalypse", "Armageddon", "Beast", "Behemoth", "Blight", "Blood", "Bramble", 
-        "Brimstone", "Brood", "Carrion", "Cataclysm", "Chimeric", "Corpse", "Corruption", "Damnation", 
-        "Death", "Demon", "Dire", "Dragon", "Dread", "Doom", "Dusk", "Eagle", "Empyrean", "Fate", "Foe", 
-        "Gale", "Ghoul", "Gloom", "Glyph", "Golem", "Grim", "Hate", "Havoc", "Honour", "Horror", "Hypnotic", 
-        "Kraken", "Loath", "Maelstrom", "Mind", "Miracle", "Morbid", "Oblivion", "Onslaught", "Pain", 
-        "Pandemonium", "Phoenix", "Plague", "Rage", "Rapture", "Rune", "Skull", "Sol", "Soul", "Sorrow", 
-        "Spirit", "Storm", "Tempest", "Torment", "Vengeance", "Victory", "Viper", "Vortex", "Woe", "Wrath",
-        "Light's", "Shimmering"  
+        "Agony",
+        "Apocalypse",
+        "Armageddon",
+        "Beast",
+        "Behemoth",
+        "Blight",
+        "Blood",
+        "Bramble",
+        "Brimstone",
+        "Brood",
+        "Carrion",
+        "Cataclysm",
+        "Chimeric",
+        "Corpse",
+        "Corruption",
+        "Damnation",
+        "Death",
+        "Demon",
+        "Dire",
+        "Dragon",
+        "Dread",
+        "Doom",
+        "Dusk",
+        "Eagle",
+        "Empyrean",
+        "Fate",
+        "Foe",
+        "Gale",
+        "Ghoul",
+        "Gloom",
+        "Glyph",
+        "Golem",
+        "Grim",
+        "Hate",
+        "Havoc",
+        "Honour",
+        "Horror",
+        "Hypnotic",
+        "Kraken",
+        "Loath",
+        "Maelstrom",
+        "Mind",
+        "Miracle",
+        "Morbid",
+        "Oblivion",
+        "Onslaught",
+        "Pain",
+        "Pandemonium",
+        "Phoenix",
+        "Plague",
+        "Rage",
+        "Rapture",
+        "Rune",
+        "Skull",
+        "Sol",
+        "Soul",
+        "Sorrow",
+        "Spirit",
+        "Storm",
+        "Tempest",
+        "Torment",
+        "Vengeance",
+        "Victory",
+        "Viper",
+        "Vortex",
+        "Woe",
+        "Wrath",
+        "Light's",
+        "Shimmering"
     ];
 
     string[] private nameSuffixes = [
@@ -263,30 +262,34 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
 
     address public minter;
 
-    constructor(address minterAddress) ERC721("Arkham Loot", "ALOOT") public Ownable() {
+    constructor(address minterAddress)
+        public
+        ERC721("Arkham Loot", "ALOOT")
+        Ownable()
+    {
         minter = minterAddress;
     }
 
     function setMinter(address newMinterAddress) external onlyOwner {
-        newMinter = newMinterAddress;
+        minter = newMinterAddress;
     }
-    
+
     function random(string memory input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));
     }
-    
+
     function getWeapon(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "WEAPON", weapons);
     }
-    
+
     function getChest(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "CHEST", chestArmor);
     }
-    
+
     function getHead(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "HEAD", headArmor);
     }
-    
+
     function getWaist(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "WAIST", waistArmor);
     }
@@ -294,42 +297,69 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
     function getFoot(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "FOOT", footArmor);
     }
-    
+
     function getHand(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "HAND", handArmor);
     }
-    
+
     function getNeck(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "NECK", necklaces);
     }
-    
+
     function getRing(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "RING", rings);
     }
-    
-    function pluck(uint256 tokenId, string memory keyPrefix, string[] memory sourceArray) internal view returns (string memory) {
-        uint256 rand = random(string(abi.encodePacked(keyPrefix, toString(tokenId))));
+
+    function pluck(
+        uint256 tokenId,
+        string memory keyPrefix,
+        string[] memory sourceArray
+    ) internal view returns (string memory) {
+        uint256 rand = random(
+            string(abi.encodePacked(keyPrefix, toString(tokenId)))
+        );
         string memory output = sourceArray[rand % sourceArray.length];
         uint256 greatness = rand % 21;
         if (greatness > 14) {
-            output = string(abi.encodePacked(output, " ", suffixes[rand % suffixes.length]));
+            output = string(
+                abi.encodePacked(output, " ", suffixes[rand % suffixes.length])
+            );
         }
         if (greatness >= 19) {
             string[2] memory name;
             name[0] = namePrefixes[rand % namePrefixes.length];
             name[1] = nameSuffixes[rand % nameSuffixes.length];
             if (greatness == 19) {
-                output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output));
+                output = string(
+                    abi.encodePacked('"', name[0], " ", name[1], '" ', output)
+                );
             } else {
-                output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output, " +1"));
+                output = string(
+                    abi.encodePacked(
+                        '"',
+                        name[0],
+                        " ",
+                        name[1],
+                        '" ',
+                        output,
+                        " +1"
+                    )
+                );
             }
         }
         return output;
     }
 
-    function tokenURI(uint256 tokenId) override public view returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override
+        returns (string memory)
+    {
         string[17] memory parts;
-        parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
+        parts[
+            0
+        ] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
 
         parts[1] = getWeapon(tokenId);
 
@@ -361,32 +391,79 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
 
         parts[15] = getRing(tokenId);
 
-        parts[16] = '</text></svg>';
+        parts[16] = "</text></svg>";
 
-        string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8]));
-        output = string(abi.encodePacked(output, parts[9], parts[10], parts[11], parts[12], parts[13], parts[14], parts[15], parts[16]));
-        
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Bag #', toString(tokenId), '", "description": "Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Loot in any way you want.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
-        output = string(abi.encodePacked('data:application/json;base64,', json));
+        string memory output = string(
+            abi.encodePacked(
+                parts[0],
+                parts[1],
+                parts[2],
+                parts[3],
+                parts[4],
+                parts[5],
+                parts[6],
+                parts[7],
+                parts[8]
+            )
+        );
+        output = string(
+            abi.encodePacked(
+                output,
+                parts[9],
+                parts[10],
+                parts[11],
+                parts[12],
+                parts[13],
+                parts[14],
+                parts[15],
+                parts[16]
+            )
+        );
+
+        string memory json = Base64.encode(
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{"name": "Bag #',
+                        toString(tokenId),
+                        '", "description": "Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Loot in any way you want.", "image": "data:image/svg+xml;base64,',
+                        Base64.encode(bytes(output)),
+                        '"}'
+                    )
+                )
+            )
+        );
+        output = string(
+            abi.encodePacked("data:application/json;base64,", json)
+        );
 
         return output;
     }
 
-    function claim(address account, uint256 tokenId) external override nonReentrant {
+    function claim(address account, uint256 tokenId)
+        external
+        override
+        nonReentrant
+    {
         require(minter == msg.sender, "SENDER_ISNT_MINTER");
         // TODO Check token id ranges.
         require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
         _safeMint(account, tokenId);
     }
-    
-    function ownerClaim(uint256 tokenId) public override nonReentrant onlyOwner {
+
+    function ownerClaim(uint256 tokenId)
+        public
+        override
+        nonReentrant
+        onlyOwner
+    {
         require(tokenId > 7777 && tokenId < 8001, "Token ID invalid");
         _safeMint(owner(), tokenId);
     }
-    
+
     function toString(uint256 value) internal pure returns (string memory) {
-    // Inspired by OraclizeAPI's implementation - MIT license
-    // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+        // Inspired by OraclizeAPI's implementation - MIT license
+        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
 
         if (value == 0) {
             return "0";

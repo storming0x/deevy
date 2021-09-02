@@ -2,13 +2,12 @@
 
 pragma solidity 0.6.12;
 
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import { IInbox } from "./arbitrum/IInbox.sol";
-import { IArkhamLoot } from "./IArkhamLoot.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import {IInbox} from "./arbitrum/IInbox.sol";
+import {IArkhamLoot} from "./IArkhamLoot.sol";
 
-contract ArkhamLootL1 is Ownable {
-
+contract ArkhamLootPortal is Ownable {
     address public l2Target;
     IERC721 public loot;
     IInbox public inbox;
@@ -44,7 +43,11 @@ contract ArkhamLootL1 is Ownable {
         );
         require(!claimed[lootId], "ARKHAM_LOOT_ALREADY_CLAIMED");
 
-        bytes memory data = abi.encodeWithSelector(IArkhamLoot.claim.selector, msg.sender, lootId);
+        bytes memory data = abi.encodeWithSelector(
+            IArkhamLoot.claim.selector,
+            msg.sender,
+            lootId
+        );
 
         claimed[lootId] = true;
 
