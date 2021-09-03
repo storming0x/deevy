@@ -500,7 +500,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         nonReentrant
         onlyOwner
     {
-        require(tokenId > 8000 && tokenId < 8100, "Token ID invalid");
+        require(tokenId >= 8000 && tokenId < 8100, "Token ID invalid");
         _safeMint(owner(), tokenId);
     }
 
@@ -510,6 +510,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         nonReentrant
     {
         require(minter == msg.sender, "SENDER_ISNT_MINTER");
+        require(tokenId >= 8100, "Token ID invalid");
         _safeMint(account, tokenId);
     }
 
