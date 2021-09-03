@@ -2,14 +2,13 @@
 
 pragma solidity 0.6.12;
 
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { ArbSys } from "./arbitrum/ArbSys.sol";
-import { AddressAliasHelper } from "./arbitrum/AddressAliasHelper.sol";
-import { IArkhamLoot } from "./IArkhamLoot.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {ArbSys} from "./arbitrum/ArbSys.sol";
+import {AddressAliasHelper} from "./arbitrum/AddressAliasHelper.sol";
+import {IArkhamLoot} from "./IArkhamLoot.sol";
 
 contract ArkhamLootL2Minter is Ownable {
-
-    ArbSys constant public ARBSYS = ArbSys(100);
+    ArbSys public constant ARBSYS = ArbSys(100);
 
     address public l1Target;
 
@@ -17,10 +16,7 @@ contract ArkhamLootL2Minter is Ownable {
 
     event L2ToL1TxCreated(uint256 indexed withdrawalId);
 
-    constructor(
-        address arkhamLootAddress,
-        address l1TargetAddress
-    ) public {
+    constructor(address arkhamLootAddress, address l1TargetAddress) public {
         arkhamLoot = IArkhamLoot(arkhamLootAddress);
         l1Target = l1TargetAddress;
     }
@@ -29,17 +25,28 @@ contract ArkhamLootL2Minter is Ownable {
         l1Target = newL1Target;
     }
 
-    function setArkhamLoot(address newArkhamLoot) external onlyOwner {
-        arkhamLoot = IArkhamLoot(newArkhamLoot);
-    }
-
     /*
         @notice It receives a TX from L1.
         @notice Only l1Target can claim a ArkhamLoot in Arbitrum
     */
-    function claim(address account, uint256 lootId) external {
+    function warpBag(address account, uint256 lootId) external {
         // To check that message came from L1, we check that the sender is the L1 contract's L2 alias.
-        require(msg.sender == AddressAliasHelper.applyL1ToL2Alias(l1Target), "INVALID_L1_TARGET");
-        arkhamLoot.claim(account, lootId);
+        require(
+            msg.sender == AddressAliasHelper.applyL1ToL2Alias(l1Target),
+            "INVALID_L1_TARGET"
+        );
+        arkhamLoot.warpLoot(account, lootId);
+    }
+
+    /*
+        @notice Mint Arkham Loot
+        @notice Cannot mint original Loot ids
+    */
+    function claim(address account, uint256 arkhamLootId) external {
+        require(
+            arkhamLootId > 8100 && arkhamLootId < 12000,
+            "Token ID invalid"
+        );
+        arkhamLoot.claim(msg.sender, arkhamLootId);
     }
 }
