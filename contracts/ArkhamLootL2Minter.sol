@@ -14,7 +14,7 @@ contract ArkhamLootL2Minter is Ownable {
 
     IArkhamLoot public arkhamLoot;
 
-    mapping(uint256 => bool) public claimed;
+    mapping(address => bool) public claimed;
 
     event L2ToL1TxCreated(uint256 indexed withdrawalId);
 
@@ -46,8 +46,8 @@ contract ArkhamLootL2Minter is Ownable {
     */
     function claim(address account, uint256 arkhamLootId) external {
         require(arkhamLootId > 8100 && arkhamLootId < 9000, "Token ID invalid");
-        require(!claimed[lootId], "ARKHAM_LOOT_ALREADY_CLAIMED");
-        claimed[lootId] = true;
+        require(!claimed[account], "ARKHAM_LOOT_ALREADY_CLAIMED");
+        claimed[account] = true;
 
         arkhamLoot.claim(msg.sender, arkhamLootId);
     }
