@@ -11,12 +11,15 @@ import {Base64} from "./libs/Base64.sol";
 import {IArkhamLoot} from "./IArkhamLoot.sol";
 import {ILoot} from "./ILoot.sol";
 
+// "That is not dead which can eternal lie, And with strange aeons even death may die."
+
 contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
     // 18 original loot weapons
-    string[] private weapons = [
+    string[] private armament = [
         ".18 Derringer",
         ".32 Colt",
         ".45 Thompson",
+        "Ancient Staff",
         "Athame",
         "Baseball Bat",
         "Brass Knuckles",
@@ -51,110 +54,139 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Tommy Gun"
     ];
 
-    string[] private chestArmor = [
-        "Divine Robe",
-        "Silk Robe",
-        "Linen Robe",
+    string[] private body = [
+        "Arcane Armor",
+        "Bulletproof Vest",
+        "Enchanted Duster Leather Jacket",
+        "Hard Leather Jacket",
+        "Trench Coat",
         "Robe",
         "Shirt",
-        "Demon Husk",
-        "Dragonskin Armor",
-        "Studded Leather Armor",
-        "Hard Leather Armor",
-        "Leather Armor",
-        "Holy Chestplate",
-        "Ornate Chestplate",
-        "Plate Mail",
-        "Chain Mail",
-        "Ring Mail"
+        "Uniform"
     ];
 
-    string[] private headArmor = [
-        "Ancient Helm",
-        "Ornate Helm",
-        "Great Helm",
-        "Full Helm",
-        "Helm",
-        "Demon Crown",
-        "Dragon's Crown",
-        "War Cap",
-        "Leather Cap",
-        "Cap",
-        "Crown",
-        "Divine Hood",
-        "Silk Hood",
-        "Linen Hood",
-        "Hood"
+    string[] private items = [
+        "Ancient Tome",
+        "Archaic Glyphs",
+        "Book of Shadows",
+        "Crystal Decorated Skull",
+        "Crystal Pendulum",
+        "Elder Sign Amulet",
+        "Flashlight",
+        "Gristly Totem",
+        "Hallowed Mirror",
+        "Holy Rosary",
+        "Lantern",
+        "Lockpicks",
+        "Lucky Penny",
+        "Necronomicon Translation",
+        "Rabbit's Foot",
+        "Ritual Candles",
+        "Skeleton Key"
     ];
 
-    string[] private waistArmor = [
-        "Ornate Belt",
-        "War Belt",
-        "Plated Belt",
-        "Mesh Belt",
-        "Heavy Belt",
-        "Demonhide Belt",
-        "Dragonskin Belt",
-        "Studded Leather Belt",
-        "Hard Leather Belt",
-        "Leather Belt",
-        "Brightsilk Sash",
-        "Silk Sash",
-        "Wool Sash",
-        "Linen Sash",
-        "Sash"
+    string[] private relics = [
+        "Ancient Stone Statuette",
+        "Codex of Ages",
+        "Cultist Manuscripts",
+        "Forbidden Tome",
+        "Gold Pocket Watch",
+        "Hemispheric Map",
+        "Jewel of Aureolus",
+        "Ocarina",
+        "Otherworldly Compass",
+        "Red Clock",
+        "Royal Pendant",
+        "Tooth of Eztli"
     ];
 
-    string[] private footArmor = [
-        "Holy Greaves",
-        "Ornate Greaves",
-        "Greaves",
-        "Chain Boots",
-        "Heavy Boots",
-        "Demonhide Boots",
-        "Dragonskin Boots",
-        "Studded Leather Boots",
-        "Hard Leather Boots",
-        "Leather Boots",
-        "Divine Slippers",
-        "Silk Slippers",
-        "Wool Shoes",
-        "Linen Shoes",
-        "Shoes"
+    string[] private talents = [
+        "Adaptable",
+        "Analytical Mind",
+        "Ancestral Knowledge",
+        "Arcane Research",
+        "Charisma",
+        "Deja Vu",
+        "High Roller",
+        "Hyperawareness",
+        "Keen Eye",
+        "Lone Wolf",
+        "Physical Training",
+        "Plucky",
+        "Relentless",
+        "Scavenging",
+        "Scrapper",
+        "Sharpshooter",
+        "Stealth",
+        "Streetwise",
+        "Versatile"
     ];
 
-    string[] private handArmor = [
-        "Holy Gauntlets",
-        "Ornate Gauntlets",
-        "Gauntlets",
-        "Chain Gloves",
-        "Heavy Gloves",
-        "Demon's Hands",
-        "Dragonskin Gloves",
-        "Studded Leather Gloves",
-        "Hard Leather Gloves",
-        "Leather Gloves",
-        "Divine Gloves",
-        "Silk Gloves",
-        "Wool Gloves",
-        "Linen Gloves",
-        "Gloves"
+    string[] private weakness = [
+        "Amnesia",
+        "Atychiphobia",
+        "Blodlust",
+        "Buried Secrets",
+        "Call of the Unknown",
+        "Chronophobia",
+        "Crisis of Faith",
+        "Dark Memory",
+        "Dark Pact",
+        "Detached from Reality",
+        "Dread Curse",
+        "Dreams of the Deep",
+        "Greed",
+        "Haunted",
+        "Indebted",
+        "Kleptomania",
+        "Narcolepsy",
+        "Nihilism",
+        "Obsessive",
+        "Paranoia",
+        "Psychosis",
+        "Reckless",
+        "Self-Destructive",
+        "Siren Call",
+        "Terrible Secret",
+        "Wracked by Nightmares"
     ];
 
-    string[] private necklaces = ["Necklace", "Amulet", "Pendant"];
+    string[] private classes = [
+        "Protector",
+        "Mystical",
+        "Rogue",
+        "Survivor",
+        "Searcher"
+    ];
 
-    string[] private rings = [
-        "Gold Ring",
-        "Silver Ring",
-        "Bronze Ring",
-        "Platinum Ring",
-        "Titanium Ring"
+    string[] private allies = [
+        "Arcane Initiate"
+        "Archaelogist",
+        "Aspiring Actor",
+        "Augur",
+        "Black Cat",
+        "Cat Burglar",
+        "Coast Guard Captain",
+        "Concerned Brother",
+        "Eldritch Sophist",
+        "Fed Agent",
+        "Fixer for Hire",
+        "Freelance Detective",
+        "Guard Dog",
+        "Guiding Spirit",
+        "Hunter",
+        "Laboratory Assistant",
+        "Loyal Hound",
+        "Museum Curator",
+        "Research Librarian",
+        "Speaker to the Dead",
+        "Unscrupulous Investor"
     ];
 
     string[] private suffixes = [
         "of Power",
-        "of Giants",
-        "of Titans",
+        "of Ancient Ones",
+        "of Elder Gods",
         "of Skill",
         "of Perfection",
         "of Brilliance",
@@ -288,68 +320,36 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
 
     // Arkham Loot additional properties
 
-    function getArkhamWeapon(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "WEAPON", weapons);
+    function getArmament(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "ARMAMENT", armament);
     }
 
-    function getArkhamChest(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "CHEST", chestArmor);
+    function getBody(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "BODY", body);
     }
 
-    function getArkhamHead(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "HEAD", headArmor);
+    function getItem(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "ITEM", items);
     }
 
-    function getArkhamWaist(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "WAIST", waistArmor);
+    function getRelic(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "RELIC", relics);
     }
 
-    function getArkhamFoot(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "FOOT", footArmor);
+    function getTalent(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "TALENT", talents);
     }
 
-    function getArkhamHand(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "HAND", handArmor);
+    function getWeakness(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "WEAKNESS", weakness);
     }
 
-    function getArkhamNeck(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "NECK", necklaces);
+    function getAlly(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "ALLY", allies);
     }
 
-    function getArkhamRing(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return pluck(tokenId, "RING", rings);
+    function getClass(uint256 tokenId) public view returns (string memory) {
+        return pluck(tokenId, "CLASS", classes);
     }
 
     function pluck(
@@ -402,35 +402,35 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
             0
         ] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
 
-        parts[1] = getWeapon(tokenId);
+        parts[1] = getArmament(tokenId);
 
         parts[2] = '</text><text x="10" y="40" class="base">';
 
-        parts[3] = getChest(tokenId);
+        parts[3] = getBody(tokenId);
 
         parts[4] = '</text><text x="10" y="60" class="base">';
 
-        parts[5] = getHead(tokenId);
+        parts[5] = getItem(tokenId);
 
         parts[6] = '</text><text x="10" y="80" class="base">';
 
-        parts[7] = getWaist(tokenId);
+        parts[7] = getRelic(tokenId);
 
         parts[8] = '</text><text x="10" y="100" class="base">';
 
-        parts[9] = getFoot(tokenId);
+        parts[9] = getTalent(tokenId);
 
         parts[10] = '</text><text x="10" y="120" class="base">';
 
-        parts[11] = getHand(tokenId);
+        parts[11] = getWeakness(tokenId);
 
         parts[12] = '</text><text x="10" y="140" class="base">';
 
-        parts[13] = getNeck(tokenId);
+        parts[13] = getAlly(tokenId);
 
         parts[14] = '</text><text x="10" y="160" class="base">';
 
-        parts[15] = getRing(tokenId);
+        parts[15] = getClass(tokenId);
 
         parts[16] = "</text></svg>";
 
@@ -469,7 +469,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
                         abi.encodePacked(
                             '{"name": "Bag #',
                             toString(tokenId),
-                            '", "description": "Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Loot in any way you want.", "image": "data:image/svg+xml;base64,',
+                            '", "description": "Arkham Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Arkham Loot in any way you want.", "image": "data:image/svg+xml;base64,',
                             Base64.encode(bytes(output)),
                             '"}'
                         )
