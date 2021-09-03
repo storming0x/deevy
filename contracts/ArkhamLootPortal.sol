@@ -5,7 +5,7 @@ pragma solidity 0.6.12;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IInbox} from "./arbitrum/IInbox.sol";
-import {IArkhamLoot} from "./IArkhamLoot.sol";
+import {IArkhamLootL2Minter} from "./IArkhamLootL2Minter.sol";
 
 contract ArkhamLootPortal is Ownable {
     address public l2Target;
@@ -31,7 +31,7 @@ contract ArkhamLootPortal is Ownable {
     /*
         @notice This claims your bag in L2.
     */
-    function warpBag(
+    function warpLoot(
         uint256 lootId,
         uint256 maxSubmissionCost,
         uint256 maxGas,
@@ -43,24 +43,26 @@ contract ArkhamLootPortal is Ownable {
         );
         require(!claimed[lootId], "ARKHAM_LOOT_ALREADY_CLAIMED");
 
-        bytes memory data = abi.encodeWithSelector(
-            IArkhamLoot.claim.selector,
-            msg.sender,
-            lootId
-        );
+        bytes memory data =
+            abi.encodeWithSelector(
+                IArkhamLootL2Minter.warpBag.selector,
+                msg.sender,
+                lootId
+            );
 
         claimed[lootId] = true;
 
-        uint256 ticketID = inbox.createRetryableTicket(
-            l2Target,
-            0,
-            maxSubmissionCost,
-            msg.sender,
-            msg.sender,
-            maxGas,
-            gasPriceBid,
-            data
-        );
+        uint256 ticketID =
+            inbox.createRetryableTicket(
+                l2Target,
+                0,
+                maxSubmissionCost,
+                msg.sender,
+                msg.sender,
+                maxGas,
+                gasPriceBid,
+                data
+            );
 
         emit RetryableTicketCreated(ticketID);
         return ticketID;

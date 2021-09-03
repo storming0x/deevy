@@ -2,53 +2,30 @@
 
 pragma solidity 0.6.12;
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import "./tokens/ERC721.sol";
-import {
-    ReentrancyGuard
-} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {Base64} from "./libs/Base64.sol";
-import {IArkhamLoot} from "./IArkhamLoot.sol";
-import {ILoot} from "./ILoot.sol";
 
-contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
-    // 18 original loot weapons
+// LOOT read only contract for L2
+contract MirrorLoot is ERC721 {
     string[] private weapons = [
-        ".18 Derringer",
-        ".32 Colt",
-        ".45 Thompson",
-        "Athame",
-        "Baseball Bat",
-        "Brass Knuckles",
-        "Bullwhip",
-        "Carbine Rifle",
-        "Cavalry Saber",
-        "Chainsaw",
-        "Chicago Typewriter",
-        "Crowbar",
-        "Dynamite",
-        "Elephant Gun",
-        "Enchanted Blade",
-        "Enchanted Knife",
-        "Fire Axe",
-        "Flamethrower",
-        "GraveDigger's Shovel",
-        "Golden Sword",
-        "Holy Water",
-        "Kerosene",
-        "Knife",
-        "M1918 Bar",
-        "Machete",
-        "Mauser C96",
-        "Old Hunting Rifle",
-        "Ornate Bow",
-        "Ritual Blade",
-        "Sawed-off Shotgun",
-        "Shotgun",
-        "Survival Knife",
-        "Switchblade",
-        "Sword of Glory",
-        "Tommy Gun"
+        "Warhammer",
+        "Quarterstaff",
+        "Maul",
+        "Mace",
+        "Club",
+        "Katana",
+        "Falchion",
+        "Scimitar",
+        "Long Sword",
+        "Short Sword",
+        "Ghost Wand",
+        "Grave Wand",
+        "Bone Wand",
+        "Wand",
+        "Grimoire",
+        "Chronicle",
+        "Tome",
+        "Book"
     ];
 
     string[] private chestArmor = [
@@ -263,92 +240,39 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         "Moon"
     ];
 
-    address public minter;
-    // reference readonly copy of Loot contract in L2
-    address public loot;
-
-    uint256 public LOOT_SUPPLY = 7779;
-
-    constructor(address minterAddress, address warpedLoot)
-        public
-        ERC721("Arkham Loot", "ALOOT")
-        Ownable()
-    {
-        minter = minterAddress;
-        loot = warpedLoot;
-    }
-
-    function setMinter(address newMinterAddress) external onlyOwner {
-        minter = newMinterAddress;
-    }
-
     function random(string memory input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));
     }
 
-    // Arkham Loot additional properties
-
-    function getArkhamWeapon(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getWeapon(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "WEAPON", weapons);
     }
 
-    function getArkhamChest(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getChest(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "CHEST", chestArmor);
     }
 
-    function getArkhamHead(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getHead(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "HEAD", headArmor);
     }
 
-    function getArkhamWaist(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getWaist(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "WAIST", waistArmor);
     }
 
-    function getArkhamFoot(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getFoot(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "FOOT", footArmor);
     }
 
-    function getArkhamHand(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getHand(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "HAND", handArmor);
     }
 
-    function getArkhamNeck(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getNeck(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "NECK", necklaces);
     }
 
-    function getArkhamRing(uint256 tokenId)
-        public
-        view
-        returns (string memory)
-    {
+    function getRing(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "RING", rings);
     }
 
@@ -483,36 +407,6 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         return output;
     }
 
-    function warpLoot(address account, uint256 tokenId)
-        external
-        override
-        nonReentrant
-    {
-        require(minter == msg.sender, "SENDER_ISNT_MINTER");
-        // TODO Check token id ranges.
-        require(tokenId > 0 && tokenId < 8000, "Token ID invalid");
-        _safeMint(account, tokenId);
-    }
-
-    function ownerClaim(uint256 tokenId)
-        public
-        override
-        nonReentrant
-        onlyOwner
-    {
-        require(tokenId > 8000 && tokenId < 8100, "Token ID invalid");
-        _safeMint(owner(), tokenId);
-    }
-
-    function claim(address account, uint256 tokenId)
-        external
-        override
-        nonReentrant
-    {
-        require(minter == msg.sender, "SENDER_ISNT_MINTER");
-        _safeMint(account, tokenId);
-    }
-
     function toString(uint256 value) internal pure returns (string memory) {
         // Inspired by OraclizeAPI's implementation - MIT license
         // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
@@ -535,50 +429,5 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         return string(buffer);
     }
 
-    // Loot compatibility functions
-
-    function getWeapon(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getWeapon(tokenId);
-    }
-
-    function getChest(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getChest(tokenId);
-    }
-
-    function getHead(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getHead(tokenId);
-    }
-
-    function getWaist(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getWaist(tokenId);
-    }
-
-    function getFoot(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getFoot(tokenId);
-    }
-
-    function getHand(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getHand(tokenId);
-    }
-
-    function getNeck(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getNeck(tokenId);
-    }
-
-    function getRing(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).getRing(tokenId);
-    }
-
-    function lootTokenURI(uint256 tokenId) public view returns (string memory) {
-        if (tokenId > LOOT_SUPPLY) return "";
-        return ILoot(loot).tokenUri(tokenId);
-    }
+    constructor() public ERC721("Loot", "LOOT") {}
 }
