@@ -16,8 +16,8 @@ contract ArkhamLootPortal is Ownable {
 
     constructor(
         address lootAddress,
-        address l2TargetAddress,
-        address inboxAddress
+        address inboxAddress,
+        address l2TargetAddress
     ) public {
         l2Target = l2TargetAddress;
         loot = IERC721(lootAddress);
