@@ -5,21 +5,21 @@ pragma solidity 0.6.12;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ArbSys} from "./arbitrum/ArbSys.sol";
 import {AddressAliasHelper} from "./arbitrum/AddressAliasHelper.sol";
-import {IArkhamLoot} from "./IArkhamLoot.sol";
+import {IDeevy} from "./IDeevy.sol";
 
-contract ArkhamLootL2Minter is Ownable {
+contract DeevyMinter is Ownable {
     ArbSys public constant ARBSYS = ArbSys(100);
 
     address public l1Target;
 
-    IArkhamLoot public arkhamLoot;
+    IDeevy public deevy;
 
     mapping(address => bool) public claimed;
 
     event L2ToL1TxCreated(uint256 indexed withdrawalId);
 
-    constructor(address arkhamLootAddress, address l1TargetAddress) public {
-        arkhamLoot = IArkhamLoot(arkhamLootAddress);
+    constructor(address deevyAddress, address l1TargetAddress) public {
+        deevy = IDeevy(deevyAddress);
         l1Target = l1TargetAddress;
     }
 
@@ -29,7 +29,7 @@ contract ArkhamLootL2Minter is Ownable {
 
     /*
         @notice It receives a TX from L1.
-        @notice Only l1Target can claim a ArkhamLoot in Arbitrum
+        @notice Only l1Target can claim a deevy in Arbitrum
     */
     function warpBag(address account, uint256 lootId) external {
         // To check that message came from L1, we check that the sender is the L1 contract's L2 alias.
@@ -37,18 +37,18 @@ contract ArkhamLootL2Minter is Ownable {
             msg.sender == AddressAliasHelper.applyL1ToL2Alias(l1Target),
             "INVALID_L1_TARGET"
         );
-        arkhamLoot.warpLoot(account, lootId);
+        deevy.warpLoot(account, lootId);
     }
 
     /*
-        @notice Mint Arkham Loot
+        @notice Mint deevy
         @notice Cannot mint original Loot ids
     */
-    function claim(address account, uint256 arkhamLootId) external {
-        require(arkhamLootId > 8100 && arkhamLootId < 9000, "Token ID invalid");
-        require(!claimed[account], "ARKHAM_LOOT_ALREADY_CLAIMED");
+    function claim(address account, uint256 deevyId) external {
+        require(deevyId > 8100 && deevyId < 9000, "Token ID invalid");
+        require(!claimed[account], "ALREADY_CLAIMED");
         claimed[account] = true;
 
-        arkhamLoot.claim(msg.sender, arkhamLootId);
+        deevy.claim(msg.sender, deevyId);
     }
 }

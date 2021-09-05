@@ -1,4 +1,4 @@
-# Arkham Loot
+# Deevy Loot
 
 ## Adding Arbitrum Rinkeby Testnet
 

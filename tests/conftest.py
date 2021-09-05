@@ -4,7 +4,7 @@ from brownie import Contract
 
 
 @pytest.fixture
-def arkhamOwner(accounts):
+def deevyOwner(accounts):
     yield accounts[0]
 
 
@@ -21,20 +21,20 @@ def loot():
 
 
 @pytest.fixture
-def mirrorLoot(arkhamOwner, MirrorLoot):
-    yield arkhamOwner.deploy(MirrorLoot)
+def mirrorLoot(deevyOwner, MirrorLoot):
+    yield deevyOwner.deploy(MirrorLoot)
 
 
 @pytest.fixture
-def L2Minter(arkhamOwner, ArkhamLootL2Minter, arkhamLoot):
-    l2_minter = arkhamOwner.deploy(ArkhamLootL2Minter, arkhamLoot, arkhamOwner)
-    arkhamLoot.setMinter(l2_minter)
+def L2Minter(deevyOwner, DeevyMinter, deevy):
+    l2_minter = deevyOwner.deploy(DeevyMinter, deevy, deevyOwner)
+    deevy.setMinter(l2_minter)
     yield l2_minter
 
 
 @pytest.fixture
-def arkhamLoot(arkhamOwner, ArkhamLoot, mirrorLoot):
-    yield arkhamOwner.deploy(ArkhamLoot, arkhamOwner, mirrorLoot)
+def deevy(deevyOwner, Deevy, mirrorLoot):
+    yield deevyOwner.deploy(Deevy, deevyOwner, mirrorLoot)
 
 
 @pytest.fixture(scope="session")

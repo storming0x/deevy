@@ -1,8 +1,8 @@
 from pathlib import Path
 
 from brownie import (
-    ArkhamLoot,
-    ArkhamLootL2Minter,
+    Deevy,
+    DeevyMinter,
     MirrorLoot,
     accounts,
     config,
@@ -38,21 +38,21 @@ def main():
     dev = accounts.load(click.prompt("Account", type=click.Choice(accounts.load())))
     print(f"You are using: 'dev' [{dev.address}]")
 
-    if input("Deploy Arkham Loot L2 Contracts? y/[N]: ").lower() != "y":
+    if input("Deploy Deevy Loot L2 Contracts? y/[N]: ").lower() != "y":
         return
 
-    arkham_portal_layer1 = accounts.at(
-        get_address("Arkham Portal Layer 1 address: "), force=True
+    loot_portal_layer1 = accounts.at(
+        get_address("Loot Portal Layer 1 address: "), force=True
     )
     publish_source = click.confirm("Verify source on etherscan?")
     loot_mirror = MirrorLoot.deploy({"from": dev}, publish_source=publish_source)
-    arkham_loot = ArkhamLoot.deploy(
+    deevy = Deevy.deploy(
         loot_mirror, loot_mirror, {"from": dev}, publish_source=publish_source
     )
-    arkham_minter = ArkhamLootL2Minter.deploy(
-        arkham_loot,
-        arkham_portal_layer1,
+    deevy_minter = DeevyMinter.deploy(
+        deevy,
+        loot_portal_layer1,
         {"from": dev},
         publish_source=publish_source,
     )
-    arkham_loot.setMinter(arkham_minter, {"from": dev})
+    deevy.setMinter(deevy_minter, {"from": dev})

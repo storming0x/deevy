@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from brownie import ArkhamLootPortal, Loot, accounts, config, network, project, web3
+from brownie import LootPortal, Loot, accounts, config, network, project, web3
 from eth_utils import is_checksum_address
 import click
 
@@ -35,7 +35,7 @@ def main():
     if input("Deploy Loot Contract Copy? y/[N]: ").lower() == "y":
         deploy_loot_copy = True
 
-    if input("Deploy Arkham Loot Portal? y/[N]: ").lower() != "y":
+    if input("Deploy Loot Portal? y/[N]: ").lower() != "y":
         return
 
     inbox_address = accounts.at(get_address("Arbitrum Inbox Address: "), force=True)
@@ -49,7 +49,7 @@ def main():
     publish_source = click.confirm("Verify source on etherscan?")
     if deploy_loot_copy:
         loot_address = Loot.deploy({"from": dev}, publish_source=True)
-    arkham_portal = ArkhamLootPortal.deploy(
+    loot_portal = LootPortal.deploy(
         loot_address,
         inbox_address,
         l2_minter,

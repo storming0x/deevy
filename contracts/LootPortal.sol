@@ -5,9 +5,9 @@ pragma solidity 0.6.12;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IInbox} from "./arbitrum/IInbox.sol";
-import {IArkhamLootL2Minter} from "./IArkhamLootL2Minter.sol";
+import {IDeevyMinter} from "./IDeevyMinter.sol";
 
-contract ArkhamLootPortal is Ownable {
+contract LootPortal is Ownable {
     address public l2Target;
     IERC721 public loot;
     IInbox public inbox;
@@ -16,8 +16,8 @@ contract ArkhamLootPortal is Ownable {
 
     constructor(
         address lootAddress,
-        address inboxAddress,
-        address l2TargetAddress
+        address l2TargetAddress,
+        address inboxAddress
     ) public {
         l2Target = l2TargetAddress;
         loot = IERC721(lootAddress);
@@ -29,7 +29,7 @@ contract ArkhamLootPortal is Ownable {
     }
 
     /*
-        @notice This claims your bag in L2.
+        @notice This claims your deevy bag in L2.
     */
     function warpLoot(
         uint256 lootId,
@@ -41,11 +41,11 @@ contract ArkhamLootPortal is Ownable {
             loot.ownerOf(lootId) == msg.sender,
             "SENDER_ISNT_LOOT_ID_OWNER"
         );
-        require(!claimed[lootId], "ARKHAM_LOOT_ALREADY_CLAIMED");
+        require(!claimed[lootId], "ALREADY_CLAIMED");
 
         bytes memory data =
             abi.encodeWithSelector(
-                IArkhamLootL2Minter.warpBag.selector,
+                IDeevyMinter.warpBag.selector,
                 msg.sender,
                 lootId
             );
