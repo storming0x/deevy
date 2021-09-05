@@ -8,12 +8,12 @@ import {
     ReentrancyGuard
 } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {Base64} from "./libs/Base64.sol";
-import {IArkhamLoot} from "./IArkhamLoot.sol";
+import {IDeevy} from "./IDeevy.sol";
 import {ILoot} from "./ILoot.sol";
 
 // "That is not dead which can eternal lie, And with strange aeons even death may die."
 
-contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
+contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
     // 18 original loot weapons
     string[] private armament = [
         ".18 Derringer",
@@ -303,7 +303,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
 
     constructor(address minterAddress, address warpedLoot)
         public
-        ERC721("Arkham Loot", "ALOOT")
+        ERC721("Deevy", "DEEVY")
         Ownable()
     {
         minter = minterAddress;
@@ -318,7 +318,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
         return uint256(keccak256(abi.encodePacked(input)));
     }
 
-    // Arkham Loot additional properties
+    // Deevy properties
 
     function getArmament(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "ARMAMENT", armament);
@@ -469,7 +469,7 @@ contract ArkhamLoot is ERC721, ReentrancyGuard, Ownable, IArkhamLoot {
                         abi.encodePacked(
                             '{"name": "Bag #',
                             toString(tokenId),
-                            '", "description": "Arkham Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Arkham Loot in any way you want.", "image": "data:image/svg+xml;base64,',
+                            '", "description": "Deevy is a randomized adventurer gear generated and stored on chain inspired by Loot. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Deevy in any way you want.", "image": "data:image/svg+xml;base64,',
                             Base64.encode(bytes(output)),
                             '"}'
                         )
