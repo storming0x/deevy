@@ -14,6 +14,9 @@ contract LootPortal is Ownable {
 
     mapping(uint256 => bool) public claimed;
 
+    // Loot ID to Ticket ID
+    mapping(uint256 => uint256) public lootsToTickets;
+
     constructor(
         address lootAddress,
         address l2TargetAddress,
@@ -41,6 +44,7 @@ contract LootPortal is Ownable {
             loot.ownerOf(lootId) == msg.sender,
             "SENDER_ISNT_LOOT_ID_OWNER"
         );
+        // TODO Verify if it is better to move it to L2.
         require(!claimed[lootId], "ALREADY_CLAIMED");
 
         bytes memory data =
@@ -64,6 +68,7 @@ contract LootPortal is Ownable {
                 data
             );
 
+        lootsToTickets[lootId] = ticketID;
         emit RetryableTicketCreated(ticketID);
         return ticketID;
     }

@@ -1,11 +1,13 @@
-# Brownie
-__pycache__
-.history
-.hypothesis/
-.python-version
-build/
-reports/
+artifacts
+cache
+node_modules
+coverage
+build
+yarn-error.log
+coverage.json
 .env
-
-# Node/npm
-node_modules/
+.DS_Store
+.idea
+.coverage_artifacts
+.coverage_contracts
+logs

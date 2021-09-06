@@ -1,23 +1,83 @@
 {
-  "name": "yearn-protocol",
-  "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "ethlint": "^1.2.5",
-    "husky": "^4.3.0",
-    "prettier": "^2.1.2",
-    "prettier-plugin-solidity": "^1.0.0-alpha.57",
-    "pretty-quick": "^3.0.2"
-  },
+  "name": "@deevy/contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Deevy",
+  "license": "MIT",
   "scripts": {
-    "lint": "pretty-quick --pattern '**/*.*(sol|json)' --verbose",
-    "lint:check": "prettier --check **/*.sol **/*.json",
-    "lint:fix": "pretty-quick --pattern '**/*.*(sol|json)' --staged --verbose"
+    "test": "npx hardhat test",
+    "test:coverage": "npx hardhat coverage --network coverage",
+    "build": "npm run compile",
+    "compile": "npx hardhat compile",
+    "typechain": "hardhat typechain",
+
+    "set-l2-target:eth_rinkeby": "npx hardhat set-l2-target --network eth_rinkeby",
+    "deploy-l1-rinkeby:eth_rinkeby": "npx hardhat deploy-l1-rinkeby --network eth_rinkeby",
+    "loot-mint:eth_rinkeby": "npx hardhat loot-mint --network eth_rinkeby",
+    "warp-loot:eth_rinkeby": "npx hardhat warp-loot --network eth_rinkeby",
+
+    "set-l1-target:arb_testnet": "npx hardhat set-l1-target --network arb_testnet",
+    "deploy-l2-testnet:arb_testnet": "npx hardhat deploy-l2-testnet --network arb_testnet",
+    "set-minter:arb_testnet": "npx hardhat set-minter --network arb_testnet",
+    "print-info:arb_testnet": "npx hardhat print-info --network arb_testnet",
+
+    "format:sol": "prettier --write contracts/**/**.sol",
+    "format:ts": "prettier --write \"{scripts,src,tasks,test}/**/*.ts\"",
+    "format:all": "yarn format:sol && yarn format:ts",
+    "pre-commit-hook-tasks": "yarn format:sol && yarn format:ts && yarn test:coverage"
+  },
+  "devDependencies": {
+    "@gnosis.pm/mock-contract": "^4.0.0",
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-etherscan": "^2.1.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^3.4.0",
+    "@openzeppelin/contracts-upgradeable": "^3.4.1",
+    "@openzeppelin/hardhat-upgrades": "^1.8.2",
+    "@solidity-parser/parser": "^0.11.1",
+    "@typechain/ethers-v5": "^4.0.0",
+    "@types/lodash": "^4.14.165",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^14.14.9",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.8.2",
+    "arb-ts": "^0.0.36",
+    "bignumber.js": "^9.0.1",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "ethereum-waffle": "^3.2.0",
+    "ethers": "^5.0.21",
+    "hardhat": "^2.0.11",
+    "hardhat-contract-sizer": "^2.0.3",
+    "hardhat-gas-reporter": "^1.0.4",
+    "hardhat-typechain": "^0.3.3",
+    "husky": "^4.3.0",
+    "leche": "^2.3.0",
+    "lodash": "^4.17.20",
+    "prettier": "^2.2.0",
+    "prettier-plugin-solidity": "^1.0.0-beta.4",
+    "solidity-coverage": "^0.7.15",
+    "truffle-assertions": "^0.9.2",
+    "ts-generator": "^0.1.1",
+    "ts-node": "^9.0.0",
+    "typechain": "^4.0.0",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@dogdefidev/utils": "^0.1.8",
+    "@types/lodash": "^4.14.165",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "lodash": "^4.17.20"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:fix",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "pre-commit": "yarn pre-commit-hook-tasks"
     }
   }
 }
