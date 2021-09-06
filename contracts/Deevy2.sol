@@ -156,8 +156,8 @@ contract Deevy2 is ERC721, ReentrancyGuard, Ownable, IDeevy {
         view
         returns (uint256)
     {
-        // return max since array is empty so this number would not exist
-        if (array.length == 0) {
+        // return max since array is empty or above max, so this number would not exist
+        if (array.length == 0 || element > array[array.length - 1]) {
             return type(uint256).max;
         }
 
