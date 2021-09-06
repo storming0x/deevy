@@ -1,0 +1,25 @@
+name: Run CI/CD Pipeline
+
+on: [pull_request]
+
+jobs:
+  test:
+    name: Build Project
+    runs-on: ubuntu-latest
+    env:
+      BLOCKCHAIN_API_KEY: "your-blockchain-api-key"
+      ACCOUNT_0_PK: "0123456789012345678901234567890123456789012345678901234567890123"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.22.1'
+      - name: Install dependencies
+        run: |
+          yarn
+      - name: Compiling Smart Contracts
+        run: |
+          yarn compile
+      - name: Executing Unit Tests
+        run: |
+          yarn test
