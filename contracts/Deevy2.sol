@@ -113,7 +113,6 @@ contract Deevy2 is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
     {
         require(minter == msg.sender, "SENDER_ISNT_MINTER");
-        // TODO Check token id ranges.
         require(tokenId > 0 && tokenId < 8000, "Token ID invalid");
         _safeMint(account, tokenId);
     }
