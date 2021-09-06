@@ -16,6 +16,13 @@ import {ILoot} from "./ILoot.sol";
  */
 library Math {
     /**
+     * @dev Returns the smallest of two numbers.
+     */
+    function min(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a < b ? a : b;
+    }
+
+    /**
      * @dev Returns the average of two numbers. The result is rounded towards
      * zero.
      */
@@ -156,6 +163,7 @@ contract Deevy2 is ERC721, ReentrancyGuard, Ownable, IDeevy {
         view
         returns (uint256)
     {
+        // TODO: check if element 0 also returns max in LOOT?
         // return max since array is empty or above max, so this number would not exist
         if (array.length == 0 || element > array[array.length - 1]) {
             return type(uint256).max;
@@ -177,7 +185,9 @@ contract Deevy2 is ERC721, ReentrancyGuard, Ownable, IDeevy {
         }
 
         // At this point `low` is the exclusive upper bound. We will return the inclusive upper bound.
-        if (low > 0 && array[low - 1] <= element) {
+        if (low > 0 && array[low] <= element) {
+            return low;
+        } else if (low > 0 && array[low - 1] <= element) {
             return low - 1;
         } else {
             return low;
