@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
