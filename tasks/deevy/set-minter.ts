@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
-import { getNetworkExplorer, NETWORKS, Signers } from "@dogdefidev/utils";
+import {getNetworkExplorer, NETWORKS, Signers} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../../src/config";
-import { GetContracts } from "../../src/config/GetContracts";
-import { Deevy2 } from "../../typechain";
+import {GetContracts} from "../../src/config/GetContracts";
+import {Deevy2} from "../../typechain";
 
 /**
     Example: 
@@ -22,11 +22,11 @@ task("set-minter", "Set the minter address.")
         const getContracts = new GetContracts(env.ethers, networkConfig);
         const explorer = getNetworkExplorer(env.network.name as NETWORKS, new Map());
 
-        const deevy = await getContracts.getDeevy() as Deevy2;
+        const deevy = (await getContracts.getDeevy()) as Deevy2;
         const signers = new Signers(await env.ethers.getSigners());
         const sender = signers.getSigner(senderIndex);
 
-        if (!env.network.name.toLowerCase().includes('arb_testnet')) {
+        if (!env.network.name.toLowerCase().includes("arb_testnet")) {
             throw new Error(`Network is not L2 ('${env.network.name}')`);
         }
 
@@ -38,7 +38,7 @@ task("set-minter", "Set the minter address.")
             const setMinterResult = await deevy.setMinter(minter);
             const receipt = await setMinterResult.wait();
 
-            explorer.printTx('Deevy.setMinter: ', receipt.transactionHash);
+            explorer.printTx("Deevy.setMinter: ", receipt.transactionHash);
         } else {
             console.log(`Deployment L1: not sending tx.`);
         }

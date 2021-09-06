@@ -4,7 +4,6 @@ pragma solidity 0.6.12;
 import "./IBridge.sol";
 
 interface IInbox {
-
     function sendL2Message(bytes calldata messageData) external returns (uint256);
 
     function sendUnsignedTransaction(
@@ -24,7 +23,7 @@ interface IInbox {
         bytes calldata data
     ) external returns (uint256);
 
-   function sendL1FundedUnsignedTransaction(
+    function sendL1FundedUnsignedTransaction(
         uint256 maxGas,
         uint256 gasPriceBid,
         uint256 nonce,
@@ -54,4 +53,3 @@ interface IInbox {
 
     function bridge() external view returns (IBridge);
 }
-

@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
-import { getNetworkExplorer, NETWORKS, Signers } from "@dogdefidev/utils";
+import {getNetworkExplorer, NETWORKS, Signers} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../../src/config";
 import {GetContracts} from "../../src/config/GetContracts";
-import { Loot } from "../../typechain";
+import {Loot} from "../../typechain";
 
 /**
     Example: 
@@ -25,23 +25,21 @@ task("loot-mint", "Mint a Loot token ID.")
         console.log(`Using network:     ${env.network.name}`);
         console.log(`Sender account:  ${sender.address}`);
 
-        if (!env.network.name.toLowerCase().includes('eth_rinkeby')) {
+        if (!env.network.name.toLowerCase().includes("eth_rinkeby")) {
             throw new Error(`Network is not L1 testnet ('${env.network.name}')`);
         }
 
         const getContracts = new GetContracts(env.ethers, networkConfig);
-        const loot = (await getContracts.getLoot()) as unknown as Loot;
+        const loot = ((await getContracts.getLoot()) as unknown) as Loot;
 
         console.log(`Loot:              ${loot.address}`);
         console.log(`Loot ID:           ${lootId}`);
 
         if (sendTx) {
-            const result = await loot
-                .connect(sender)
-                .claim(lootId);
+            const result = await loot.connect(sender).claim(lootId);
             const receipt = await result.wait();
 
-            explorer.printTx('Loot.claim: ', receipt.transactionHash);
+            explorer.printTx("Loot.claim: ", receipt.transactionHash);
         } else {
             console.log(`Loot.claim: not sending tx.`);
         }

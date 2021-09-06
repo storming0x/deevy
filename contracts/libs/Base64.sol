@@ -6,7 +6,8 @@ pragma solidity 0.6.12;
 /// @notice Provides a function for encoding some bytes in base64
 /// @author Brecht Devos <brecht@loopring.org>
 library Base64 {
-    bytes internal constant TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    bytes internal constant TABLE =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     /// @notice Encodes some bytes to the base64 representation
     function encode(bytes memory data) internal pure returns (string memory) {
@@ -48,12 +49,12 @@ library Base64 {
             }
 
             switch mod(len, 3)
-            case 1 {
-                mstore(sub(resultPtr, 2), shl(240, 0x3d3d))
-            }
-            case 2 {
-                mstore(sub(resultPtr, 1), shl(248, 0x3d))
-            }
+                case 1 {
+                    mstore(sub(resultPtr, 2), shl(240, 0x3d3d))
+                }
+                case 2 {
+                    mstore(sub(resultPtr, 1), shl(248, 0x3d))
+                }
 
             mstore(result, encodedLen)
         }

@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Amount, getNetworkExplorer, NETWORKS, Signers } from "@dogdefidev/utils";
+import {Amount, getNetworkExplorer, NETWORKS, Signers} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../../src/config";
 import {GetContracts} from "../../src/config/GetContracts";
-import { LootPortal } from "../../typechain";
+import {LootPortal} from "../../typechain";
 
 /**
     Example: 
@@ -25,7 +25,7 @@ task("warp-loot", "Warp a loot.")
             maxSubmissionCost: maxSubmissionCostString,
             maxGas: maxGasString,
             gasPriceBid: gasPriceBidString,
-            sendTx
+            sendTx,
         } = taskArgs;
         const networkConfig = getConfig(env.network.name);
         const explorer = getNetworkExplorer(env.network.name as NETWORKS, new Map());
@@ -36,7 +36,7 @@ task("warp-loot", "Warp a loot.")
         console.log(`Sender account:  ${sender.address}`);
 
         const getContracts = new GetContracts(env.ethers, networkConfig);
-        const lootPortal = (await getContracts.getLootPortal()) as unknown as LootPortal;
+        const lootPortal = ((await getContracts.getLootPortal()) as unknown) as LootPortal;
 
         const l2Target = await lootPortal.l2Target();
         const maxSubmissionCost = Amount.fromString(maxSubmissionCostString);
@@ -61,12 +61,10 @@ task("warp-loot", "Warp a loot.")
                 );
             const receipt = await result.wait();
 
-            explorer.printTx('LootPortal.warpLoot: ', receipt.transactionHash);
+            explorer.printTx("LootPortal.warpLoot: ", receipt.transactionHash);
 
-            const ticketId = await lootPortal
-                .connect(sender)
-                .lootsToTickets(lootId);
-            
+            const ticketId = await lootPortal.connect(sender).lootsToTickets(lootId);
+
             console.log(`Ticket created (for loot id ${lootId}): ${ticketId}`);
         } else {
             console.log(`LootPortal.warpLoot: not sending tx.`);

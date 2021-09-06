@@ -3,59 +3,69 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-param-reassign */
 import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
-import { EMPTY_ADDRESS } from "@dogdefidev/utils";
-import { Contract } from "ethers";
+import {EMPTY_ADDRESS} from "@dogdefidev/utils";
+import {Contract} from "ethers";
 import {
     DEEVY_MINTER_NAME,
-    DEEVY_NAME, DEEVY_SET_PROPERTIES_NAME, LOOT_NAME, LOOT_PORTAL_NAME, MIRROR_LOOT_NAME, MOCK_NAME
+    DEEVY_NAME,
+    DEEVY_SET_PROPERTIES_NAME,
+    LOOT_NAME,
+    LOOT_PORTAL_NAME,
+    MIRROR_LOOT_NAME,
+    MOCK_NAME,
 } from "./consts/consts";
 import {
-    Deevy, DeevyMinter, DeevySetProperties, IDeevyMinter, IInbox, Loot, LootPortal, MirrorLoot
+    Deevy,
+    DeevyMinter,
+    DeevySetProperties,
+    IDeevyMinter,
+    IInbox,
+    Loot,
+    LootPortal,
+    MirrorLoot,
 } from "../../typechain";
 
-export const deployLoot = async (
-    utils: {ethers: any; deployer: SignerWithAddress},
-): Promise<Loot> => {
+export const deployLoot = async (utils: {
+    ethers: any;
+    deployer: SignerWithAddress;
+}): Promise<Loot> => {
     const lootDeployer = await utils.ethers.getContractFactory(LOOT_NAME);
-    const loot = (await lootDeployer
-        .connect(utils.deployer)
-        .deploy()) as Loot;
+    const loot = (await lootDeployer.connect(utils.deployer).deploy()) as Loot;
     return loot;
 };
 
-const deployMock = async (
-    utils: {ethers: any; deployer: SignerWithAddress},
-): Promise<Contract> => {
+const deployMock = async (utils: {ethers: any; deployer: SignerWithAddress}): Promise<Contract> => {
     const mockDeployer = await utils.ethers.getContractFactory(MOCK_NAME);
-    const mock = (await mockDeployer
-        .connect(utils.deployer)
-        .deploy()) as Contract;
+    const mock = (await mockDeployer.connect(utils.deployer).deploy()) as Contract;
     return mock;
 };
 
-export const deployMockInbox = async (
-    utils: {ethers: any; deployer: SignerWithAddress},
-): Promise<IInbox> => {
-    return await deployMock(utils) as IInbox;
+export const deployMockInbox = async (utils: {
+    ethers: any;
+    deployer: SignerWithAddress;
+}): Promise<IInbox> => {
+    return (await deployMock(utils)) as IInbox;
 };
 
-export const deployDeevySetProperties = async (
-    utils: {ethers: any; deployer: SignerWithAddress},
-): Promise<DeevySetProperties> => {
-    const deevySetPropertiesDeployer = await utils.ethers.getContractFactory(DEEVY_SET_PROPERTIES_NAME);
+export const deployDeevySetProperties = async (utils: {
+    ethers: any;
+    deployer: SignerWithAddress;
+}): Promise<DeevySetProperties> => {
+    const deevySetPropertiesDeployer = await utils.ethers.getContractFactory(
+        DEEVY_SET_PROPERTIES_NAME
+    );
     const deevySetProperties = (await deevySetPropertiesDeployer
         .connect(utils.deployer)
         .deploy()) as DeevySetProperties;
     return deevySetProperties;
 };
 
-export const deployMirrorLoot = async (
-    utils: {ethers: any; deployer: SignerWithAddress},
-): Promise<MirrorLoot> => {
+export const deployMirrorLoot = async (utils: {
+    ethers: any;
+    deployer: SignerWithAddress;
+}): Promise<MirrorLoot> => {
     const mirrorLootDeployer = await utils.ethers.getContractFactory(MIRROR_LOOT_NAME);
-    const mirrorLoot = (await mirrorLootDeployer
-        .connect(utils.deployer)
-        .deploy()) as MirrorLoot;
+    const mirrorLoot = (await mirrorLootDeployer.connect(utils.deployer).deploy()) as MirrorLoot;
     return mirrorLoot;
 };
 
@@ -91,7 +101,7 @@ export type DeevyMinterDeploy = {
 
 export const deployDeevyMinter = async (
     utils: {ethers: any; deployer: SignerWithAddress},
-    params: {deevy?: Deevy, warpLoot?: MirrorLoot, targetL1Address: string}
+    params: {deevy?: Deevy; warpLoot?: MirrorLoot; targetL1Address: string}
 ): Promise<DeevyMinterDeploy> => {
     if (params.deevy === undefined) {
         const contracts = await deployDeevy(utils, params);
@@ -102,7 +112,7 @@ export const deployDeevyMinter = async (
     const deevyMinter = (await deevyMinterDeployer
         .connect(utils.deployer)
         .deploy(params.deevy.address, (params.warpLoot as MirrorLoot).address)) as DeevyMinter;
-    
+
     const setMinterResult = await params.deevy.setMinter(deevyMinter.address);
     await setMinterResult.wait();
     return {
@@ -119,21 +129,18 @@ export type LootPortalDeploy = {
     inbox: IInbox;
 };
 
-export const deployLootPortal = async (
-    utils: {ethers: any; deployer: SignerWithAddress},
-): Promise<LootPortalDeploy> => {
-    const l2Target = await deployMock(utils) as IDeevyMinter;
+export const deployLootPortal = async (utils: {
+    ethers: any;
+    deployer: SignerWithAddress;
+}): Promise<LootPortalDeploy> => {
+    const l2Target = (await deployMock(utils)) as IDeevyMinter;
     const inbox = await deployMockInbox(utils);
     const loot = await deployLoot(utils);
     const lootPortalDeployer = await utils.ethers.getContractFactory(LOOT_PORTAL_NAME);
     const lootPortal = (await lootPortalDeployer
         .connect(utils.deployer)
-        .deploy(
-            loot.address,
-            l2Target.address,
-            inbox.address
-        )) as LootPortal;
-    
+        .deploy(loot.address, l2Target.address, inbox.address)) as LootPortal;
+
     return {
         lootPortal,
         inbox,

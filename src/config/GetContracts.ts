@@ -3,7 +3,7 @@
 
 import {Contract} from "ethers";
 import {ContractAddresses} from ".";
-import { DEEVY2_NAME, DEEVY_MINTER_NAME, LOOT_NAME, LOOT_PORTAL_NAME } from "../utils/consts/consts";
+import {DEEVY2_NAME, DEEVY_MINTER_NAME, LOOT_NAME, LOOT_PORTAL_NAME} from "../utils/consts/consts";
 
 export class GetContracts {
     constructor(private ethers: any, private addresses: ContractAddresses) {}
@@ -14,7 +14,10 @@ export class GetContracts {
     }
 
     async getLootPortal(): Promise<Contract> {
-        return (await this.getContractAt(LOOT_PORTAL_NAME, this.addresses.portalLoot.address)) as Contract;
+        return (await this.getContractAt(
+            LOOT_PORTAL_NAME,
+            this.addresses.portalLoot.address
+        )) as Contract;
     }
 
     async getLoot(): Promise<Contract> {
@@ -22,7 +25,10 @@ export class GetContracts {
     }
 
     async getDeevyMinter(): Promise<Contract> {
-        return (await this.getContractAt(DEEVY_MINTER_NAME, this.addresses.deevyMinter.address)) as Contract;
+        return (await this.getContractAt(
+            DEEVY_MINTER_NAME,
+            this.addresses.deevyMinter.address
+        )) as Contract;
     }
 
     async getDeevy(): Promise<Contract> {

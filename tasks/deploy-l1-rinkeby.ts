@@ -1,10 +1,17 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
-import { ContractInfo, deployContract, EMPTY_ADDRESS, getNetworkExplorer, NETWORKS, Signers } from "@dogdefidev/utils";
+import {
+    ContractInfo,
+    deployContract,
+    EMPTY_ADDRESS,
+    getNetworkExplorer,
+    NETWORKS,
+    Signers,
+} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../src/config";
-import { LOOT_NAME, LOOT_PORTAL_NAME } from "../src/utils/consts/consts";
+import {LOOT_NAME, LOOT_PORTAL_NAME} from "../src/utils/consts/consts";
 
 /**
     Example: 
@@ -32,24 +39,13 @@ task("deploy-l1-rinkeby", "Deploys the platform in the Rinkeby network.")
         };
 
         if (sendTx) {
+            const loot = await deployContract(params, LOOT_NAME, sender, []);
 
-            const loot = await deployContract(
-                params,
-                LOOT_NAME,
-                sender,
-                [],
-            );
-
-            await deployContract(
-                params,
-                LOOT_PORTAL_NAME,
-                sender,
-                [
-                    loot.address,
-                    EMPTY_ADDRESS, // address l2TargetAddress,
-                    networkConfig.arbitrumInbox.address, // Arbitrum Inbox address
-                ],
-            );
+            await deployContract(params, LOOT_PORTAL_NAME, sender, [
+                loot.address,
+                EMPTY_ADDRESS, // address l2TargetAddress,
+                networkConfig.arbitrumInbox.address, // Arbitrum Inbox address
+            ]);
 
             console.log(JSON.stringify(contracts, null, 4));
         } else {

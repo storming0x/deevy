@@ -2,7 +2,7 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 
-import { ContractInfo } from "@dogdefidev/utils";
+import {ContractInfo} from "@dogdefidev/utils";
 import _ from "lodash";
 
 export type ContractAddresses = {

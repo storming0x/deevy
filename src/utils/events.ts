@@ -33,9 +33,7 @@ export default {
             const eventName = "RetryableTicketCreated";
             return {
                 eventName,
-                emitted: (
-                    ticketId: number,
-                ) =>
+                emitted: (ticketId: number) =>
                     emitted(tx, eventName, (ev: any) => {
                         expect(ev.ticketId, "Ticket ID should be equal.").to.be.eq(ticketId);
                     }),

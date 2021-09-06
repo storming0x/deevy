@@ -7,7 +7,15 @@ import leche from "leche";
 import {ethers} from "hardhat";
 import chai, {expect} from "chai";
 import {solidity} from "ethereum-waffle";
-import { AccountIndex, Amount, ExpectedInfo, Signers, toAccountIndex, toExpect, toTitle } from "@dogdefidev/utils";
+import {
+    AccountIndex,
+    Amount,
+    ExpectedInfo,
+    Signers,
+    toAccountIndex,
+    toExpect,
+    toTitle,
+} from "@dogdefidev/utils";
 import {deployLootPortal} from "../src/utils/deployer";
 import events from "../src/utils/events";
 
@@ -28,7 +36,7 @@ describe("LootPortalWarpLootTest", () => {
                 {
                     lootClaim: {
                         senderIndex: toAccountIndex(1),
-                        lootId: 10
+                        lootId: 10,
                     },
                     previousWarpLootInfo: undefined,
                     warpLootInfo: {
@@ -39,8 +47,7 @@ describe("LootPortalWarpLootTest", () => {
                         gasPriceBid: Amount.from(100),
                     },
                 }, // User Actions
-                {
-                }, // Expected
+                {}, // Expected
                 toExpect(), // Expected result
             ],
             _2_sender_doesnt_own_loot: [
@@ -60,7 +67,7 @@ describe("LootPortalWarpLootTest", () => {
                     },
                 }, // User Actions
                 {}, // Expected
-                toExpect('SENDER_ISNT_LOOT_ID_OWNER'), // Expected result
+                toExpect("SENDER_ISNT_LOOT_ID_OWNER"), // Expected result
             ],
             _3_loot_already_claimed: [
                 toAccountIndex(0),
@@ -84,9 +91,8 @@ describe("LootPortalWarpLootTest", () => {
                         gasPriceBid: Amount.from(100),
                     },
                 }, // User Actions
-                {
-                }, // Expected
-                toExpect('ALREADY_CLAIMED'), // Expected result
+                {}, // Expected
+                toExpect("ALREADY_CLAIMED"), // Expected result
             ],
         },
         (
@@ -95,25 +101,25 @@ describe("LootPortalWarpLootTest", () => {
                 lootClaim: {
                     senderIndex: AccountIndex;
                     lootId: number;
-                },
-                previousWarpLootInfo: {
-                    senderIndex: AccountIndex;
-                    lootId: number;
-                    maxSubmissionCost: Amount;
-                    maxGas: Amount;
-                    gasPriceBid: Amount;
-                } | undefined,
+                };
+                previousWarpLootInfo:
+                    | {
+                          senderIndex: AccountIndex;
+                          lootId: number;
+                          maxSubmissionCost: Amount;
+                          maxGas: Amount;
+                          gasPriceBid: Amount;
+                      }
+                    | undefined;
                 warpLootInfo: {
                     senderIndex: AccountIndex;
                     lootId: number;
                     maxSubmissionCost: Amount;
                     maxGas: Amount;
                     gasPriceBid: Amount;
-                },
+                };
             },
-            expected: {
-                
-            },
+            expected: {},
             expectedResult: ExpectedInfo
         ) => {
             it(toTitle("warpLoot", expectedResult), async () => {
@@ -121,16 +127,13 @@ describe("LootPortalWarpLootTest", () => {
                 const deployer = signers.getSignerBy(deployerIndex);
                 const lootClaimSender = signers.getSignerBy(userActions.lootClaim.senderIndex);
                 const warpLootSender = signers.getSignerBy(userActions.warpLootInfo.senderIndex);
-                const contracts = await deployLootPortal(
-                    {
-                        ethers,
-                        deployer,
-                    },
-                );
+                const contracts = await deployLootPortal({
+                    ethers,
+                    deployer,
+                });
 
                 if (userActions.lootClaim.lootId >= 0) {
-                    await contracts
-                        .loot
+                    await contracts.loot
                         .connect(lootClaimSender)
                         .claim(userActions.lootClaim.lootId);
                 }
@@ -140,7 +143,9 @@ describe("LootPortalWarpLootTest", () => {
                         .connect(warpLootSender)
                         .warpLoot(
                             userActions.previousWarpLootInfo.lootId,
-                            userActions.previousWarpLootInfo.maxSubmissionCost.toDecimals(18).toFixed(),
+                            userActions.previousWarpLootInfo.maxSubmissionCost
+                                .toDecimals(18)
+                                .toFixed(),
                             userActions.previousWarpLootInfo.maxGas.toDecimals(18).toFixed(),
                             userActions.previousWarpLootInfo.gasPriceBid.toDecimals(18).toFixed()
                         );
@@ -162,14 +167,11 @@ describe("LootPortalWarpLootTest", () => {
                     expectedResult.assertSuccess(result);
 
                     // TODO As Inbox is a mock, it always returns a 0. We should set it before warping the loot (using the mock contract).
-                    const ticketId = await contracts
-                        .lootPortal
-                        .lootsToTickets(userActions.warpLootInfo.lootId);
+                    const ticketId = await contracts.lootPortal.lootsToTickets(
+                        userActions.warpLootInfo.lootId
+                    );
 
-                    events
-                        .lootPortal
-                        .retryableTicketCreated(receipt)
-                        .emitted(ticketId.toNumber());
+                    events.lootPortal.retryableTicketCreated(receipt).emitted(ticketId.toNumber());
                 } catch (error) {
                     expectedResult.assertError(error, true);
                 }

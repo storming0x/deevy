@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
-import { getNetworkExplorer, NETWORKS, Signers } from "@dogdefidev/utils";
+import {getNetworkExplorer, NETWORKS, Signers} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../src/config";
-import { GetContracts } from "../src/config/GetContracts";
-import { LootPortal } from "../typechain";
+import {GetContracts} from "../src/config/GetContracts";
+import {LootPortal} from "../typechain";
 
 /**
     Example: 
@@ -25,11 +25,11 @@ task("set-l2-target", "Set the L2 target address.")
         const sender = signers.getSigner(senderIndex);
         const getContracts = new GetContracts(env.ethers, networkConfig);
 
-        if (!env.network.name.toLowerCase().includes('eth')) {
+        if (!env.network.name.toLowerCase().includes("eth")) {
             throw new Error(`Network is not L1 ('${env.network.name}')`);
         }
 
-        const portalLoot = await getContracts.getLootPortal() as LootPortal;
+        const portalLoot = (await getContracts.getLootPortal()) as LootPortal;
 
         const currentL2Target = await portalLoot.l2Target();
 
@@ -42,7 +42,7 @@ task("set-l2-target", "Set the L2 target address.")
         if (sendTx) {
             const setL2TargetResult = await portalLoot.setL2Target(l2Target);
             const receipt = await setL2TargetResult.wait();
-            explorer.printTx('PortalLoot.setL2Target tx hash:', receipt.transactionHash);
+            explorer.printTx("PortalLoot.setL2Target tx hash:", receipt.transactionHash);
         } else {
             console.log(`PortalLoot.setL2Target: not sending tx.`);
         }

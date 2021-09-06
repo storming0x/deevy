@@ -1,10 +1,22 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
-import { ContractInfo, deployContract, EMPTY_ADDRESS, getNetworkExplorer, NETWORKS, Signers } from "@dogdefidev/utils";
+import {
+    ContractInfo,
+    deployContract,
+    EMPTY_ADDRESS,
+    getNetworkExplorer,
+    NETWORKS,
+    Signers,
+} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
-import { DEEVY2_NAME, DEEVY_MINTER_NAME, DEEVY_SET_PROPERTIES_NAME, MIRROR_LOOT_NAME } from "../src/utils/consts/consts";
-import { Deevy2 } from "../typechain";
+import {
+    DEEVY2_NAME,
+    DEEVY_MINTER_NAME,
+    DEEVY_SET_PROPERTIES_NAME,
+    MIRROR_LOOT_NAME,
+} from "../src/utils/consts/consts";
+import {Deevy2} from "../typechain";
 
 /**
     Example: 
@@ -21,7 +33,7 @@ task("deploy-l2-testnet", "Deploys the platform in the L2 testnet network.")
         const signers = new Signers(await env.ethers.getSigners());
         const sender = signers.getSigner(senderIndex);
 
-        if (!env.network.name.toLowerCase().includes('arb_testnet')) {
+        if (!env.network.name.toLowerCase().includes("arb_testnet")) {
             throw new Error(`Network is not L2 ('${env.network.name}')`);
         }
 
@@ -37,39 +49,19 @@ task("deploy-l2-testnet", "Deploys the platform in the L2 testnet network.")
         };
 
         if (sendTx) {
-            await deployContract(
-                params,
-                DEEVY_SET_PROPERTIES_NAME,
-                sender,
-                [],
-            );
+            await deployContract(params, DEEVY_SET_PROPERTIES_NAME, sender, []);
 
-            const mirrorLoot = await deployContract(
-                params,
-                MIRROR_LOOT_NAME,
-                sender,
-                [],
-            );
+            const mirrorLoot = await deployContract(params, MIRROR_LOOT_NAME, sender, []);
 
-            const deevy2 = await deployContract(
-                params,
-                DEEVY2_NAME,
-                sender,
-                [
-                    EMPTY_ADDRESS,
-                    mirrorLoot.address,
-                ]
-            ) as unknown as Deevy2;
+            const deevy2 = ((await deployContract(params, DEEVY2_NAME, sender, [
+                EMPTY_ADDRESS,
+                mirrorLoot.address,
+            ])) as unknown) as Deevy2;
 
-            const deevyMinter = await deployContract(
-                params,
-                DEEVY_MINTER_NAME,
-                sender,
-                [
-                    deevy2.address,
-                    l1Target,
-                ],
-            );
+            const deevyMinter = await deployContract(params, DEEVY_MINTER_NAME, sender, [
+                deevy2.address,
+                l1Target,
+            ]);
             console.log(`Deevy2 ${deevy2.address}`);
             await deevy2.setMinter(deevyMinter.address);
 
