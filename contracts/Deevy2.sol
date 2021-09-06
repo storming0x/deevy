@@ -151,7 +151,7 @@ contract Deevy2 is ERC721, ReentrancyGuard, Ownable, IDeevy {
     }
 
     // based on OZ https://github.com/OpenZeppelin/openzeppelin-contracts/blob/b0cf6fbb7a70f31527f36579ad644e1cf12fdf4e/contracts/utils/Arrays.sol
-    function findSetIndex(uint256[] storage array, uint256 element)
+    function findSetIndex(uint256[] memory array, uint256 element)
         internal
         view
         returns (uint256)
