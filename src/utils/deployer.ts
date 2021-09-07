@@ -17,7 +17,7 @@ import {
 import {
     Deevy,
     DeevyMinter,
-    DeevySetProperties,
+    DeevySet,
     IDeevyMinter,
     IInbox,
     Loot,
@@ -47,17 +47,13 @@ export const deployMockInbox = async (utils: {
     return (await deployMock(utils)) as IInbox;
 };
 
-export const deployDeevySetProperties = async (utils: {
+export const deployDeevySet = async (utils: {
     ethers: any;
     deployer: SignerWithAddress;
-}): Promise<DeevySetProperties> => {
-    const deevySetPropertiesDeployer = await utils.ethers.getContractFactory(
-        DEEVY_SET_PROPERTIES_NAME
-    );
-    const deevySetProperties = (await deevySetPropertiesDeployer
-        .connect(utils.deployer)
-        .deploy()) as DeevySetProperties;
-    return deevySetProperties;
+}): Promise<DeevySet> => {
+    const deevySetDeployer = await utils.ethers.getContractFactory(DEEVY_SET_PROPERTIES_NAME);
+    const deevySet = (await deevySetDeployer.connect(utils.deployer).deploy()) as DeevySet;
+    return deevySet;
 };
 
 export const deployMirrorLoot = async (utils: {
@@ -74,7 +70,7 @@ export type DeevyDeploy = {
     warpLoot: MirrorLoot;
 };
 
-const deployDeevy = async (
+export const deployDeevy = async (
     utils: {ethers: any; deployer: SignerWithAddress},
     params: {warpLoot?: MirrorLoot}
 ): Promise<DeevyDeploy> => {

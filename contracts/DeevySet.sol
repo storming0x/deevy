@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
+pragma solidity 0.6.12;
 
 import {Base64} from "./libs/Base64.sol";
-import {IDeevySetProperties} from "./IDeevySetProperties.sol";
+import {IDeevySet} from "./IDeevySet.sol";
 
 // "That is not dead which can eternal lie, And with strange aeons even death may die."
 
-contract DeevySetProperties is IDeevySetProperties {
-    string public constant SET_NAME = "ELDRITCH";
+contract DeevySet is IDeevySet {
+    string public constant SET_NAME = "ELDRITCH LEGENDS";
 
-    // 18 original loot weapons
+    // weapons
     string[] private armament = [
         ".18 Derringer",
         ".32 Colt",
@@ -335,7 +336,7 @@ contract DeevySetProperties is IDeevySetProperties {
         uint256 rand =
             random(
                 string(
-                    abi.encodePacked(keyPrefix, toString(tokenId), setName())
+                    abi.encodePacked(keyPrefix, toString(tokenId), name(), symbol())
                 )
             );
         string memory output = sourceArray[rand % sourceArray.length];
@@ -370,8 +371,12 @@ contract DeevySetProperties is IDeevySetProperties {
         return output;
     }
 
-    function setName() public view override returns (string memory) {
+    function name() public view override returns (string memory) {
         return SET_NAME;
+    }
+
+    function symbol() public view override returns (string memory) {
+        return "💎🌀🔵";
     }
 
     function tokenURI(uint256 tokenId)
@@ -450,9 +455,9 @@ contract DeevySetProperties is IDeevySetProperties {
                 bytes(
                     string(
                         abi.encodePacked(
-                            '{"name": "Bag #',
+                            '{"name": "Deevy #',
                             toString(tokenId),
-                            '", "description": "Deevy is a randomized adventurer gear generated and stored on chain inspired by Loot. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Deevy in any way you want.", "image": "data:image/svg+xml;base64,',
+                            '", "description": "Deevy is a randomized trading game with unique sets generated and stored on chain inspired by Loot and Rarity. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Deevy in any way you want.", "image": "data:image/svg+xml;base64,',
                             Base64.encode(bytes(output)),
                             '"}'
                         )

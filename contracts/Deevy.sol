@@ -1,506 +1,130 @@
 // SPDX-License-Identifier: MIT
-
+pragma experimental ABIEncoderV2;
 pragma solidity 0.6.12;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import "./tokens/ERC721.sol";
 import {
     ReentrancyGuard
 } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import {Base64} from "./libs/Base64.sol";
+import "./tokens/ERC721.sol";
 import {IDeevy} from "./IDeevy.sol";
+import {IDeevySet} from "./IDeevySet.sol";
 import {ILoot} from "./ILoot.sol";
 
-// "That is not dead which can eternal lie, And with strange aeons even death may die."
+/**
+ * @dev Standard math utilities missing in the Solidity language.
+ */
+library Math {
+    /**
+     * @dev Returns the average of two numbers. The result is rounded towards
+     * zero.
+     */
+    function average(uint256 a, uint256 b) internal pure returns (uint256) {
+        // (a + b) / 2 can overflow.
+        return (a & b) + (a ^ b) / 2;
+    }
+}
 
 contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
-    // 18 original loot weapons
-    string[] private armament = [
-        ".18 Derringer",
-        ".32 Colt",
-        ".45 Thompson",
-        "Ancient Staff",
-        "Athame",
-        "Baseball Bat",
-        "Brass Knuckles",
-        "Bullwhip",
-        "Carbine Rifle",
-        "Cavalry Saber",
-        "Chainsaw",
-        "Chicago Typewriter",
-        "Crowbar",
-        "Dynamite",
-        "Elephant Gun",
-        "Enchanted Blade",
-        "Enchanted Knife",
-        "Fire Axe",
-        "Flamethrower",
-        "GraveDigger's Shovel",
-        "Golden Sword",
-        "Holy Water",
-        "Kerosene",
-        "Knife",
-        "M1918 Bar",
-        "Machete",
-        "Mauser C96",
-        "Old Hunting Rifle",
-        "Ornate Bow",
-        "Ritual Blade",
-        "Sawed-off Shotgun",
-        "Shotgun",
-        "Survival Knife",
-        "Switchblade",
-        "Sword of Glory",
-        "Tommy Gun"
-    ];
-
-    string[] private body = [
-        "Arcane Armor",
-        "Bulletproof Vest",
-        "Enchanted Duster Leather Jacket",
-        "Hard Leather Jacket",
-        "Trench Coat",
-        "Robe",
-        "Shirt",
-        "Uniform"
-    ];
-
-    string[] private items = [
-        "Ancient Tome",
-        "Archaic Glyphs",
-        "Book of Shadows",
-        "Crystal Decorated Skull",
-        "Crystal Pendulum",
-        "Elder Sign Amulet",
-        "Flashlight",
-        "Gristly Totem",
-        "Hallowed Mirror",
-        "Holy Rosary",
-        "Lantern",
-        "Lockpicks",
-        "Lucky Penny",
-        "Necronomicon Translation",
-        "Rabbit's Foot",
-        "Ritual Candles",
-        "Skeleton Key"
-    ];
-
-    string[] private relics = [
-        "Ancient Stone Statuette",
-        "Codex of Ages",
-        "Cultist Manuscripts",
-        "Forbidden Tome",
-        "Gold Pocket Watch",
-        "Hemispheric Map",
-        "Jewel of Aureolus",
-        "Ocarina",
-        "Otherworldly Compass",
-        "Red Clock",
-        "Royal Pendant",
-        "Tooth of Eztli"
-    ];
-
-    string[] private talents = [
-        "Adaptable",
-        "Analytical Mind",
-        "Ancestral Knowledge",
-        "Arcane Research",
-        "Charisma",
-        "Deja Vu",
-        "High Roller",
-        "Hyperawareness",
-        "Keen Eye",
-        "Lone Wolf",
-        "Physical Training",
-        "Plucky",
-        "Relentless",
-        "Scavenging",
-        "Scrapper",
-        "Sharpshooter",
-        "Stealth",
-        "Streetwise",
-        "Versatile"
-    ];
-
-    string[] private weakness = [
-        "Amnesia",
-        "Atychiphobia",
-        "Blodlust",
-        "Buried Secrets",
-        "Call of the Unknown",
-        "Chronophobia",
-        "Crisis of Faith",
-        "Dark Memory",
-        "Dark Pact",
-        "Detached from Reality",
-        "Dread Curse",
-        "Dreams of the Deep",
-        "Greed",
-        "Haunted",
-        "Indebted",
-        "Kleptomania",
-        "Narcolepsy",
-        "Nihilism",
-        "Obsessive",
-        "Paranoia",
-        "Psychosis",
-        "Reckless",
-        "Self-Destructive",
-        "Siren Call",
-        "Terrible Secret",
-        "Wracked by Nightmares"
-    ];
-
-    string[] private classes = [
-        "Protector",
-        "Mystical",
-        "Rogue",
-        "Survivor",
-        "Searcher"
-    ];
-
-    string[] private allies = [
-        "Arcane Initiate"
-        "Archaelogist",
-        "Aspiring Actor",
-        "Augur",
-        "Black Cat",
-        "Cat Burglar",
-        "Coast Guard Captain",
-        "Concerned Brother",
-        "Eldritch Sophist",
-        "Fed Agent",
-        "Fixer for Hire",
-        "Freelance Detective",
-        "Guard Dog",
-        "Guiding Spirit",
-        "Hunter",
-        "Laboratory Assistant",
-        "Loyal Hound",
-        "Museum Curator",
-        "Research Librarian",
-        "Speaker to the Dead",
-        "Unscrupulous Investor"
-    ];
-
-    string[] private suffixes = [
-        "of Power",
-        "of Ancient Ones",
-        "of Elder Gods",
-        "of Skill",
-        "of Perfection",
-        "of Brilliance",
-        "of Enlightenment",
-        "of Protection",
-        "of Anger",
-        "of Rage",
-        "of Fury",
-        "of Vitriol",
-        "of the Fox",
-        "of Detection",
-        "of Reflection",
-        "of the Twins"
-    ];
-
-    string[] private namePrefixes = [
-        "Agony",
-        "Apocalypse",
-        "Armageddon",
-        "Beast",
-        "Behemoth",
-        "Blight",
-        "Blood",
-        "Bramble",
-        "Brimstone",
-        "Brood",
-        "Carrion",
-        "Cataclysm",
-        "Chimeric",
-        "Corpse",
-        "Corruption",
-        "Damnation",
-        "Death",
-        "Demon",
-        "Dire",
-        "Dragon",
-        "Dread",
-        "Doom",
-        "Dusk",
-        "Eagle",
-        "Empyrean",
-        "Fate",
-        "Foe",
-        "Gale",
-        "Ghoul",
-        "Gloom",
-        "Glyph",
-        "Golem",
-        "Grim",
-        "Hate",
-        "Havoc",
-        "Honour",
-        "Horror",
-        "Hypnotic",
-        "Kraken",
-        "Loath",
-        "Maelstrom",
-        "Mind",
-        "Miracle",
-        "Morbid",
-        "Oblivion",
-        "Onslaught",
-        "Pain",
-        "Pandemonium",
-        "Phoenix",
-        "Plague",
-        "Rage",
-        "Rapture",
-        "Rune",
-        "Skull",
-        "Sol",
-        "Soul",
-        "Sorrow",
-        "Spirit",
-        "Storm",
-        "Tempest",
-        "Torment",
-        "Vengeance",
-        "Victory",
-        "Viper",
-        "Vortex",
-        "Woe",
-        "Wrath",
-        "Light's",
-        "Shimmering"
-    ];
-
-    string[] private nameSuffixes = [
-        "Bane",
-        "Root",
-        "Bite",
-        "Song",
-        "Roar",
-        "Grasp",
-        "Instrument",
-        "Glow",
-        "Bender",
-        "Shadow",
-        "Whisper",
-        "Shout",
-        "Growl",
-        "Tear",
-        "Peak",
-        "Form",
-        "Sun",
-        "Moon"
-    ];
+    struct DeevySet {
+        address set;
+        uint256 start;
+        uint256 end;
+        bool exists;
+    }
 
     address public minter;
     // reference readonly copy of Loot contract in L2
     address public loot;
-
     uint256 public LOOT_SUPPLY = 7779;
 
-    constructor(address minterAddress, address warpedLoot)
+    // stores set information
+    mapping(uint256 => DeevySet) public sets;
+    // unique sets
+    mapping(address => bool) public setAddresses;
+    // unique set names
+    mapping(bytes32 => bool) public setNames;
+    // array for holding sets max mint
+    uint256[] setsMax;
+
+    // EVENTS
+
+    event NewSet(
+        address indexed _set,
+        string _name,
+        uint256 _start,
+        uint256 _end
+    );
+
+    constructor(address _minterAddress, address _warpedLoot)
         public
         ERC721("Deevy", "DEEVY")
         Ownable()
     {
-        minter = minterAddress;
-        loot = warpedLoot;
+        minter = _minterAddress;
+        loot = _warpedLoot;
     }
 
-    function setMinter(address newMinterAddress) external onlyOwner {
-        minter = newMinterAddress;
+    function setMinter(address _newMinterAddress) external onlyOwner {
+        minter = _newMinterAddress;
     }
 
-    function random(string memory input) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(input)));
-    }
+    function addSet(address _set, uint256 _end) external onlyOwner {
+        require(!setAddresses[_set], "!SET_ALREADY_USED");
+        setAddresses[_set] = true;
+        DeevySet memory newSet;
 
-    // Deevy properties
+        string memory setName = IDeevySet(_set).name();
+        bytes32 setHash = keccak256(abi.encodePacked(setName));
+        // first set
+        if (setsMax.length == 0) {
+            require(_end >= LOOT_SUPPLY, "!SUPPLY_FIRST_SET");
+            newSet = DeevySet({set: _set, start: 0, end: _end, exists: true});
+            sets[0] = newSet;
+            setsMax.push(_end);
+            setNames[setHash] = true;
 
-    function getArmament(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "ARMAMENT", armament);
-    }
-
-    function getBody(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "BODY", body);
-    }
-
-    function getItem(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "ITEM", items);
-    }
-
-    function getRelic(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "RELIC", relics);
-    }
-
-    function getTalent(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "TALENT", talents);
-    }
-
-    function getWeakness(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "WEAKNESS", weakness);
-    }
-
-    function getAlly(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "ALLY", allies);
-    }
-
-    function getClass(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "CLASS", classes);
-    }
-
-    function pluck(
-        uint256 tokenId,
-        string memory keyPrefix,
-        string[] memory sourceArray
-    ) internal view returns (string memory) {
-        uint256 rand =
-            random(string(abi.encodePacked(keyPrefix, toString(tokenId))));
-        string memory output = sourceArray[rand % sourceArray.length];
-        uint256 greatness = rand % 21;
-        if (greatness > 14) {
-            output = string(
-                abi.encodePacked(output, " ", suffixes[rand % suffixes.length])
-            );
+            emit NewSet(_set, setName, 0, _end);
+            return;
         }
-        if (greatness >= 19) {
-            string[2] memory name;
-            name[0] = namePrefixes[rand % namePrefixes.length];
-            name[1] = nameSuffixes[rand % nameSuffixes.length];
-            if (greatness == 19) {
-                output = string(
-                    abi.encodePacked('"', name[0], " ", name[1], '" ', output)
-                );
-            } else {
-                output = string(
-                    abi.encodePacked(
-                        '"',
-                        name[0],
-                        " ",
-                        name[1],
-                        '" ',
-                        output,
-                        " +1"
-                    )
-                );
-            }
-        }
-        return output;
+
+        require(!setNames[setHash], "!SET_NAME_EXISTS");
+
+        // adding a new set
+        DeevySet memory lastSet = sets[setsMax.length - 1];
+        require(_end > lastSet.end + 1, "!NEW_SET_START");
+        newSet = DeevySet({
+            set: _set,
+            start: lastSet.end + 1,
+            end: _end,
+            exists: true
+        });
+        setsMax.push(_end);
+        sets[setsMax.length - 1] = newSet;
+        setNames[setHash] = true;
+
+        emit NewSet(_set, setName, newSet.start, newSet.end);
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override
-        returns (string memory)
-    {
-        string[17] memory parts;
-        parts[
-            0
-        ] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
-
-        parts[1] = getArmament(tokenId);
-
-        parts[2] = '</text><text x="10" y="40" class="base">';
-
-        parts[3] = getBody(tokenId);
-
-        parts[4] = '</text><text x="10" y="60" class="base">';
-
-        parts[5] = getItem(tokenId);
-
-        parts[6] = '</text><text x="10" y="80" class="base">';
-
-        parts[7] = getRelic(tokenId);
-
-        parts[8] = '</text><text x="10" y="100" class="base">';
-
-        parts[9] = getTalent(tokenId);
-
-        parts[10] = '</text><text x="10" y="120" class="base">';
-
-        parts[11] = getWeakness(tokenId);
-
-        parts[12] = '</text><text x="10" y="140" class="base">';
-
-        parts[13] = getAlly(tokenId);
-
-        parts[14] = '</text><text x="10" y="160" class="base">';
-
-        parts[15] = getClass(tokenId);
-
-        parts[16] = "</text></svg>";
-
-        string memory output =
-            string(
-                abi.encodePacked(
-                    parts[0],
-                    parts[1],
-                    parts[2],
-                    parts[3],
-                    parts[4],
-                    parts[5],
-                    parts[6],
-                    parts[7],
-                    parts[8]
-                )
-            );
-        output = string(
-            abi.encodePacked(
-                output,
-                parts[9],
-                parts[10],
-                parts[11],
-                parts[12],
-                parts[13],
-                parts[14],
-                parts[15],
-                parts[16]
-            )
-        );
-
-        string memory json =
-            Base64.encode(
-                bytes(
-                    string(
-                        abi.encodePacked(
-                            '{"name": "Bag #',
-                            toString(tokenId),
-                            '", "description": "Deevy is a randomized adventurer gear generated and stored on chain inspired by Loot. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Deevy in any way you want.", "image": "data:image/svg+xml;base64,',
-                            Base64.encode(bytes(output)),
-                            '"}'
-                        )
-                    )
-                )
-            );
-        output = string(
-            abi.encodePacked("data:application/json;base64,", json)
-        );
-
-        return output;
-    }
-
+    // exclusive claim function for loot holders
     function warpLoot(address account, uint256 tokenId)
         external
         override
         nonReentrant
     {
         require(minter == msg.sender, "SENDER_ISNT_MINTER");
-        // TODO Check token id ranges.
         require(tokenId > 0 && tokenId < 8000, "Token ID invalid");
         _safeMint(account, tokenId);
     }
 
+    // one time claim
     function ownerClaim(uint256 tokenId)
         public
         override
         nonReentrant
         onlyOwner
     {
-        require(tokenId >= 8000 && tokenId < 8100, "Token ID invalid");
+        require(tokenId >= 8000 && tokenId < 8889, "Token ID invalid");
         _safeMint(owner(), tokenId);
     }
 
@@ -510,34 +134,78 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
     {
         require(minter == msg.sender, "SENDER_ISNT_MINTER");
-        require(tokenId >= 8100, "Token ID invalid");
+        require(tokenId >= 8889, "Token ID invalid");
+        require(tokenId <= setsMax[setsMax.length - 1]);
         _safeMint(account, tokenId);
     }
 
-    function toString(uint256 value) internal pure returns (string memory) {
-        // Inspired by OraclizeAPI's implementation - MIT license
-        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+    // view functions
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override
+        returns (string memory)
+    {
+        address setProperties = getSet(tokenId);
+        return IDeevySet(setProperties).tokenURI(tokenId);
+    }
 
-        if (value == 0) {
-            return "0";
+    // based on OZ https://github.com/OpenZeppelin/openzeppelin-contracts/blob/b0cf6fbb7a70f31527f36579ad644e1cf12fdf4e/contracts/utils/Arrays.sol
+    function findSetIndex(uint256[] memory array, uint256 element)
+        internal
+        view
+        returns (uint256)
+    {
+        // return max since array is empty or above max, so this number would not exist
+        if (array.length == 0 || element > array[array.length - 1]) {
+            return type(uint256).max;
         }
-        uint256 temp = value;
-        uint256 digits;
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
+
+        uint256 low = 0;
+        uint256 high = array.length;
+
+        while (low < high) {
+            uint256 mid = Math.average(low, high);
+
+            // Note that mid will always be strictly less than high (i.e. it will be a valid array index)
+            // because Math.average rounds down (it does integer division with truncation).
+            if (array[mid] > element) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
         }
-        bytes memory buffer = new bytes(digits);
-        while (value != 0) {
-            digits -= 1;
-            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
-            value /= 10;
+
+        // At this point `low` is the exclusive upper bound. We will return the inclusive upper bound.
+        if (low > 0 && array[low - 1] == element) {
+            return low - 1;
+        } else {
+            return low;
         }
-        return string(buffer);
+    }
+
+    function getSetInfo(uint256 tokenId) public view returns (DeevySet memory) {
+        uint256 i = findSetIndex(setsMax, tokenId);
+        DeevySet memory info = sets[i];
+        return info;
+    }
+
+    function getSet(uint256 tokenId) public view returns (address) {
+        DeevySet memory info = getSetInfo(tokenId);
+        return info.set;
+    }
+
+    function name(uint256 tokenId) public view returns (string memory) {
+        address setProperties = getSet(tokenId);
+        return IDeevySet(setProperties).name();
+    }
+
+    function symbol(uint256 tokenId) public view returns (string memory) {
+        address setProperties = getSet(tokenId);
+        return IDeevySet(setProperties).symbol();
     }
 
     // Loot compatibility functions
-
     function getWeapon(uint256 tokenId) public view returns (string memory) {
         if (tokenId > LOOT_SUPPLY) return "";
         return ILoot(loot).getWeapon(tokenId);

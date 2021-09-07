@@ -11,12 +11,12 @@ import {
 import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import {
-    DEEVY2_NAME,
+    DEEVY_NAME,
     DEEVY_MINTER_NAME,
     DEEVY_SET_PROPERTIES_NAME,
     MIRROR_LOOT_NAME,
 } from "../src/utils/consts/consts";
-import {Deevy2} from "../typechain";
+import {Deevy} from "../typechain";
 
 /**
     Example: 
@@ -53,17 +53,17 @@ task("deploy-l2-testnet", "Deploys the platform in the L2 testnet network.")
 
             const mirrorLoot = await deployContract(params, MIRROR_LOOT_NAME, sender, []);
 
-            const deevy2 = ((await deployContract(params, DEEVY2_NAME, sender, [
+            const deevy = ((await deployContract(params, DEEVY_NAME, sender, [
                 EMPTY_ADDRESS,
                 mirrorLoot.address,
-            ])) as unknown) as Deevy2;
+            ])) as unknown) as Deevy;
 
             const deevyMinter = await deployContract(params, DEEVY_MINTER_NAME, sender, [
-                deevy2.address,
+                deevy.address,
                 l1Target,
             ]);
-            console.log(`Deevy2 ${deevy2.address}`);
-            await deevy2.setMinter(deevyMinter.address);
+            console.log(`Deevy ${deevy.address}`);
+            await deevy.setMinter(deevyMinter.address);
 
             console.log(JSON.stringify(contracts, null, 4));
         } else {

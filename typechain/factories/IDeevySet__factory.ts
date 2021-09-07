@@ -5,14 +5,14 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { IDeevySetProperties } from "../IDeevySetProperties";
+import type { IDeevySet } from "../IDeevySet";
 
-export class IDeevySetProperties__factory {
+export class IDeevySet__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IDeevySetProperties {
-    return new Contract(address, _abi, signerOrProvider) as IDeevySetProperties;
+  ): IDeevySet {
+    return new Contract(address, _abi, signerOrProvider) as IDeevySet;
   }
 }
 
@@ -20,6 +20,19 @@ const _abi = [
   {
     inputs: [],
     name: "name",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "symbol",
     outputs: [
       {
         internalType: "string",
