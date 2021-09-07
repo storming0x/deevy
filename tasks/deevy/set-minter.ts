@@ -5,7 +5,7 @@ import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../../src/config";
 import {GetContracts} from "../../src/config/GetContracts";
-import {Deevy2} from "../../typechain";
+import {Deevy} from "../../typechain";
 
 /**
     Example: 
@@ -22,7 +22,7 @@ task("set-minter", "Set the minter address.")
         const getContracts = new GetContracts(env.ethers, networkConfig);
         const explorer = getNetworkExplorer(env.network.name as NETWORKS, new Map());
 
-        const deevy = (await getContracts.getDeevy()) as Deevy2;
+        const deevy = (await getContracts.getDeevy()) as Deevy;
         const signers = new Signers(await env.ethers.getSigners());
         const sender = signers.getSigner(senderIndex);
 

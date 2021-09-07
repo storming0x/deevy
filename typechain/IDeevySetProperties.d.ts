@@ -21,17 +21,17 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
 interface IDeevySetPropertiesInterface extends ethers.utils.Interface {
   functions: {
-    "setName()": FunctionFragment;
+    "name()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "setName", values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
     values: [BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "setName", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
 
   events: {};
@@ -51,13 +51,13 @@ export class IDeevySetProperties extends Contract {
   interface: IDeevySetPropertiesInterface;
 
   functions: {
-    setName(
+    name(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
     }>;
 
-    "setName()"(
+    "name()"(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -78,9 +78,9 @@ export class IDeevySetProperties extends Contract {
     }>;
   };
 
-  setName(overrides?: CallOverrides): Promise<string>;
+  name(overrides?: CallOverrides): Promise<string>;
 
-  "setName()"(overrides?: CallOverrides): Promise<string>;
+  "name()"(overrides?: CallOverrides): Promise<string>;
 
   tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -90,9 +90,9 @@ export class IDeevySetProperties extends Contract {
   ): Promise<string>;
 
   callStatic: {
-    setName(overrides?: CallOverrides): Promise<string>;
+    name(overrides?: CallOverrides): Promise<string>;
 
-    "setName()"(overrides?: CallOverrides): Promise<string>;
+    "name()"(overrides?: CallOverrides): Promise<string>;
 
     tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -105,9 +105,9 @@ export class IDeevySetProperties extends Contract {
   filters: {};
 
   estimateGas: {
-    setName(overrides?: CallOverrides): Promise<BigNumber>;
+    name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "setName()"(overrides?: CallOverrides): Promise<BigNumber>;
+    "name()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(
       tokenId: BigNumberish,
@@ -121,9 +121,9 @@ export class IDeevySetProperties extends Contract {
   };
 
   populateTransaction: {
-    setName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "setName()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    "name()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenURI(
       tokenId: BigNumberish,

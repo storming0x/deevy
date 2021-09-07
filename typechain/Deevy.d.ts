@@ -23,41 +23,41 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 interface DeevyInterface extends ethers.utils.Interface {
   functions: {
     "LOOT_SUPPLY()": FunctionFragment;
+    "addSet(address,uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
+    "c_0x7c3bb3ad(bytes32)": FunctionFragment;
+    "c_0x97a117f3(bytes32)": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
-    "getAlly(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getArmament(uint256)": FunctionFragment;
-    "getBody(uint256)": FunctionFragment;
     "getChest(uint256)": FunctionFragment;
-    "getClass(uint256)": FunctionFragment;
     "getFoot(uint256)": FunctionFragment;
     "getHand(uint256)": FunctionFragment;
     "getHead(uint256)": FunctionFragment;
-    "getItem(uint256)": FunctionFragment;
     "getNeck(uint256)": FunctionFragment;
-    "getRelic(uint256)": FunctionFragment;
     "getRing(uint256)": FunctionFragment;
-    "getTalent(uint256)": FunctionFragment;
+    "getSet(uint256)": FunctionFragment;
+    "getSetInfo(uint256)": FunctionFragment;
     "getWaist(uint256)": FunctionFragment;
-    "getWeakness(uint256)": FunctionFragment;
     "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "loot()": FunctionFragment;
     "lootTokenURI(uint256)": FunctionFragment;
     "minter()": FunctionFragment;
-    "name()": FunctionFragment;
+    "name(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerClaim(uint256)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "setAddresses(address)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setMinter(address)": FunctionFragment;
+    "setNames(bytes32)": FunctionFragment;
+    "sets(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "symbol()": FunctionFragment;
+    "symbol(uint256)": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -72,37 +72,33 @@ interface DeevyInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "addSet",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "baseURI", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "claim",
-    values: [string, BigNumberish]
+    functionFragment: "c_0x7c3bb3ad",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "getAlly",
-    values: [BigNumberish]
+    functionFragment: "c_0x97a117f3",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claim",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getArmament",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getBody",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getChest",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getClass",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -118,15 +114,7 @@ interface DeevyInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getItem",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getNeck",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRelic",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -134,15 +122,15 @@ interface DeevyInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getTalent",
+    functionFragment: "getSet",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSetInfo",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getWaist",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getWeakness",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -159,7 +147,7 @@ interface DeevyInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "minter", values?: undefined): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerClaim",
@@ -178,15 +166,24 @@ interface DeevyInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setAddresses",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
   encodeFunctionData(functionFragment: "setMinter", values: [string]): string;
+  encodeFunctionData(functionFragment: "setNames", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "sets", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "symbol",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "tokenByIndex",
     values: [BigNumberish]
@@ -220,35 +217,32 @@ interface DeevyInterface extends ethers.utils.Interface {
     functionFragment: "LOOT_SUPPLY",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "addSet", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "c_0x7c3bb3ad",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "c_0x97a117f3",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getAlly", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "getArmament",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getBody", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getChest", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getClass", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFoot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getHand", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getHead", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getItem", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getNeck", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getRelic", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getRing", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getTalent", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getSet", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getSetInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getWaist", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getWeakness",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "getWeapon", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
@@ -273,10 +267,16 @@ interface DeevyInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setAddresses",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setMinter", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setNames", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "sets", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -308,12 +308,14 @@ interface DeevyInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "NewSet(address,string,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -343,6 +345,18 @@ export class Deevy extends Contract {
     ): Promise<{
       0: BigNumber;
     }>;
+
+    addSet(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    "addSet(address,uint256)"(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
 
     approve(
       to: string,
@@ -382,6 +396,34 @@ export class Deevy extends Contract {
       0: string;
     }>;
 
+    c_0x7c3bb3ad(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
+    "c_0x7c3bb3ad(bytes32)"(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
+    c_0x97a117f3(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
+    "c_0x97a117f3(bytes32)"(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -393,20 +435,6 @@ export class Deevy extends Contract {
       tokenId: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
-
-    getAlly(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getAlly(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -422,34 +450,6 @@ export class Deevy extends Contract {
       0: string;
     }>;
 
-    getArmament(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getArmament(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    getBody(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getBody(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
     getChest(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -458,20 +458,6 @@ export class Deevy extends Contract {
     }>;
 
     "getChest(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    getClass(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getClass(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -520,20 +506,6 @@ export class Deevy extends Contract {
       0: string;
     }>;
 
-    getItem(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getItem(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
     getNeck(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -542,20 +514,6 @@ export class Deevy extends Contract {
     }>;
 
     "getNeck(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    getRelic(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getRelic(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -576,18 +534,50 @@ export class Deevy extends Contract {
       0: string;
     }>;
 
-    getTalent(
+    getSet(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
       0: string;
     }>;
 
-    "getTalent(uint256)"(
+    "getSet(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
       0: string;
+    }>;
+
+    getSetInfo(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: {
+        set: string;
+        start: BigNumber;
+        end: BigNumber;
+        exists: boolean;
+        0: string;
+        1: BigNumber;
+        2: BigNumber;
+        3: boolean;
+      };
+    }>;
+
+    "getSetInfo(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: {
+        set: string;
+        start: BigNumber;
+        end: BigNumber;
+        exists: boolean;
+        0: string;
+        1: BigNumber;
+        2: BigNumber;
+        3: boolean;
+      };
     }>;
 
     getWaist(
@@ -598,20 +588,6 @@ export class Deevy extends Contract {
     }>;
 
     "getWaist(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    getWeakness(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "getWeakness(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -686,7 +662,8 @@ export class Deevy extends Contract {
       0: string;
     }>;
 
-    name(
+    "name(uint256)"(
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -753,6 +730,20 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
+    setAddresses(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    "setAddresses(address)"(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
     setApprovalForAll(
       operator: string,
       approved: boolean,
@@ -766,14 +757,56 @@ export class Deevy extends Contract {
     ): Promise<ContractTransaction>;
 
     setMinter(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
     "setMinter(address)"(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
+
+    setNames(
+      arg0: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    "setNames(bytes32)"(
+      arg0: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    sets(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      set: string;
+      start: BigNumber;
+      end: BigNumber;
+      exists: boolean;
+      0: string;
+      1: BigNumber;
+      2: BigNumber;
+      3: boolean;
+    }>;
+
+    "sets(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      set: string;
+      start: BigNumber;
+      end: BigNumber;
+      exists: boolean;
+      0: string;
+      1: BigNumber;
+      2: BigNumber;
+      3: boolean;
+    }>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -789,7 +822,8 @@ export class Deevy extends Contract {
       0: boolean;
     }>;
 
-    symbol(
+    "symbol(uint256)"(
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -898,6 +932,18 @@ export class Deevy extends Contract {
 
   "LOOT_SUPPLY()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+  addSet(
+    _set: string,
+    _end: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  "addSet(address,uint256)"(
+    _set: string,
+    _end: BigNumberish,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -921,6 +967,26 @@ export class Deevy extends Contract {
 
   "baseURI()"(overrides?: CallOverrides): Promise<string>;
 
+  c_0x7c3bb3ad(
+    c__0x7c3bb3ad: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "c_0x7c3bb3ad(bytes32)"(
+    c__0x7c3bb3ad: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  c_0x97a117f3(
+    c__0x97a117f3: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "c_0x97a117f3(bytes32)"(
+    c__0x97a117f3: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
   claim(
     account: string,
     tokenId: BigNumberish,
@@ -933,13 +999,6 @@ export class Deevy extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  getAlly(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  "getAlly(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -950,33 +1009,9 @@ export class Deevy extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getArmament(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "getArmament(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getBody(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  "getBody(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   getChest(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   "getChest(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getClass(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  "getClass(uint256)"(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -1002,23 +1037,9 @@ export class Deevy extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getItem(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  "getItem(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   getNeck(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   "getNeck(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getRelic(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  "getRelic(uint256)"(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -1030,26 +1051,44 @@ export class Deevy extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getTalent(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+  getSet(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  "getTalent(uint256)"(
+  "getSet(uint256)"(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getSetInfo(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<{
+    set: string;
+    start: BigNumber;
+    end: BigNumber;
+    exists: boolean;
+    0: string;
+    1: BigNumber;
+    2: BigNumber;
+    3: boolean;
+  }>;
+
+  "getSetInfo(uint256)"(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<{
+    set: string;
+    start: BigNumber;
+    end: BigNumber;
+    exists: boolean;
+    0: string;
+    1: BigNumber;
+    2: BigNumber;
+    3: boolean;
+  }>;
 
   getWaist(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   "getWaist(uint256)"(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getWeakness(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "getWeakness(uint256)"(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -1091,7 +1130,10 @@ export class Deevy extends Contract {
 
   "minter()"(overrides?: CallOverrides): Promise<string>;
 
-  name(overrides?: CallOverrides): Promise<string>;
+  "name(uint256)"(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   "name()"(overrides?: CallOverrides): Promise<string>;
 
@@ -1135,6 +1177,13 @@ export class Deevy extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
+  setAddresses(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+
+  "setAddresses(address)"(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   setApprovalForAll(
     operator: string,
     approved: boolean,
@@ -1148,14 +1197,49 @@ export class Deevy extends Contract {
   ): Promise<ContractTransaction>;
 
   setMinter(
-    newMinterAddress: string,
+    _newMinterAddress: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
   "setMinter(address)"(
-    newMinterAddress: string,
+    _newMinterAddress: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
+
+  setNames(arg0: BytesLike, overrides?: CallOverrides): Promise<boolean>;
+
+  "setNames(bytes32)"(
+    arg0: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  sets(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<{
+    set: string;
+    start: BigNumber;
+    end: BigNumber;
+    exists: boolean;
+    0: string;
+    1: BigNumber;
+    2: BigNumber;
+    3: boolean;
+  }>;
+
+  "sets(uint256)"(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<{
+    set: string;
+    start: BigNumber;
+    end: BigNumber;
+    exists: boolean;
+    0: string;
+    1: BigNumber;
+    2: BigNumber;
+    3: boolean;
+  }>;
 
   supportsInterface(
     interfaceId: BytesLike,
@@ -1167,7 +1251,10 @@ export class Deevy extends Contract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  symbol(overrides?: CallOverrides): Promise<string>;
+  "symbol(uint256)"(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   "symbol()"(overrides?: CallOverrides): Promise<string>;
 
@@ -1245,6 +1332,18 @@ export class Deevy extends Contract {
 
     "LOOT_SUPPLY()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    addSet(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "addSet(address,uint256)"(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1268,6 +1367,26 @@ export class Deevy extends Contract {
 
     "baseURI()"(overrides?: CallOverrides): Promise<string>;
 
+    c_0x7c3bb3ad(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "c_0x7c3bb3ad(bytes32)"(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    c_0x97a117f3(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "c_0x97a117f3(bytes32)"(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -1280,13 +1399,6 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    getAlly(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    "getAlly(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1297,33 +1409,9 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getArmament(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "getArmament(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getBody(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    "getBody(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     getChest(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     "getChest(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getClass(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    "getClass(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -1349,23 +1437,9 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getItem(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    "getItem(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     getNeck(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     "getNeck(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getRelic(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    "getRelic(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -1377,29 +1451,44 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getTalent(
+    getSet(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    "getSet(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    "getTalent(uint256)"(
+    getSetInfo(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<{
+      set: string;
+      start: BigNumber;
+      end: BigNumber;
+      exists: boolean;
+      0: string;
+      1: BigNumber;
+      2: BigNumber;
+      3: boolean;
+    }>;
+
+    "getSetInfo(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      set: string;
+      start: BigNumber;
+      end: BigNumber;
+      exists: boolean;
+      0: string;
+      1: BigNumber;
+      2: BigNumber;
+      3: boolean;
+    }>;
 
     getWaist(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     "getWaist(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getWeakness(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "getWeakness(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -1444,7 +1533,10 @@ export class Deevy extends Contract {
 
     "minter()"(overrides?: CallOverrides): Promise<string>;
 
-    name(overrides?: CallOverrides): Promise<string>;
+    "name(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     "name()"(overrides?: CallOverrides): Promise<string>;
 
@@ -1485,6 +1577,13 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setAddresses(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+
+    "setAddresses(address)"(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     setApprovalForAll(
       operator: string,
       approved: boolean,
@@ -1498,14 +1597,49 @@ export class Deevy extends Contract {
     ): Promise<void>;
 
     setMinter(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     "setMinter(address)"(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setNames(arg0: BytesLike, overrides?: CallOverrides): Promise<boolean>;
+
+    "setNames(bytes32)"(
+      arg0: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    sets(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      set: string;
+      start: BigNumber;
+      end: BigNumber;
+      exists: boolean;
+      0: string;
+      1: BigNumber;
+      2: BigNumber;
+      3: boolean;
+    }>;
+
+    "sets(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<{
+      set: string;
+      start: BigNumber;
+      end: BigNumber;
+      exists: boolean;
+      0: string;
+      1: BigNumber;
+      2: BigNumber;
+      3: boolean;
+    }>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -1517,7 +1651,10 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    symbol(overrides?: CallOverrides): Promise<string>;
+    "symbol(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     "symbol()"(overrides?: CallOverrides): Promise<string>;
 
@@ -1604,6 +1741,13 @@ export class Deevy extends Contract {
       approved: null
     ): EventFilter;
 
+    NewSet(
+      _set: string | null,
+      _name: null,
+      _start: null,
+      _end: null
+    ): EventFilter;
+
     OwnershipTransferred(
       previousOwner: string | null,
       newOwner: string | null
@@ -1620,6 +1764,18 @@ export class Deevy extends Contract {
     LOOT_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
     "LOOT_SUPPLY()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addSet(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    "addSet(address,uint256)"(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
 
     approve(
       to: string,
@@ -1644,6 +1800,26 @@ export class Deevy extends Contract {
 
     "baseURI()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    c_0x7c3bb3ad(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "c_0x7c3bb3ad(bytes32)"(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    c_0x97a117f3(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "c_0x97a117f3(bytes32)"(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -1656,16 +1832,6 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<BigNumber>;
 
-    getAlly(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getAlly(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1676,42 +1842,12 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getArmament(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getArmament(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getBody(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getBody(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getChest(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "getChest(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getClass(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getClass(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1746,32 +1882,12 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getItem(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getItem(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getNeck(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "getNeck(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getRelic(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getRelic(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1786,12 +1902,22 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getTalent(
+    getSet(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "getTalent(uint256)"(
+    "getSet(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getSetInfo(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getSetInfo(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1802,16 +1928,6 @@ export class Deevy extends Contract {
     ): Promise<BigNumber>;
 
     "getWaist(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getWeakness(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getWeakness(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1856,7 +1972,10 @@ export class Deevy extends Contract {
 
     "minter()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    name(overrides?: CallOverrides): Promise<BigNumber>;
+    "name(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     "name()"(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1903,6 +2022,13 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<BigNumber>;
 
+    setAddresses(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "setAddresses(address)"(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     setApprovalForAll(
       operator: string,
       approved: boolean,
@@ -1916,13 +2042,27 @@ export class Deevy extends Contract {
     ): Promise<BigNumber>;
 
     setMinter(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
 
     "setMinter(address)"(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    setNames(arg0: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "setNames(bytes32)"(
+      arg0: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    sets(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "sets(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     supportsInterface(
@@ -1935,7 +2075,10 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    symbol(overrides?: CallOverrides): Promise<BigNumber>;
+    "symbol(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     "symbol()"(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2017,6 +2160,18 @@ export class Deevy extends Contract {
 
     "LOOT_SUPPLY()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    addSet(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    "addSet(address,uint256)"(
+      _set: string,
+      _end: BigNumberish,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -2043,6 +2198,26 @@ export class Deevy extends Contract {
 
     "baseURI()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    c_0x7c3bb3ad(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "c_0x7c3bb3ad(bytes32)"(
+      c__0x7c3bb3ad: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    c_0x97a117f3(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "c_0x97a117f3(bytes32)"(
+      c__0x97a117f3: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -2055,16 +2230,6 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
-    getAlly(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getAlly(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -2075,42 +2240,12 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getArmament(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getArmament(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getBody(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getBody(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getChest(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "getChest(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getClass(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getClass(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2145,32 +2280,12 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getItem(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getItem(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getNeck(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "getNeck(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getRelic(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getRelic(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2185,12 +2300,22 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getTalent(
+    getSet(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "getTalent(uint256)"(
+    "getSet(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getSetInfo(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getSetInfo(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2201,16 +2326,6 @@ export class Deevy extends Contract {
     ): Promise<PopulatedTransaction>;
 
     "getWaist(uint256)"(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getWeakness(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getWeakness(uint256)"(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2255,7 +2370,10 @@ export class Deevy extends Contract {
 
     "minter()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    "name(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     "name()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -2302,6 +2420,16 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
+    setAddresses(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "setAddresses(address)"(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     setApprovalForAll(
       operator: string,
       approved: boolean,
@@ -2315,13 +2443,33 @@ export class Deevy extends Contract {
     ): Promise<PopulatedTransaction>;
 
     setMinter(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
     "setMinter(address)"(
-      newMinterAddress: string,
+      _newMinterAddress: string,
       overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    setNames(
+      arg0: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "setNames(bytes32)"(
+      arg0: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    sets(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "sets(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     supportsInterface(
@@ -2334,7 +2482,10 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    "symbol(uint256)"(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     "symbol()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

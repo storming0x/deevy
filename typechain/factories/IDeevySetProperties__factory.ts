@@ -19,7 +19,7 @@ export class IDeevySetProperties__factory {
 const _abi = [
   {
     inputs: [],
-    name: "setName",
+    name: "name",
     outputs: [
       {
         internalType: "string",

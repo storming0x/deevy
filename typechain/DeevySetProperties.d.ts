@@ -30,7 +30,7 @@ interface DeevySetPropertiesInterface extends ethers.utils.Interface {
     "getRelic(uint256)": FunctionFragment;
     "getTalent(uint256)": FunctionFragment;
     "getWeakness(uint256)": FunctionFragment;
-    "setName()": FunctionFragment;
+    "name()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
   };
 
@@ -67,7 +67,7 @@ interface DeevySetPropertiesInterface extends ethers.utils.Interface {
     functionFragment: "getWeakness",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "setName", values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
     values: [BigNumberish]
@@ -88,7 +88,7 @@ interface DeevySetPropertiesInterface extends ethers.utils.Interface {
     functionFragment: "getWeakness",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setName", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
 
   events: {};
@@ -232,13 +232,13 @@ export class DeevySetProperties extends Contract {
       0: string;
     }>;
 
-    setName(
+    name(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
     }>;
 
-    "setName()"(
+    "name()"(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -325,9 +325,9 @@ export class DeevySetProperties extends Contract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  setName(overrides?: CallOverrides): Promise<string>;
+  name(overrides?: CallOverrides): Promise<string>;
 
-  "setName()"(overrides?: CallOverrides): Promise<string>;
+  "name()"(overrides?: CallOverrides): Promise<string>;
 
   tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -406,9 +406,9 @@ export class DeevySetProperties extends Contract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    setName(overrides?: CallOverrides): Promise<string>;
+    name(overrides?: CallOverrides): Promise<string>;
 
-    "setName()"(overrides?: CallOverrides): Promise<string>;
+    "name()"(overrides?: CallOverrides): Promise<string>;
 
     tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -505,9 +505,9 @@ export class DeevySetProperties extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    setName(overrides?: CallOverrides): Promise<BigNumber>;
+    name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "setName()"(overrides?: CallOverrides): Promise<BigNumber>;
+    "name()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(
       tokenId: BigNumberish,
@@ -605,9 +605,9 @@ export class DeevySetProperties extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    setName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "setName()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    "name()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenURI(
       tokenId: BigNumberish,

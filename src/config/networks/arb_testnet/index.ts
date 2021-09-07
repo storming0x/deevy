@@ -28,7 +28,7 @@ const config: ContractAddresses = {
             "npx hardhat verify --network arb_testnet 0x98a63f0ece83dA08808cAB4073e8bda068Fc8dab ",
     },
     deevy: {
-        name: "Deevy2",
+        name: "Deevy",
         address: "0xf3B90efc4FefF775c5B134347e2d2260Ab713461",
         url:
             "https://rinkeby-explorer.arbitrum.io/#//address/0xf3B90efc4FefF775c5B134347e2d2260Ab713461",
