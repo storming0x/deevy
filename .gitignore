@@ -11,5 +11,3 @@ coverage.json
 .coverage_artifacts
 .coverage_contracts
 logs
-
-typechain
