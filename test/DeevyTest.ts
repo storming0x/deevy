@@ -127,21 +127,15 @@ describe("DeevySol setInfo", () => {
                 const deployer = signers.getSignerBy(deployerIndex);
                 const lootClaimSender = signers.getSignerBy(userActions.lootClaim.senderIndex);
                 const warpLootSender = signers.getSignerBy(userActions.warpLootInfo.senderIndex);
-                const contracts = await deployDeevy(
-                    { ethers, deployer},
-                    {},
-                );
+                const contracts = await deployDeevy({ethers, deployer}, {});
 
                 // setup sets
                 try {
                     // Invocation
-                    const result = await contracts.deevy
-                        .connect(deployer)
-                        .getSetInfo(1);
+                    const result = await contracts.deevy.connect(deployer).getSetInfo(1);
 
                     // // Assertions
                     // expectedResult.assertSuccess(result);
-
                 } catch (error) {
                     // expectedResult.assertError(error, true);
                 }
