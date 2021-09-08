@@ -23,7 +23,6 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 interface DeevyMinterInterface extends ethers.utils.Interface {
   functions: {
     "ARBSYS()": FunctionFragment;
-    "c_0x7fb35f47(bytes32)": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
     "claimed(address)": FunctionFragment;
     "deevy()": FunctionFragment;
@@ -36,10 +35,6 @@ interface DeevyMinterInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(functionFragment: "ARBSYS", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "c_0x7fb35f47",
-    values: [BytesLike]
-  ): string;
   encodeFunctionData(
     functionFragment: "claim",
     values: [string, BigNumberish]
@@ -63,10 +58,6 @@ interface DeevyMinterInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "ARBSYS", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "c_0x7fb35f47",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "claimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deevy", data: BytesLike): Result;
@@ -119,20 +110,6 @@ export class DeevyMinter extends Contract {
       overrides?: CallOverrides
     ): Promise<{
       0: string;
-    }>;
-
-    c_0x7fb35f47(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    "c_0x7fb35f47(bytes32)"(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
     }>;
 
     claim(
@@ -238,16 +215,6 @@ export class DeevyMinter extends Contract {
 
   "ARBSYS()"(overrides?: CallOverrides): Promise<string>;
 
-  c_0x7fb35f47(
-    c__0x7fb35f47: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "c_0x7fb35f47(bytes32)"(
-    c__0x7fb35f47: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
   claim(
     account: string,
     deevyId: BigNumberish,
@@ -316,16 +283,6 @@ export class DeevyMinter extends Contract {
     ARBSYS(overrides?: CallOverrides): Promise<string>;
 
     "ARBSYS()"(overrides?: CallOverrides): Promise<string>;
-
-    c_0x7fb35f47(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "c_0x7fb35f47(bytes32)"(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     claim(
       account: string,
@@ -406,16 +363,6 @@ export class DeevyMinter extends Contract {
 
     "ARBSYS()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    c_0x7fb35f47(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "c_0x7fb35f47(bytes32)"(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     claim(
       account: string,
       deevyId: BigNumberish,
@@ -485,16 +432,6 @@ export class DeevyMinter extends Contract {
     ARBSYS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "ARBSYS()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    c_0x7fb35f47(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "c_0x7fb35f47(bytes32)"(
-      c__0x7fb35f47: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     claim(
       account: string,

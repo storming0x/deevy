@@ -19,7 +19,7 @@ export type ContractAddresses = {
     // It should exist ONLY in L2
     deevy: ContractInfo;
     // It should exist ONLY in L2
-    deevySetProperties: ContractInfo;
+    deevySet: ContractInfo;
     // It should exist ONLY in L2
     mirrorLoot: ContractInfo;
 };

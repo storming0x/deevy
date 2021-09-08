@@ -13,7 +13,7 @@ import {HardhatRuntimeEnvironment} from "hardhat/types";
 import {
     DEEVY_NAME,
     DEEVY_MINTER_NAME,
-    DEEVY_SET_PROPERTIES_NAME,
+    DEEVY_SET_NAME,
     MIRROR_LOOT_NAME,
 } from "../src/utils/consts/consts";
 import {Deevy} from "../typechain";
@@ -49,7 +49,7 @@ task("deploy-l2-testnet", "Deploys the platform in the L2 testnet network.")
         };
 
         if (sendTx) {
-            await deployContract(params, DEEVY_SET_PROPERTIES_NAME, sender, []);
+            await deployContract(params, DEEVY_SET_NAME, sender, []);
 
             const mirrorLoot = await deployContract(params, MIRROR_LOOT_NAME, sender, []);
 

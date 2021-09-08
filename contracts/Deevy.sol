@@ -33,6 +33,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         bool exists;
     }
 
+    address public lootMinter;
     address public minter;
     // reference readonly copy of Loot contract in L2
     address public loot;
@@ -112,7 +113,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         override
         nonReentrant
     {
-        require(minter == msg.sender, "SENDER_ISNT_MINTER");
+        require(lootMinter == msg.sender, "SENDER_ISNT_MINTER");
         require(tokenId > 0 && tokenId < 8000, "Token ID invalid");
         _safeMint(account, tokenId);
     }
