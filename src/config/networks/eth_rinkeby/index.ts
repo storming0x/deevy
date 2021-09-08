@@ -14,6 +14,7 @@ const config: ContractAddresses = {
 
     // It SHOULD NOT exist in L1.
     deevyMinter: EMPTY_CONTRACT_INFO,
+    deevyBridgeMinter: EMPTY_CONTRACT_INFO,
     deevy: EMPTY_CONTRACT_INFO,
     deevySet: EMPTY_CONTRACT_INFO,
     mirrorLoot: EMPTY_CONTRACT_INFO,

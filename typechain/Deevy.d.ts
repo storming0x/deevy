@@ -27,6 +27,7 @@ interface DeevyInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
+    "bridgeMinter()": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getChest(uint256)": FunctionFragment;
@@ -51,6 +52,7 @@ interface DeevyInterface extends ethers.utils.Interface {
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setAddresses(address)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setBridgeMinter(address)": FunctionFragment;
     "setMinter(address)": FunctionFragment;
     "setNames(bytes32)": FunctionFragment;
     "sets(uint256)": FunctionFragment;
@@ -79,6 +81,10 @@ interface DeevyInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "baseURI", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "bridgeMinter",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "claim",
     values: [string, BigNumberish]
@@ -163,6 +169,10 @@ interface DeevyInterface extends ethers.utils.Interface {
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setBridgeMinter",
+    values: [string]
+  ): string;
   encodeFunctionData(functionFragment: "setMinter", values: [string]): string;
   encodeFunctionData(functionFragment: "setNames", values: [BytesLike]): string;
   encodeFunctionData(functionFragment: "sets", values: [BigNumberish]): string;
@@ -211,6 +221,10 @@ interface DeevyInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "bridgeMinter",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
@@ -254,6 +268,10 @@ interface DeevyInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBridgeMinter",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setMinter", data: BytesLike): Result;
@@ -373,6 +391,18 @@ export class Deevy extends Contract {
     }>;
 
     "baseURI()"(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    bridgeMinter(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    "bridgeMinter()"(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -710,6 +740,16 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
+    setBridgeMinter(
+      _bridgeMinter: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    "setBridgeMinter(address)"(
+      _bridgeMinter: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
     setMinter(
       _newMinterAddress: string,
       overrides?: Overrides
@@ -921,6 +961,10 @@ export class Deevy extends Contract {
 
   "baseURI()"(overrides?: CallOverrides): Promise<string>;
 
+  bridgeMinter(overrides?: CallOverrides): Promise<string>;
+
+  "bridgeMinter()"(overrides?: CallOverrides): Promise<string>;
+
   claim(
     account: string,
     tokenId: BigNumberish,
@@ -1130,6 +1174,16 @@ export class Deevy extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
+  setBridgeMinter(
+    _bridgeMinter: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  "setBridgeMinter(address)"(
+    _bridgeMinter: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
   setMinter(
     _newMinterAddress: string,
     overrides?: Overrides
@@ -1300,6 +1354,10 @@ export class Deevy extends Contract {
     baseURI(overrides?: CallOverrides): Promise<string>;
 
     "baseURI()"(overrides?: CallOverrides): Promise<string>;
+
+    bridgeMinter(overrides?: CallOverrides): Promise<string>;
+
+    "bridgeMinter()"(overrides?: CallOverrides): Promise<string>;
 
     claim(
       account: string,
@@ -1510,6 +1568,16 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setBridgeMinter(
+      _bridgeMinter: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setBridgeMinter(address)"(
+      _bridgeMinter: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setMinter(
       _newMinterAddress: string,
       overrides?: CallOverrides
@@ -1713,6 +1781,10 @@ export class Deevy extends Contract {
     baseURI(overrides?: CallOverrides): Promise<BigNumber>;
 
     "baseURI()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bridgeMinter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "bridgeMinter()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     claim(
       account: string,
@@ -1935,6 +2007,16 @@ export class Deevy extends Contract {
       overrides?: Overrides
     ): Promise<BigNumber>;
 
+    setBridgeMinter(
+      _bridgeMinter: string,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
+    "setBridgeMinter(address)"(
+      _bridgeMinter: string,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
+
     setMinter(
       _newMinterAddress: string,
       overrides?: Overrides
@@ -2091,6 +2173,10 @@ export class Deevy extends Contract {
     baseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "baseURI()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    bridgeMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "bridgeMinter()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     claim(
       account: string,
@@ -2313,6 +2399,16 @@ export class Deevy extends Contract {
     "setApprovalForAll(address,bool)"(
       operator: string,
       approved: boolean,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    setBridgeMinter(
+      _bridgeMinter: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    "setBridgeMinter(address)"(
+      _bridgeMinter: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 

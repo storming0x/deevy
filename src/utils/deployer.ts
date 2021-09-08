@@ -7,6 +7,7 @@ import {EMPTY_ADDRESS} from "@dogdefidev/utils";
 import {Contract} from "ethers";
 import {
     DEEVY_MINTER_NAME,
+    DEEVY_BRIDGE_MINTER_NAME,
     DEEVY_NAME,
     DEEVY_SET_NAME,
     LOOT_NAME,
@@ -17,6 +18,7 @@ import {
 import {
     Deevy,
     DeevyMinter,
+    DeevyBridgeMinter,
     DeevySet,
     IDeevyMinter,
     IInbox,
@@ -83,7 +85,7 @@ export const deployDeevy = async (
     const deevyDeployer = await utils.ethers.getContractFactory(DEEVY_NAME);
     const deevy = (await deevyDeployer
         .connect(utils.deployer)
-        .deploy(EMPTY_ADDRESS, params.warpLoot.address)) as Deevy;
+        .deploy(EMPTY_ADDRESS, EMPTY_ADDRESS, params.warpLoot.address)) as Deevy;
 
     return {
         deevy,
@@ -93,6 +95,7 @@ export const deployDeevy = async (
 
 export type DeevyMinterDeploy = {
     deevyMinter: DeevyMinter;
+    deevyBridgeMinter: DeevyBridgeMinter;
     deevy: Deevy;
     warpLoot: MirrorLoot;
 };
@@ -107,15 +110,20 @@ export const deployDeevyMinter = async (
         params.warpLoot = contracts.warpLoot;
     }
     const deevyMinterDeployer = await utils.ethers.getContractFactory(DEEVY_MINTER_NAME);
+    const deevyBridgeMinterDeployer = await utils.ethers.getContractFactory(DEEVY_BRIDGE_MINTER_NAME);
     const deevyMinter = (await deevyMinterDeployer
         .connect(utils.deployer)
-        .deploy(params.deevy.address, (params.warpLoot as MirrorLoot).address)) as DeevyMinter;
+        .deploy(params.deevy.address)) as DeevyMinter;
+    const deevyBridgeMinter = (await deevyBridgeMinterDeployer
+        .connect(utils.deployer)
+        .deploy(params.deevy.address, (params.warpLoot as MirrorLoot).address)) as DeevyBridgeMinter;
 
     const setMinterResult = await params.deevy.setMinter(deevyMinter.address);
     await setMinterResult.wait();
     return {
         deevy: params.deevy,
         deevyMinter,
+        deevyBridgeMinter,
         warpLoot: params.warpLoot as MirrorLoot,
     };
 };
