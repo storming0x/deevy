@@ -8,7 +8,7 @@ import {Contract} from "ethers";
 import {
     DEEVY_MINTER_NAME,
     DEEVY_NAME,
-    DEEVY_SET_PROPERTIES_NAME,
+    DEEVY_SET_NAME,
     LOOT_NAME,
     LOOT_PORTAL_NAME,
     MIRROR_LOOT_NAME,
@@ -51,7 +51,7 @@ export const deployDeevySet = async (utils: {
     ethers: any;
     deployer: SignerWithAddress;
 }): Promise<DeevySet> => {
-    const deevySetDeployer = await utils.ethers.getContractFactory(DEEVY_SET_PROPERTIES_NAME);
+    const deevySetDeployer = await utils.ethers.getContractFactory(DEEVY_SET_NAME);
     const deevySet = (await deevySetDeployer.connect(utils.deployer).deploy()) as DeevySet;
     return deevySet;
 };

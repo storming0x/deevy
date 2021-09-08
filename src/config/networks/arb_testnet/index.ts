@@ -11,8 +11,8 @@ const config: ContractAddresses = {
     // deevyMinter: EMPTY_CONTRACT_INFO,
     loot: EMPTY_CONTRACT_INFO,
 
-    deevySetProperties: {
-        name: "DeevySetProperties",
+    deevySet: {
+        name: "DeevySet",
         address: "0x8735EAd068f7fe6C0574830F68214FF8f8220d2A",
         url:
             "https://rinkeby-explorer.arbitrum.io/#//address/0x8735EAd068f7fe6C0574830F68214FF8f8220d2A",
