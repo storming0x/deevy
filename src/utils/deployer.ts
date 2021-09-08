@@ -110,13 +110,18 @@ export const deployDeevyMinter = async (
         params.warpLoot = contracts.warpLoot;
     }
     const deevyMinterDeployer = await utils.ethers.getContractFactory(DEEVY_MINTER_NAME);
-    const deevyBridgeMinterDeployer = await utils.ethers.getContractFactory(DEEVY_BRIDGE_MINTER_NAME);
+    const deevyBridgeMinterDeployer = await utils.ethers.getContractFactory(
+        DEEVY_BRIDGE_MINTER_NAME
+    );
     const deevyMinter = (await deevyMinterDeployer
         .connect(utils.deployer)
         .deploy(params.deevy.address)) as DeevyMinter;
     const deevyBridgeMinter = (await deevyBridgeMinterDeployer
         .connect(utils.deployer)
-        .deploy(params.deevy.address, (params.warpLoot as MirrorLoot).address)) as DeevyBridgeMinter;
+        .deploy(
+            params.deevy.address,
+            (params.warpLoot as MirrorLoot).address
+        )) as DeevyBridgeMinter;
 
     const setMinterResult = await params.deevy.setMinter(deevyMinter.address);
     await setMinterResult.wait();

@@ -39,7 +39,6 @@ task("loot-mint", "Mint a Loot token ID.")
         console.log(`IDs to Mint:       ${lootIds}`);
 
         if (sendTx) {
-
             for (const lootId of lootIds) {
                 const result = await loot.connect(sender).claim(lootId);
                 const receipt = await result.wait();

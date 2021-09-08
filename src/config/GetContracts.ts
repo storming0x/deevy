@@ -4,13 +4,13 @@
 import {Contract} from "ethers";
 import {ContractAddresses} from ".";
 import {
-    DEEVY_NAME, 
-    DEEVY_MINTER_NAME, 
-    DEEVY_BRIDGE_MINTER_NAME, 
-    IBRIDGE_NAME, 
-    INBOX_NAME, 
-    LOOT_NAME, 
-    LOOT_PORTAL_NAME
+    DEEVY_NAME,
+    DEEVY_MINTER_NAME,
+    DEEVY_BRIDGE_MINTER_NAME,
+    IBRIDGE_NAME,
+    INBOX_NAME,
+    LOOT_NAME,
+    LOOT_PORTAL_NAME,
 } from "../utils/consts/consts";
 
 export class GetContracts {
@@ -33,7 +33,10 @@ export class GetContracts {
     }
 
     async getInbox(): Promise<Contract> {
-        return (await this.getContractAt(INBOX_NAME, this.addresses.arbitrumInbox.address)) as Contract;
+        return (await this.getContractAt(
+            INBOX_NAME,
+            this.addresses.arbitrumInbox.address
+        )) as Contract;
     }
 
     async getBridge(): Promise<Contract> {
@@ -55,7 +58,6 @@ export class GetContracts {
             this.addresses.deevyBridgeMinter.address
         )) as Contract;
     }
-
 
     async getDeevy(): Promise<Contract> {
         return (await this.getContractAt(DEEVY_NAME, this.addresses.deevy.address)) as Contract;

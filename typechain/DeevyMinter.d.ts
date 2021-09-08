@@ -22,11 +22,16 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
 interface DeevyMinterInterface extends ethers.utils.Interface {
   functions: {
+    "c_0x7fb35f47(bytes32)": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
     "claimed(address)": FunctionFragment;
     "deevy()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "c_0x7fb35f47",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "claim",
     values: [string, BigNumberish]
@@ -34,6 +39,10 @@ interface DeevyMinterInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "claimed", values: [string]): string;
   encodeFunctionData(functionFragment: "deevy", values?: undefined): string;
 
+  decodeFunctionResult(
+    functionFragment: "c_0x7fb35f47",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "claimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deevy", data: BytesLike): Result;
@@ -55,6 +64,20 @@ export class DeevyMinter extends Contract {
   interface: DeevyMinterInterface;
 
   functions: {
+    c_0x7fb35f47(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
+    "c_0x7fb35f47(bytes32)"(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
     claim(
       account: string,
       deevyId: BigNumberish,
@@ -94,6 +117,16 @@ export class DeevyMinter extends Contract {
     }>;
   };
 
+  c_0x7fb35f47(
+    c__0x7fb35f47: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "c_0x7fb35f47(bytes32)"(
+    c__0x7fb35f47: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
   claim(
     account: string,
     deevyId: BigNumberish,
@@ -115,6 +148,16 @@ export class DeevyMinter extends Contract {
   "deevy()"(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
+    c_0x7fb35f47(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "c_0x7fb35f47(bytes32)"(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     claim(
       account: string,
       deevyId: BigNumberish,
@@ -142,6 +185,16 @@ export class DeevyMinter extends Contract {
   filters: {};
 
   estimateGas: {
+    c_0x7fb35f47(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "c_0x7fb35f47(bytes32)"(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     claim(
       account: string,
       deevyId: BigNumberish,
@@ -167,6 +220,16 @@ export class DeevyMinter extends Contract {
   };
 
   populateTransaction: {
+    c_0x7fb35f47(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "c_0x7fb35f47(bytes32)"(
+      c__0x7fb35f47: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     claim(
       account: string,
       deevyId: BigNumberish,
