@@ -20,7 +20,7 @@ contract DeevyMinter {
         @notice Cannot mint original Loot ids
     */
     function claim(address account, uint256 deevyId) external {
-        require(deevyId > 8100 && deevyId < 11111, "Token ID invalid");
+        require(deevyId > 8889, "!TOKEN_ID");
         require(!claimed[account], "ALREADY_CLAIMED");
         claimed[account] = true;
 
