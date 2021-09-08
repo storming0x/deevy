@@ -126,7 +126,7 @@ describe("DeevySol setInfo", () => {
                 const {deevy} = await deployDeevy({ethers, deployer}, {});
 
                 const contractSets: string[] = [];
-
+                
                 // setup sets
                 // eslint-disable-next-line no-plusplus
                 for (let i = 0; i < sets.length; i++) {
