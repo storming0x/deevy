@@ -119,7 +119,7 @@ describe("DeevySol setInfo", () => {
             expectedResult: ExpectedInfo
         ) => {
             // eslint-disable-next-line consistent-return
-            it(toTitle("getSetInfo", expectedResult), async (done) => {
+            it(toTitle("getSetInfo", expectedResult), async () => {
                 // Setup
                 const {sets, data} = setup;
                 const deployer = signers.getSignerBy(deployerIndex);
@@ -166,8 +166,7 @@ describe("DeevySol setInfo", () => {
                         );
                     }
                 }
-                done();
-            }).timeout(10000);
+            });
         }
     );
 });
