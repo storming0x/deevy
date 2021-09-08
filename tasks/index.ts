@@ -7,3 +7,4 @@ export * from "./loot";
 export * from "./loot-portal";
 export * from "./set-l1-target";
 export * from "./set-l2-target";
+export * from "./tx-l2-info";

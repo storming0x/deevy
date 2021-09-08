@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 import {Signers} from "@dogdefidev/utils";
-import {BigNumber} from "@ethersproject/bignumber";
 import {task} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../../src/config";
@@ -33,7 +32,6 @@ task("print-info", "Print Deevy minter info.").setAction(
         console.log(`Arbitrum Sys:      ${arbSys}`);
         console.log(`Deevy (L2):        ${deevy}`);
         console.log(`Gas Price (L2):    ${gasPrice.toString()}`);
-        console.log(`Gas Price + 100% (L2):    ${gasPrice.mul(BigNumber.from("2")).toString()}`);
     }
 );
 

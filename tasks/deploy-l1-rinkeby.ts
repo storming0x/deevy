@@ -15,20 +15,23 @@ import {LOOT_NAME, LOOT_PORTAL_NAME} from "../src/utils/consts/consts";
 
 /**
     Example: 
-    yarn deploy-l1-rinkeby:eth_rinkeby --sender-index 0 --send-tx false
+    yarn deploy-l1-rinkeby:eth_rinkeby --sender-index 0 --l2-target 0x0000000000000000000000000000000000000000 --send-tx false
  */
 task("deploy-l1-rinkeby", "Deploys the platform in the Rinkeby network.")
     .addParam("senderIndex", "Defines the sender account index (0-based) for the tx.", 0, types.int)
+    .addParam("l2Target", "Defines the L2 target address.", EMPTY_ADDRESS, types.string)
     .addParam("sendTx", "Defines whether it sends or not the tx.", false, types.boolean)
     .setAction(async (taskArgs, env: HardhatRuntimeEnvironment) => {
-        const {senderIndex, sendTx} = taskArgs;
+        const {senderIndex, l2Target, sendTx} = taskArgs;
         const networkConfig = getConfig(env.network.name);
         const explorer = getNetworkExplorer(env.network.name as NETWORKS, new Map());
         const signers = new Signers(await env.ethers.getSigners());
         const sender = signers.getSigner(senderIndex);
 
         console.log(`Using network:     ${env.network.name}`);
-        console.log(`Sender account:  ${sender.address}`);
+        console.log(`Sender account:    ${sender.address}`);
+        console.log(`L2 Target:         ${l2Target}`);
+        console.log(`Inbox (Arbitrum):  ${networkConfig.arbitrumInbox.address}`);
 
         const contracts = new Array<ContractInfo>();
         const params = {
@@ -43,7 +46,7 @@ task("deploy-l1-rinkeby", "Deploys the platform in the Rinkeby network.")
 
             await deployContract(params, LOOT_PORTAL_NAME, sender, [
                 loot.address,
-                EMPTY_ADDRESS, // address l2TargetAddress,
+                l2Target, // address l2TargetAddress,
                 networkConfig.arbitrumInbox.address, // Arbitrum Inbox address
             ]);
 

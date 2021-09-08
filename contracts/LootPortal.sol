@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity 0.6.12;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -39,7 +38,8 @@ contract LootPortal is Ownable {
         uint256 maxSubmissionCost,
         uint256 maxGas,
         uint256 gasPriceBid
-    ) external returns (uint256) {
+    ) external payable returns (uint256) {
+        require(msg.value > 0, "MSG_VALUE_IS_REQUIRED");
         require(
             loot.ownerOf(lootId) == msg.sender,
             "SENDER_ISNT_LOOT_ID_OWNER"
@@ -57,7 +57,7 @@ contract LootPortal is Ownable {
         claimed[lootId] = true;
 
         uint256 ticketID =
-            inbox.createRetryableTicket(
+            inbox.createRetryableTicket{value: msg.value}(
                 l2Target,
                 0,
                 maxSubmissionCost,
