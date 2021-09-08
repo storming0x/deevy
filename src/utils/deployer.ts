@@ -50,9 +50,11 @@ export const deployMockInbox = async (utils: {
 export const deployDeevySet = async (utils: {
     ethers: any;
     deployer: SignerWithAddress;
+    name: string;
 }): Promise<DeevySet> => {
+    const {name} = utils;
     const deevySetDeployer = await utils.ethers.getContractFactory(DEEVY_SET_NAME);
-    const deevySet = (await deevySetDeployer.connect(utils.deployer).deploy()) as DeevySet;
+    const deevySet = (await deevySetDeployer.connect(utils.deployer).deploy(name)) as DeevySet;
     return deevySet;
 };
 

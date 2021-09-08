@@ -8,6 +8,11 @@ import {IDeevySet} from "./IDeevySet.sol";
 
 contract DeevySet is IDeevySet {
     string public constant SET_NAME = "ELDRITCH LEGENDS";
+    string public setName;
+
+    constructor(string memory _name) public {
+        setName = _name;
+    }
 
     // weapons
     string[] private armament = [
@@ -372,7 +377,7 @@ contract DeevySet is IDeevySet {
     }
 
     function name() public view override returns (string memory) {
-        return SET_NAME;
+        return setName;
     }
 
     function symbol() public view override returns (string memory) {

@@ -22,10 +22,6 @@ import events from "../src/utils/events";
 chai.use(solidity);
 const {withData} = leche;
 
-type SetInfo = {
-    end: number;
-};
-
 describe("DeevySol setInfo", () => {
     let signers: Signers;
 
@@ -35,18 +31,72 @@ describe("DeevySol setInfo", () => {
 
     withData(
         {
-            _1_token_id_first_set: [
+            _1_token_id_one_set: [
                 toAccountIndex(0),
                 {
-                    sets: [
-                        {
-                            end: 8889,
-                        },
-                    ],
+                    sets: [8889],
                     data: [
                         {
                             id: 2300,
-                            expectedSet: 0,
+                            expectedSetIndex: 0,
+                        },
+                        {
+                            id: 0,
+                            expectedSetIndex: 0,
+                        },
+                        {
+                            id: 8888,
+                            expectedSetIndex: 0,
+                        },
+                        {
+                            id: 8889,
+                            expectedSetIndex: 0,
+                        },
+                        {
+                            id: 9100,
+                            expectedSetIndex: -1,
+                        },
+                    ],
+                }, // User Actions
+                {}, // Expected
+                toExpect(), // Expected result
+            ],
+            _2_token_id_several_set: [
+                toAccountIndex(0),
+                {
+                    sets: [8889, 10000, 12001],
+                    data: [
+                        {
+                            id: 8888,
+                            expectedSetIndex: 0,
+                        },
+                        {
+                            id: 8889,
+                            expectedSetIndex: 0,
+                        },
+                        {
+                            id: 9100,
+                            expectedSetIndex: 1,
+                        },
+                        {
+                            id: 13000,
+                            expectedSetIndex: -1,
+                        },
+                        {
+                            id: 12001,
+                            expectedSetIndex: 2,
+                        },
+                        {
+                            id: 10000,
+                            expectedSetIndex: 1,
+                        },
+                        {
+                            id: 9999,
+                            expectedSetIndex: 1,
+                        },
+                        {
+                            id: 12000,
+                            expectedSetIndex: 2,
                         },
                     ],
                 }, // User Actions
@@ -57,7 +107,7 @@ describe("DeevySol setInfo", () => {
         (
             deployerIndex: AccountIndex,
             setup: {
-                sets: [SetInfo];
+                sets: number[];
                 data: [
                     {
                         id: number;
@@ -69,7 +119,7 @@ describe("DeevySol setInfo", () => {
             expectedResult: ExpectedInfo
         ) => {
             // eslint-disable-next-line consistent-return
-            it(toTitle("getSetInfo", expectedResult), async () => {
+            it(toTitle("getSetInfo", expectedResult), async (done) => {
                 // Setup
                 const {sets, data} = setup;
                 const deployer = signers.getSignerBy(deployerIndex);
@@ -80,10 +130,13 @@ describe("DeevySol setInfo", () => {
                 // setup sets
                 // eslint-disable-next-line no-plusplus
                 for (let i = 0; i < sets.length; i++) {
-                    const {end} = sets[i];
-                    const deevySet = await deployDeevySet({ethers, deployer});
-                    await deevy.connect(deployer).addSet(deevySet.address, end);
-                    return deevySet.address;
+                    const deevySet = await deployDeevySet({
+                        ethers,
+                        deployer,
+                        name: sets[i].toString(),
+                    });
+                    contractSets.push(deevySet.address);
+                    await deevy.connect(deployer).addSet(deevySet.address, sets[i]);
                 }
 
                 assert.equal(
@@ -91,23 +144,30 @@ describe("DeevySol setInfo", () => {
                     contractSets.length,
                     "expected length of sets to be equal"
                 );
-
                 console.log("contractSets", contractSets);
                 // Invocation
                 // eslint-disable-next-line no-plusplus
                 for (let i = 0; i < data.length; i++) {
                     const {id, expectedSetIndex} = data[i];
                     const result = await deevy.connect(deployer).getSetInfo(id);
-                    console.log("result", result);
-                    console.log("contractSets", contractSets);
-                    // Assertions
-                    assert.equal(
-                        result.set.toLowerCase(),
-                        contractSets[expectedSetIndex].toLowerCase(),
-                        `Expected result ${result.set} to be equal ${contractSets[expectedSetIndex]}`
-                    );
+
+                    if (expectedSetIndex < 0) {
+                        // Assertions
+                        assert.isFalse(
+                            result.exists,
+                            `Expected result ${result.set} to not exist}`
+                        );
+                    } else {
+                        // Assertions
+                        assert.equal(
+                            result.set.toLowerCase(),
+                            contractSets[expectedSetIndex].toLowerCase(),
+                            `Expected tokenId ${id} result ${result.set} to be equal ${contractSets[expectedSetIndex]}`
+                        );
+                    }
                 }
-            });
+                done();
+            }).timeout(10000);
         }
     );
 });
