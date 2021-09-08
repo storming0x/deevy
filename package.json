@@ -11,6 +11,8 @@
     "compile": "npx hardhat compile",
     "typechain": "hardhat typechain",
 
+    "tx-l2-info": "npx hardhat tx-l2-info",
+
     "set-l2-target:eth_rinkeby": "npx hardhat set-l2-target --network eth_rinkeby",
     "deploy-l1-rinkeby:eth_rinkeby": "npx hardhat deploy-l1-rinkeby --network eth_rinkeby",
     "loot-mint:eth_rinkeby": "npx hardhat loot-mint --network eth_rinkeby",
@@ -51,7 +53,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "ethereum-waffle": "^3.2.0",
-    "ethers": "^5.0.21",
+    "ethers": "^5.1.2",
     "hardhat": "^2.0.11",
     "hardhat-contract-sizer": "^2.0.3",
     "hardhat-gas-reporter": "^1.0.4",
@@ -69,7 +71,7 @@
     "typescript": "^4.1.2"
   },
   "dependencies": {
-    "@dogdefidev/utils": "^0.1.8",
+    "@dogdefidev/utils": "^0.2.1",
     "@types/lodash": "^4.14.165",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",

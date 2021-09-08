@@ -42,6 +42,7 @@ describe("LootPortalWarpLootTest", () => {
                     warpLootInfo: {
                         senderIndex: toAccountIndex(1),
                         lootId: 10,
+                        msgValue: Amount.fromString("0.1"),
                         maxSubmissionCost: Amount.from(100),
                         maxGas: Amount.from(100000),
                         gasPriceBid: Amount.from(100),
@@ -61,6 +62,7 @@ describe("LootPortalWarpLootTest", () => {
                     warpLootInfo: {
                         senderIndex: toAccountIndex(1),
                         lootId: 12,
+                        msgValue: Amount.fromString("0.1"),
                         maxSubmissionCost: Amount.from(100),
                         maxGas: Amount.from(100000),
                         gasPriceBid: Amount.from(100),
@@ -79,6 +81,7 @@ describe("LootPortalWarpLootTest", () => {
                     previousWarpLootInfo: {
                         senderIndex: toAccountIndex(2),
                         lootId: 12,
+                        msgValue: Amount.fromString("0.1"),
                         maxSubmissionCost: Amount.from(100),
                         maxGas: Amount.from(100000),
                         gasPriceBid: Amount.from(100),
@@ -86,6 +89,7 @@ describe("LootPortalWarpLootTest", () => {
                     warpLootInfo: {
                         senderIndex: toAccountIndex(2),
                         lootId: 12,
+                        msgValue: Amount.fromString("0.1"),
                         maxSubmissionCost: Amount.from(100),
                         maxGas: Amount.from(100000),
                         gasPriceBid: Amount.from(100),
@@ -93,6 +97,26 @@ describe("LootPortalWarpLootTest", () => {
                 }, // User Actions
                 {}, // Expected
                 toExpect("ALREADY_CLAIMED"), // Expected result
+            ],
+            _4_no_msg_value: [
+                toAccountIndex(0),
+                {
+                    lootClaim: {
+                        senderIndex: toAccountIndex(1),
+                        lootId: 10,
+                    },
+                    previousWarpLootInfo: undefined,
+                    warpLootInfo: {
+                        senderIndex: toAccountIndex(1),
+                        lootId: 10,
+                        msgValue: Amount.from(0),
+                        maxSubmissionCost: Amount.from(100),
+                        maxGas: Amount.from(100000),
+                        gasPriceBid: Amount.from(100),
+                    },
+                }, // User Actions
+                {}, // Expected
+                toExpect("MSG_VALUE_IS_REQUIRED"), // Expected result
             ],
         },
         (
@@ -106,6 +130,7 @@ describe("LootPortalWarpLootTest", () => {
                     | {
                           senderIndex: AccountIndex;
                           lootId: number;
+                          msgValue: Amount;
                           maxSubmissionCost: Amount;
                           maxGas: Amount;
                           gasPriceBid: Amount;
@@ -114,6 +139,7 @@ describe("LootPortalWarpLootTest", () => {
                 warpLootInfo: {
                     senderIndex: AccountIndex;
                     lootId: number;
+                    msgValue: Amount;
                     maxSubmissionCost: Amount;
                     maxGas: Amount;
                     gasPriceBid: Amount;
@@ -147,7 +173,10 @@ describe("LootPortalWarpLootTest", () => {
                                 .toDecimals(18)
                                 .toFixed(),
                             userActions.previousWarpLootInfo.maxGas.toDecimals(18).toFixed(),
-                            userActions.previousWarpLootInfo.gasPriceBid.toDecimals(18).toFixed()
+                            userActions.previousWarpLootInfo.gasPriceBid.toDecimals(18).toFixed(),
+                            {
+                                value: userActions.previousWarpLootInfo.msgValue.toDecimals(18).toFixed(),
+                            }
                         );
                 }
 
@@ -159,7 +188,10 @@ describe("LootPortalWarpLootTest", () => {
                             userActions.warpLootInfo.lootId,
                             userActions.warpLootInfo.maxSubmissionCost.toDecimals(18).toFixed(),
                             userActions.warpLootInfo.maxGas.toDecimals(18).toFixed(),
-                            userActions.warpLootInfo.gasPriceBid.toDecimals(18).toFixed()
+                            userActions.warpLootInfo.gasPriceBid.toDecimals(18).toFixed(),
+                            {
+                                value: userActions.warpLootInfo.msgValue.toDecimals(18).toString(),
+                            }
                         );
 
                     // Assertions

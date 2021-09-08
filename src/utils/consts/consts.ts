@@ -1,6 +1,7 @@
 export const DEEVY_NAME = "Deevy";
 export const DEEVY_MINTER_NAME = "DeevyMinter";
-export const INBOX_NAME = "Inbox";
+export const INBOX_NAME = "IInbox";
+export const IBRIDGE_NAME = "IBridge";
 export const MIRROR_LOOT_NAME = "MirrorLoot";
 export const DEEVY_SET_NAME = "DeevySet";
 export const LOOT_PORTAL_NAME = "LootPortal";

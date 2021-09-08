@@ -9,8 +9,7 @@ import {DeevyMinter} from "../typechain";
 
 /**
     Example: 
-    yarn set-l1-target:eth_rinkeby --l1-target 0x123...123 --send-tx false
-    yarn set-l1-target:eth_mainnet --l1-target 0x123...123 --send-tx false
+    yarn set-l1-target:arb_testnet --l1-target 0x123...123 --send-tx false
  */
 task("set-l1-target", "Set the L1 target address.")
     .addParam("senderIndex", "Defines the sender account index (0-based) for the tx.", 0, types.int)
