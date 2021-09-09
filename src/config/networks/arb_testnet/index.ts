@@ -43,6 +43,7 @@ const config: ContractAddresses = {
         verifyCli:
             "npx hardhat verify --network arb_testnet 0xA44b7Ec2b425501117dADFF2a6D65aa4D994B532 0xf3B90efc4FefF775c5B134347e2d2260Ab713461 0xa8A1b00b51C4D72D994793053770261F0eA5ec7C",
     },
+    deevyBridgeMinter: EMPTY_CONTRACT_INFO,
 };
 
 export default config;

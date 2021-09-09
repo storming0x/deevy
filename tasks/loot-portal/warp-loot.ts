@@ -2,8 +2,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {getNetworkExplorer, NETWORKS, Signers} from "@dogdefidev/utils";
 import {task, types} from "hardhat/config";
-import { Bridge } from 'arb-ts';
-import { ethers } from 'ethers';
+import {Bridge} from "arb-ts";
+import {ethers} from "ethers";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../../src/config";
 import {GetContracts} from "../../src/config/GetContracts";
@@ -74,9 +74,9 @@ task("warp-loot", "Warp a loot.")
             const walletPrivateKey = process.env.ACCOUNT_0_PK as string;
             const providerApiKey = process.env.PROVIDER_API_KEY as string;
             const L1RPC = `https://rinkeby.infura.io/v3/${providerApiKey}`;
-            const L2RPC = 'https://rinkeby.arbitrum.io/rpc';
+            const L2RPC = "https://rinkeby.arbitrum.io/rpc";
 
-            const signer = new ethers.Wallet(walletPrivateKey)
+            const signer = new ethers.Wallet(walletPrivateKey);
 
             const l1Provider = new env.ethers.providers.JsonRpcProvider(L1RPC);
             const l1Signer = signer.connect(l1Provider);
@@ -89,11 +89,9 @@ task("warp-loot", "Warp a loot.")
              * The L1 side is confirmed; now we listen and wait for the for the Sequencer to include the L2 side; we can do this by computing the expected txn hash of the L2 transaction.
              * To compute this txn hash, we need our message's "sequence number", a unique identifier. We'll fetch from the event logs with a helper method
              */
-            const inboxSeqNums = await bridge.getInboxSeqNumFromContractTransaction(
-                receipt
-            );
+            const inboxSeqNums = await bridge.getInboxSeqNumFromContractTransaction(receipt);
             if (inboxSeqNums === undefined) {
-                throw new Error('Inbox sequence number is undefined.');
+                throw new Error("Inbox sequence number is undefined.");
             }
             /**
              * In principle, a single txn can trigger many messages (each with its own sequencer number); in this case, we know our txn triggered only one. Let's get it, and use it to calculate our expected transaction hash.
@@ -112,9 +110,9 @@ task("warp-loot", "Warp a loot.")
              */
             console.log(
                 `waiting for L2 tx 🕐... (should take < 10 minutes, current time: ${new Date().toTimeString()}`
-            )
+            );
 
-            const retryRec = await l2Provider.waitForTransaction(retryableTxnHash)
+            const retryRec = await l2Provider.waitForTransaction(retryableTxnHash);
 
             console.log(`L2 retryable txn executed 🥳 ${retryRec.transactionHash}`);
         } else {

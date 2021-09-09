@@ -51,7 +51,8 @@ contract DeevySet is IDeevySet {
         "Survival Knife",
         "Switchblade",
         "Sword of Glory",
-        "Tommy Gun"
+        "Tommy Gun",
+        "Tokyo Katana"
     ];
 
     string[] private body = [
@@ -73,13 +74,14 @@ contract DeevySet is IDeevySet {
         "Crystal Pendulum",
         "Elder Sign Amulet",
         "Flashlight",
+        "Fishing Net",
         "Gristly Totem",
         "Hallowed Mirror",
         "Holy Rosary",
         "Lantern",
         "Lockpicks",
         "Lucky Penny",
-        "Necronomicon Translation",
+        "Necronomicon AC Translation",
         "Rabbit's Foot",
         "Ritual Candles",
         "Skeleton Key"
@@ -148,6 +150,7 @@ contract DeevySet is IDeevySet {
         "Self-Destructive",
         "Siren Call",
         "Terrible Secret",
+        "Visions of Tentacles",
         "Wracked by Nightmares"
     ];
 
@@ -199,11 +202,12 @@ contract DeevySet is IDeevySet {
         "of the Fox",
         "of Detection",
         "of Reflection",
-        "of the Twins"
+        "of Yearning"
     ];
 
     string[] private namePrefixes = [
         "Agony",
+        "Ancient",
         "Apocalypse",
         "Armageddon",
         "Beast",
@@ -253,6 +257,7 @@ contract DeevySet is IDeevySet {
         "Pandemonium",
         "Phoenix",
         "Plague",
+        "Pool",
         "Rage",
         "Rapture",
         "Rune",
@@ -292,7 +297,8 @@ contract DeevySet is IDeevySet {
         "Peak",
         "Form",
         "Sun",
-        "Moon"
+        "Moon",
+        "Blue"
     ];
 
     function random(string memory input) internal pure returns (uint256) {

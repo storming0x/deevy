@@ -175,7 +175,9 @@ describe("LootPortalWarpLootTest", () => {
                             userActions.previousWarpLootInfo.maxGas.toDecimals(18).toFixed(),
                             userActions.previousWarpLootInfo.gasPriceBid.toDecimals(18).toFixed(),
                             {
-                                value: userActions.previousWarpLootInfo.msgValue.toDecimals(18).toFixed(),
+                                value: userActions.previousWarpLootInfo.msgValue
+                                    .toDecimals(18)
+                                    .toFixed(),
                             }
                         );
                 }

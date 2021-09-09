@@ -17,6 +17,8 @@ export type ContractAddresses = {
     // It should exist ONLY in L2
     deevyMinter: ContractInfo;
     // It should exist ONLY in L2
+    deevyBridgeMinter: ContractInfo;
+    // It should exist ONLY in L2
     deevy: ContractInfo;
     // It should exist ONLY in L2
     deevySet: ContractInfo;

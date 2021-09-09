@@ -33,7 +33,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         bool exists;
     }
 
-    address public lootMinter;
+    address public bridgeMinter;
     address public minter;
     // reference readonly copy of Loot contract in L2
     address public loot;
@@ -57,17 +57,22 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         uint256 _end
     );
 
-    constructor(address _minterAddress, address _warpedLoot)
+    constructor(address _minterAddress, address _bridgeMinter, address _warpedLoot)
         public
         ERC721("Deevy", "DEEVY")
         Ownable()
     {
         minter = _minterAddress;
+        bridgeMinter = _bridgeMinter;
         loot = _warpedLoot;
     }
 
     function setMinter(address _newMinterAddress) external onlyOwner {
         minter = _newMinterAddress;
+    }
+
+    function setBridgeMinter(address _bridgeMinter) external onlyOwner {
+        bridgeMinter = _bridgeMinter;
     }
 
     function addSet(address _set, uint256 _end) external onlyOwner {
@@ -113,8 +118,8 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         override
         nonReentrant
     {
-        require(lootMinter == msg.sender, "SENDER_ISNT_MINTER");
-        require(tokenId > 0 && tokenId < 8000, "Token ID invalid");
+        require(bridgeMinter == msg.sender, "!BRIDGE_MINTER");
+        require(tokenId > 0 && tokenId < 8000, "!TOKEN_ID");
         _safeMint(account, tokenId);
     }
 
@@ -125,7 +130,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
         onlyOwner
     {
-        require(tokenId >= 8000 && tokenId < 8889, "Token ID invalid");
+        require(tokenId >= 8000 && tokenId < 8900, "!TOKEN_ID");
         _safeMint(owner(), tokenId);
     }
 
@@ -134,8 +139,8 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         override
         nonReentrant
     {
-        require(minter == msg.sender, "SENDER_ISNT_MINTER");
-        require(tokenId >= 8889, "Token ID invalid");
+        require(minter == msg.sender, "!MINTER");
+        require(tokenId > 8889, "!TOKEN_ID");
         require(tokenId <= setsMax[setsMax.length - 1]);
         _safeMint(account, tokenId);
     }

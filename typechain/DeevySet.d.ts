@@ -22,6 +22,7 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 interface DeevySetInterface extends ethers.utils.Interface {
   functions: {
     "SET_NAME()": FunctionFragment;
+    "c_0xf8c3c6bc(bytes32)": FunctionFragment;
     "getAlly(uint256)": FunctionFragment;
     "getArmament(uint256)": FunctionFragment;
     "getBody(uint256)": FunctionFragment;
@@ -37,6 +38,10 @@ interface DeevySetInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(functionFragment: "SET_NAME", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "c_0xf8c3c6bc",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "getAlly",
     values: [BigNumberish]
@@ -78,6 +83,10 @@ interface DeevySetInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "SET_NAME", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "c_0xf8c3c6bc",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getAlly", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getArmament",
@@ -124,6 +133,20 @@ export class DeevySet extends Contract {
       overrides?: CallOverrides
     ): Promise<{
       0: string;
+    }>;
+
+    c_0xf8c3c6bc(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
+    }>;
+
+    "c_0xf8c3c6bc(bytes32)"(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<{
+      0: void;
     }>;
 
     getAlly(
@@ -293,6 +316,16 @@ export class DeevySet extends Contract {
 
   "SET_NAME()"(overrides?: CallOverrides): Promise<string>;
 
+  c_0xf8c3c6bc(
+    c__0xf8c3c6bc: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "c_0xf8c3c6bc(bytes32)"(
+    c__0xf8c3c6bc: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
   getAlly(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   "getAlly(uint256)"(
@@ -378,6 +411,16 @@ export class DeevySet extends Contract {
     SET_NAME(overrides?: CallOverrides): Promise<string>;
 
     "SET_NAME()"(overrides?: CallOverrides): Promise<string>;
+
+    c_0xf8c3c6bc(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "c_0xf8c3c6bc(bytes32)"(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getAlly(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -470,6 +513,16 @@ export class DeevySet extends Contract {
     SET_NAME(overrides?: CallOverrides): Promise<BigNumber>;
 
     "SET_NAME()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    c_0xf8c3c6bc(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "c_0xf8c3c6bc(bytes32)"(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getAlly(
       tokenId: BigNumberish,
@@ -578,6 +631,16 @@ export class DeevySet extends Contract {
     SET_NAME(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "SET_NAME()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    c_0xf8c3c6bc(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "c_0xf8c3c6bc(bytes32)"(
+      c__0xf8c3c6bc: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getAlly(
       tokenId: BigNumberish,
