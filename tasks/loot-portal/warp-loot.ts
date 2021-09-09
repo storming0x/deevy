@@ -103,13 +103,14 @@ task("warp-loot", "Warp a loot.")
                 ourMessagesSequenceNum
             );
             console.log(`Retryable Tx Hash: ${retryableTxnHash.toString()}`);
-            console.log(`https://rinkeby-explorer.arbitrum.io/tx/${retryableTxnHash.toString()}`);
 
+            console.log(`To review TX hash statuses, execute (in a new CLI):`);
+            console.log(`\tyarn tx-l2-hashes --ticket-id ${ourMessagesSequenceNum.toNumber()}`);
             /**
              * Now we wait for the Sequencer to include it in its off chain inbox.
              */
             console.log(
-                `waiting for L2 tx 🕐... (should take < 10 minutes, current time: ${new Date().toTimeString()}`
+                `Waiting for L2 tx 🕐... (should take < 10 minutes, current time: ${new Date().toTimeString()}`
             );
 
             const retryRec = await l2Provider.waitForTransaction(retryableTxnHash);

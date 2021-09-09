@@ -1,9 +1,11 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 import {task} from "hardhat/config";
 import {Bridge} from "arb-ts";
 import {ethers} from "ethers";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
+import {wait} from "../src/utils/arbitrum/arb-shared-dependencies";
 
 /**
     Example: 
@@ -30,22 +32,37 @@ task("tx-l2-hashes", "Print L2 TX info.")
 
         const bridge = await Bridge.init(l1Signer, l2Signer);
 
-        const autoRedeemHash = await bridge.calculateRetryableAutoRedeemTxnHash(ticketIdBigNumber);
-        const autoRedeemRec = await l2Provider.getTransactionReceipt(autoRedeemHash);
-        console.log(`AutoRedeem https://rinkeby-explorer.arbitrum.io/tx/${autoRedeemHash}`);
-        console.log(autoRedeemRec);
+        let isReceiptPending = true;
+        while (isReceiptPending) {
+            const autoRedeemHash = await bridge.calculateRetryableAutoRedeemTxnHash(
+                ticketIdBigNumber
+            );
+            const autoRedeemRec = await l2Provider.getTransactionReceipt(autoRedeemHash);
+            console.log(`AutoRedeem https://rinkeby-explorer.arbitrum.io/tx/${autoRedeemHash}`);
+            console.log(autoRedeemRec);
 
-        const redeemTxnHash = await bridge.calculateL2RetryableTransactionHash(ticketIdBigNumber);
-        const redeemTxnRec = await l2Provider.getTransactionReceipt(redeemTxnHash);
-        console.log(`RedeemTxn https://rinkeby-explorer.arbitrum.io/tx/${redeemTxnHash}`);
-        console.log(redeemTxnRec);
+            const redeemTxnHash = await bridge.calculateL2RetryableTransactionHash(
+                ticketIdBigNumber
+            );
+            const redeemTxnRec = await l2Provider.getTransactionReceipt(redeemTxnHash);
+            console.log(`RedeemTxn https://rinkeby-explorer.arbitrum.io/tx/${redeemTxnHash}`);
+            console.log(redeemTxnRec);
 
-        const retryableTicketHash = await bridge.calculateL2TransactionHash(ticketIdBigNumber);
-        const retryableTicketRec = await l2Provider.getTransactionReceipt(retryableTicketHash);
-        console.log(
-            `RetryableTicket https://rinkeby-explorer.arbitrum.io/tx/${retryableTicketHash}`
-        );
-        console.log(retryableTicketRec);
+            const retryableTicketHash = await bridge.calculateL2TransactionHash(ticketIdBigNumber);
+            const retryableTicketRec = await l2Provider.getTransactionReceipt(retryableTicketHash);
+            console.log(
+                `RetryableTicket https://rinkeby-explorer.arbitrum.io/tx/${retryableTicketHash}`
+            );
+            console.log(retryableTicketRec);
+            isReceiptPending =
+                autoRedeemRec === null && redeemTxnRec === null && retryableTicketRec === null;
+
+            console.log("Waiting some seconds...");
+            console.log(
+                "More info about TXs: https://developer.offchainlabs.com/docs/l1_l2_messages#transaction-types--terminology"
+            );
+            await wait(4000);
+        }
     });
 
 module.exports = {};

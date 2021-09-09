@@ -12,43 +12,43 @@ const config: ContractAddresses = {
     loot: EMPTY_CONTRACT_INFO,
     deevySet: {
         name: "DeevySet",
-        address: "0x8Eb3bB82e36DF88674bcf04cC2877b663558F7e7",
+        address: "0xFdDd003C459b792d0caCBF18dE42b025Ce62de02",
         url:
-            "https://rinkeby-explorer.arbitrum.io/#//address/0x8Eb3bB82e36DF88674bcf04cC2877b663558F7e7",
+            "https://rinkeby-explorer.arbitrum.io/#//address/0xFdDd003C459b792d0caCBF18dE42b025Ce62de02",
         verifyCli:
-            "npx hardhat verify --network arb_testnet 0x8Eb3bB82e36DF88674bcf04cC2877b663558F7e7 Eldritch Legends black #8EB12A",
+            "npx hardhat verify --network arb_testnet 0xFdDd003C459b792d0caCBF18dE42b025Ce62de02 Eldritch Legends black #8EB12A",
     },
     mirrorLoot: {
         name: "MirrorLoot",
-        address: "0x9Fb7FAb90cE31BE8ebB818dCc9bEf703E81653DC",
+        address: "0x92d86a84970854921E063895bB6b718839CEC832",
         url:
-            "https://rinkeby-explorer.arbitrum.io/#//address/0x9Fb7FAb90cE31BE8ebB818dCc9bEf703E81653DC",
+            "https://rinkeby-explorer.arbitrum.io/#//address/0x92d86a84970854921E063895bB6b718839CEC832",
         verifyCli:
-            "npx hardhat verify --network arb_testnet 0x9Fb7FAb90cE31BE8ebB818dCc9bEf703E81653DC ",
+            "npx hardhat verify --network arb_testnet 0x92d86a84970854921E063895bB6b718839CEC832 ",
     },
     deevy: {
         name: "Deevy",
-        address: "0xFB9dd74F6182D4800716c60f4dC39355E6cD35Fe",
+        address: "0x4353Fae23B9735a97500E5507FBb7Fd53b12114F",
         url:
-            "https://rinkeby-explorer.arbitrum.io/#//address/0xFB9dd74F6182D4800716c60f4dC39355E6cD35Fe",
+            "https://rinkeby-explorer.arbitrum.io/#//address/0x4353Fae23B9735a97500E5507FBb7Fd53b12114F",
         verifyCli:
-            "npx hardhat verify --network arb_testnet 0xFB9dd74F6182D4800716c60f4dC39355E6cD35Fe 0x0000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000 0x9Fb7FAb90cE31BE8ebB818dCc9bEf703E81653DC",
+            "npx hardhat verify --network arb_testnet 0x4353Fae23B9735a97500E5507FBb7Fd53b12114F 0x0000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000 0x92d86a84970854921E063895bB6b718839CEC832",
     },
     deevyBridgeMinter: {
         name: "DeevyBridgeMinter",
-        address: "0x037FDC3Eea92a476b4b2552aCB9BBEE1Db99015d",
+        address: "0x088cd3712F893eee1444CE7A6DBDD26B891C3980",
         url:
-            "https://rinkeby-explorer.arbitrum.io/#//address/0x037FDC3Eea92a476b4b2552aCB9BBEE1Db99015d",
+            "https://rinkeby-explorer.arbitrum.io/#//address/0x088cd3712F893eee1444CE7A6DBDD26B891C3980",
         verifyCli:
-            "npx hardhat verify --network arb_testnet 0x037FDC3Eea92a476b4b2552aCB9BBEE1Db99015d 0xFB9dd74F6182D4800716c60f4dC39355E6cD35Fe 0x0000000000000000000000000000000000000000",
+            "npx hardhat verify --network arb_testnet 0x088cd3712F893eee1444CE7A6DBDD26B891C3980 0x4353Fae23B9735a97500E5507FBb7Fd53b12114F 0x0000000000000000000000000000000000000000",
     },
     deevyMinter: {
         name: "DeevyMinter",
-        address: "0x5017126c54C592730E00B83275cF21359dC13d21",
+        address: "0xA531878b6274E817aA86A10fd05b7fF669192b72",
         url:
-            "https://rinkeby-explorer.arbitrum.io/#//address/0x5017126c54C592730E00B83275cF21359dC13d21",
+            "https://rinkeby-explorer.arbitrum.io/#//address/0xA531878b6274E817aA86A10fd05b7fF669192b72",
         verifyCli:
-            "npx hardhat verify --network arb_testnet 0x5017126c54C592730E00B83275cF21359dC13d21 0xFB9dd74F6182D4800716c60f4dC39355E6cD35Fe",
+            "npx hardhat verify --network arb_testnet 0xA531878b6274E817aA86A10fd05b7fF669192b72 0x4353Fae23B9735a97500E5507FBb7Fd53b12114F",
     },
 };
 
