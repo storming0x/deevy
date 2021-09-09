@@ -400,12 +400,13 @@ contract DeevySet is IDeevySet {
         override
         returns (string memory)
     {
+        string memory setSymbol = symbol();
         string[19] memory parts;
         parts[
             0
         ] = string(abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: ', foreColor, '; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="', backColor, '" /><text x="10" y="20" class="base">'));
 
-        parts[1] = setName;
+        parts[1] = string(abi.encodePacked(setName, " - ", setSymbol));
 
         parts[2] = '</text><text x="10" y="40" class="base">';
 
