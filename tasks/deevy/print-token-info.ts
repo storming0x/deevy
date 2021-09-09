@@ -25,9 +25,14 @@ task("deevy-print-token-info", "Print info about a Deevy token id.")
             throw new Error(`Network is not L2 ('${env.network.name}')`);
         }
 
+        const totalSupply = await deevy.totalSupply();
+        const owner = await deevy.ownerOf(tokenId);
+
         console.log(`Using network:     ${env.network.name}`);
         console.log(`Deevy address:     ${deevy.address}`);
         console.log(`Token ID:          ${tokenId}`);
+        console.log(`Total Supply:      ${totalSupply.toNumber()}`);
+        console.log(`Owner:             ${owner}`);
 
         const tokenURI = await deevy.tokenURI(tokenId);
 
