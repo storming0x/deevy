@@ -9,7 +9,7 @@ import {arbLog} from "../src/utils/arbitrum/arb-shared-dependencies";
 
 /**
     Example: 
-    yarn tx-l2-info
+    yarn tx-l2-info --loot-id 11
  */
 task("tx-l2-info", "Print info about the L2 tx.")
     .addParam("lootId", "Loot id.", 0, types.int)

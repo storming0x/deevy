@@ -6,15 +6,19 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ArbSys} from "./arbitrum/ArbSys.sol";
 import {AddressAliasHelper} from "./arbitrum/AddressAliasHelper.sol";
 import {IDeevy} from "./IDeevy.sol";
+import {IDeevyBridgeMinter} from "./IDeevyBridgeMinter.sol";
 
-contract DeevyBridgeMinter is Ownable {
+/**
+    @notice It uses ONLY for minting Deevy tokens for Loot holders in L2.
+ */
+contract DeevyBridgeMinter is Ownable, IDeevyBridgeMinter {
     ArbSys public constant ARBSYS = ArbSys(100);
 
     address public l1Target;
 
     IDeevy public deevy;
 
-    mapping(address => bool) public claimed;
+    mapping(uint256 => bool) public claimed;
 
     event L2ToL1TxCreated(uint256 indexed withdrawalId);
 
@@ -31,12 +35,16 @@ contract DeevyBridgeMinter is Ownable {
         @notice It receives a TX from L1.
         @notice Only l1Target can claim a deevy in Arbitrum
     */
-    function warpBag(address account, uint256 lootId) external {
+    function warpBag(address account, uint256 lootId) external override {
         // To check that message came from L1, we check that the sender is the L1 contract's L2 alias.
         require(
             msg.sender == AddressAliasHelper.applyL1ToL2Alias(l1Target),
             "INVALID_L1_TARGET"
         );
+        require(!claimed[lootId], "ALREADY_CLAIMED");
+
+        claimed[lootId] = true;
+
         deevy.warpLoot(account, lootId);
     }
 }

@@ -35,7 +35,9 @@ describe("DeevyTokenUriTest", () => {
                 toAccountIndex(0),
                 {
                     addSet: {
-                        name: "Set#1",
+                        foreColor: "black",
+                        backColor: "#8EB12A",
+                        name: "Ultimate Fight",
                         end: 10000,
                     },
                     ownerClaim: {
@@ -67,6 +69,8 @@ describe("DeevyTokenUriTest", () => {
                 addSet:
                     | {
                           name: string;
+                          foreColor: string;
+                          backColor: string;
                           end: number;
                       }
                     | undefined;
@@ -89,6 +93,8 @@ describe("DeevyTokenUriTest", () => {
                         ethers,
                         deployer,
                         name: userActions.addSet.name,
+                        foreColor: userActions.addSet.foreColor,
+                        backColor: userActions.addSet.backColor,
                     });
 
                     await contracts.deevy

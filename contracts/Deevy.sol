@@ -130,7 +130,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
         onlyOwner
     {
-        require(tokenId >= 8000 && tokenId < 8900, "!TOKEN_ID");
+        require(tokenId >= 8000 && tokenId < 8999, "!TOKEN_ID");
         _safeMint(owner(), tokenId);
     }
 
@@ -140,8 +140,8 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
     {
         require(minter == msg.sender, "!MINTER");
-        require(tokenId > 8889, "!TOKEN_ID");
-        require(tokenId <= setsMax[setsMax.length - 1]);
+        require(tokenId >= 9000, "!TOKEN_ID");
+        require(tokenId <= setsMax[setsMax.length - 1], "TOKEN_ID_OUT_OF_RANGE");
         _safeMint(account, tokenId);
     }
 

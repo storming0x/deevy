@@ -28,8 +28,6 @@ interface DeevyInterface extends ethers.utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
     "bridgeMinter()": FunctionFragment;
-    "c_0x7c3bb3ad(bytes32)": FunctionFragment;
-    "c_0x97a117f3(bytes32)": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getChest(uint256)": FunctionFragment;
@@ -44,7 +42,6 @@ interface DeevyInterface extends ethers.utils.Interface {
     "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "loot()": FunctionFragment;
-    "lootMinter()": FunctionFragment;
     "lootTokenURI(uint256)": FunctionFragment;
     "minter()": FunctionFragment;
     "name(uint256)": FunctionFragment;
@@ -87,14 +84,6 @@ interface DeevyInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "bridgeMinter",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "c_0x7c3bb3ad",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "c_0x97a117f3",
-    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "claim",
@@ -149,10 +138,6 @@ interface DeevyInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "loot", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "lootMinter",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "lootTokenURI",
     values: [BigNumberish]
@@ -240,14 +225,6 @@ interface DeevyInterface extends ethers.utils.Interface {
     functionFragment: "bridgeMinter",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "c_0x7c3bb3ad",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "c_0x97a117f3",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
@@ -268,7 +245,6 @@ interface DeevyInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "loot", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "lootMinter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "lootTokenURI",
     data: BytesLike
@@ -430,34 +406,6 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<{
       0: string;
-    }>;
-
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
     }>;
 
     claim(
@@ -667,18 +615,6 @@ export class Deevy extends Contract {
     }>;
 
     "loot()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    lootMinter(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "lootMinter()"(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -1029,26 +965,6 @@ export class Deevy extends Contract {
 
   "bridgeMinter()"(overrides?: CallOverrides): Promise<string>;
 
-  c_0x7c3bb3ad(
-    c__0x7c3bb3ad: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "c_0x7c3bb3ad(bytes32)"(
-    c__0x7c3bb3ad: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  c_0x97a117f3(
-    c__0x97a117f3: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "c_0x97a117f3(bytes32)"(
-    c__0x97a117f3: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
   claim(
     account: string,
     tokenId: BigNumberish,
@@ -1177,10 +1093,6 @@ export class Deevy extends Contract {
   loot(overrides?: CallOverrides): Promise<string>;
 
   "loot()"(overrides?: CallOverrides): Promise<string>;
-
-  lootMinter(overrides?: CallOverrides): Promise<string>;
-
-  "lootMinter()"(overrides?: CallOverrides): Promise<string>;
 
   lootTokenURI(
     tokenId: BigNumberish,
@@ -1447,26 +1359,6 @@ export class Deevy extends Contract {
 
     "bridgeMinter()"(overrides?: CallOverrides): Promise<string>;
 
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -1598,10 +1490,6 @@ export class Deevy extends Contract {
     loot(overrides?: CallOverrides): Promise<string>;
 
     "loot()"(overrides?: CallOverrides): Promise<string>;
-
-    lootMinter(overrides?: CallOverrides): Promise<string>;
-
-    "lootMinter()"(overrides?: CallOverrides): Promise<string>;
 
     lootTokenURI(
       tokenId: BigNumberish,
@@ -1898,26 +1786,6 @@ export class Deevy extends Contract {
 
     "bridgeMinter()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -2055,10 +1923,6 @@ export class Deevy extends Contract {
     loot(overrides?: CallOverrides): Promise<BigNumber>;
 
     "loot()"(overrides?: CallOverrides): Promise<BigNumber>;
-
-    lootMinter(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "lootMinter()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     lootTokenURI(
       tokenId: BigNumberish,
@@ -2314,26 +2178,6 @@ export class Deevy extends Contract {
 
     "bridgeMinter()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -2471,10 +2315,6 @@ export class Deevy extends Contract {
     loot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "loot()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    lootMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "lootMinter()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     lootTokenURI(
       tokenId: BigNumberish,

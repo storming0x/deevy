@@ -132,6 +132,8 @@ describe("DeevySetInfoTest", () => {
                         ethers,
                         deployer,
                         name: sets[i].toString(),
+                        backColor: "black",
+                        foreColor: "white",
                     });
                     contractSets.push(deevySet.address);
                     await deevy.connect(deployer).addSet(deevySet.address, sets[i]);

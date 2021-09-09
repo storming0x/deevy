@@ -53,10 +53,14 @@ export const deployDeevySet = async (utils: {
     ethers: any;
     deployer: SignerWithAddress;
     name: string;
+    foreColor: string;
+    backColor: string;
 }): Promise<DeevySet> => {
     const {name} = utils;
     const deevySetDeployer = await utils.ethers.getContractFactory(DEEVY_SET_NAME);
-    const deevySet = (await deevySetDeployer.connect(utils.deployer).deploy(name)) as DeevySet;
+    const deevySet = (await deevySetDeployer
+        .connect(utils.deployer)
+        .deploy(name, utils.foreColor, utils.backColor)) as DeevySet;
     return deevySet;
 };
 
@@ -125,6 +129,9 @@ export const deployDeevyMinter = async (
 
     const setMinterResult = await params.deevy.setMinter(deevyMinter.address);
     await setMinterResult.wait();
+
+    const setBridgeMinterResult = await params.deevy.setBridgeMinter(deevyBridgeMinter.address);
+    await setBridgeMinterResult.wait();
     return {
         deevy: params.deevy,
         deevyMinter,

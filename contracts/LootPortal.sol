@@ -4,14 +4,12 @@ pragma solidity 0.6.12;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IInbox} from "./arbitrum/IInbox.sol";
-import {IDeevyMinter} from "./IDeevyMinter.sol";
+import {IDeevyBridgeMinter} from "./IDeevyBridgeMinter.sol";
 
 contract LootPortal is Ownable {
     address public l2Target;
     IERC721 public loot;
     IInbox public inbox;
-
-    mapping(uint256 => bool) public claimed;
 
     // Loot ID to Ticket ID
     mapping(uint256 => uint256) public lootsToTickets;
@@ -44,17 +42,13 @@ contract LootPortal is Ownable {
             loot.ownerOf(lootId) == msg.sender,
             "SENDER_ISNT_LOOT_ID_OWNER"
         );
-        // TODO Verify if it is better to move it to L2.
-        require(!claimed[lootId], "ALREADY_CLAIMED");
 
         bytes memory data =
             abi.encodeWithSelector(
-                IDeevyMinter.warpBag.selector,
+                IDeevyBridgeMinter.warpBag.selector,
                 msg.sender,
                 lootId
             );
-
-        claimed[lootId] = true;
 
         uint256 ticketID =
             inbox.createRetryableTicket{value: msg.value}(
