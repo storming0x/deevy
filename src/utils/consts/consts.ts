@@ -1,5 +1,6 @@
 export const DEEVY_NAME = "Deevy";
 export const DEEVY_BRIDGE_MINTER_NAME = "DeevyBridgeMinter";
+export const DEEVY_BRIDGE_MINTER_MOCK_NAME = "DeevyBridgeMinterMock";
 export const DEEVY_MINTER_NAME = "DeevyMinter";
 export const INBOX_NAME = "IInbox";
 export const IBRIDGE_NAME = "IBridge";

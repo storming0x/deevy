@@ -141,6 +141,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
     {
         require(minter == msg.sender, "!MINTER");
         require(tokenId >= 9000, "!TOKEN_ID");
+        require(setsMax.length > 0, "SETS_REQUIRED");
         require(tokenId <= setsMax[setsMax.length - 1], "TOKEN_ID_OUT_OF_RANGE");
         _safeMint(account, tokenId);
     }

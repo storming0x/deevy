@@ -20,12 +20,13 @@ import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
-interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
+interface DeevyBridgeMinterMockInterface extends ethers.utils.Interface {
   functions: {
     "ARBSYS()": FunctionFragment;
     "claimed(uint256)": FunctionFragment;
     "deevy()": FunctionFragment;
     "l1Target()": FunctionFragment;
+    "l1ToL2Alias()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setL1Target(address)": FunctionFragment;
@@ -40,6 +41,10 @@ interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "deevy", values?: undefined): string;
   encodeFunctionData(functionFragment: "l1Target", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "l1ToL2Alias",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -59,6 +64,10 @@ interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "claimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deevy", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "l1Target", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "l1ToL2Alias",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -81,7 +90,7 @@ interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
-export class DeevyBridgeMinter extends Contract {
+export class DeevyBridgeMinterMock extends Contract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -92,7 +101,7 @@ export class DeevyBridgeMinter extends Contract {
   removeAllListeners(eventName: EventFilter | string): this;
   removeListener(eventName: any, listener: Listener): this;
 
-  interface: DeevyBridgeMinterInterface;
+  interface: DeevyBridgeMinterMockInterface;
 
   functions: {
     ARBSYS(
@@ -140,6 +149,18 @@ export class DeevyBridgeMinter extends Contract {
     }>;
 
     "l1Target()"(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    l1ToL2Alias(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    "l1ToL2Alias()"(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -213,6 +234,10 @@ export class DeevyBridgeMinter extends Contract {
 
   "l1Target()"(overrides?: CallOverrides): Promise<string>;
 
+  l1ToL2Alias(overrides?: CallOverrides): Promise<string>;
+
+  "l1ToL2Alias()"(overrides?: CallOverrides): Promise<string>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
@@ -272,6 +297,10 @@ export class DeevyBridgeMinter extends Contract {
     l1Target(overrides?: CallOverrides): Promise<string>;
 
     "l1Target()"(overrides?: CallOverrides): Promise<string>;
+
+    l1ToL2Alias(overrides?: CallOverrides): Promise<string>;
+
+    "l1ToL2Alias()"(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -338,6 +367,10 @@ export class DeevyBridgeMinter extends Contract {
 
     "l1Target()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    l1ToL2Alias(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "l1ToL2Alias()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -398,6 +431,10 @@ export class DeevyBridgeMinter extends Contract {
     l1Target(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "l1Target()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    l1ToL2Alias(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "l1ToL2Alias()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity 0.6.12;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -20,8 +19,6 @@ contract DeevyBridgeMinter is Ownable, IDeevyBridgeMinter {
 
     mapping(uint256 => bool) public claimed;
 
-    event L2ToL1TxCreated(uint256 indexed withdrawalId);
-
     constructor(address deevyAddress, address l1TargetAddress) public {
         deevy = IDeevy(deevyAddress);
         l1Target = l1TargetAddress;
@@ -38,7 +35,7 @@ contract DeevyBridgeMinter is Ownable, IDeevyBridgeMinter {
     function warpBag(address account, uint256 lootId) external override {
         // To check that message came from L1, we check that the sender is the L1 contract's L2 alias.
         require(
-            msg.sender == AddressAliasHelper.applyL1ToL2Alias(l1Target),
+            msg.sender == _getL1ToL2Alias(),
             "INVALID_L1_TARGET"
         );
         require(!claimed[lootId], "ALREADY_CLAIMED");
@@ -46,5 +43,9 @@ contract DeevyBridgeMinter is Ownable, IDeevyBridgeMinter {
         claimed[lootId] = true;
 
         deevy.warpLoot(account, lootId);
+    }
+
+    function _getL1ToL2Alias() internal virtual view returns (address) {
+        return AddressAliasHelper.applyL1ToL2Alias(l1Target);
     }
 }

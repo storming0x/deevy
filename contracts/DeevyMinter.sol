@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity 0.6.12;
 
 import {IDeevy} from "./IDeevy.sol";
@@ -22,9 +21,9 @@ contract DeevyMinter is IDeevyMinter {
     */
     function claim(address account, uint256 deevyId) external override {
         require(deevyId > 8999, "!TOKEN_ID");
-        require(!claimed[account], "ALREADY_CLAIMED");
-        claimed[account] = true;
+        require(!claimed[msg.sender], "ALREADY_CLAIMED");
+        claimed[msg.sender] = true;
 
-        deevy.claim(msg.sender, deevyId);
+        deevy.claim(account, deevyId);
     }
 }

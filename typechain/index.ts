@@ -28,6 +28,7 @@ export type { ILoot } from "./ILoot";
 export type { Loot } from "./Loot";
 export type { LootPortal } from "./LootPortal";
 export type { MirrorLoot } from "./MirrorLoot";
+export type { DeevyBridgeMinterMock } from "./DeevyBridgeMinterMock";
 export type { Mock } from "./Mock";
 export type { ERC721 } from "./ERC721";
 
@@ -58,5 +59,6 @@ export { ILoot__factory } from "./factories/ILoot__factory";
 export { Loot__factory } from "./factories/Loot__factory";
 export { LootPortal__factory } from "./factories/LootPortal__factory";
 export { MirrorLoot__factory } from "./factories/MirrorLoot__factory";
+export { DeevyBridgeMinterMock__factory } from "./factories/DeevyBridgeMinterMock__factory";
 export { Mock__factory } from "./factories/Mock__factory";
 export { ERC721__factory } from "./factories/ERC721__factory";
