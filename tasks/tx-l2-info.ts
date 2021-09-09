@@ -9,8 +9,7 @@ import {arbLog} from "../src/utils/arbitrum/arb-shared-dependencies";
 
 /**
     Example: 
-    yarn set-l2-target:eth_rinkeby --l2-target 0x123...123 --send-tx false
-    yarn set-l2-target:eth_mainnet --l2-target 0x123...123 --send-tx false
+    yarn tx-l2-info --loot-id 11
  */
 task("tx-l2-info", "Print info about the L2 tx.")
     .addParam("lootId", "Loot id.", 0, types.int)
@@ -77,7 +76,7 @@ task("tx-l2-info", "Print info about the L2 tx.")
         /**
          * For the gas limit, we'll simply use a hard-coded value (for more precise / dynamic estimates, see the estimateRetryableTicket method in the NodeInterface L2 "precompile")
          */
-        const maxGas = 150000000;
+        const maxGas = 200000000;
         /**
          * With these three values, we can calculate the total callvalue we'll need our L1 transaction to send to L2
          */

@@ -14,6 +14,7 @@ import {
     LOOT_PORTAL_NAME,
     MIRROR_LOOT_NAME,
     MOCK_NAME,
+    DEEVY_BRIDGE_MINTER_MOCK_NAME,
 } from "./consts/consts";
 import {
     Deevy,
@@ -53,10 +54,14 @@ export const deployDeevySet = async (utils: {
     ethers: any;
     deployer: SignerWithAddress;
     name: string;
+    foreColor: string;
+    backColor: string;
 }): Promise<DeevySet> => {
     const {name} = utils;
     const deevySetDeployer = await utils.ethers.getContractFactory(DEEVY_SET_NAME);
-    const deevySet = (await deevySetDeployer.connect(utils.deployer).deploy(name)) as DeevySet;
+    const deevySet = (await deevySetDeployer
+        .connect(utils.deployer)
+        .deploy(name, utils.foreColor, utils.backColor)) as DeevySet;
     return deevySet;
 };
 
@@ -102,8 +107,14 @@ export type DeevyMinterDeploy = {
 
 export const deployDeevyMinter = async (
     utils: {ethers: any; deployer: SignerWithAddress},
-    params: {deevy?: Deevy; warpLoot?: MirrorLoot; targetL1Address: string}
+    params: {
+        deevy?: Deevy;
+        warpLoot?: MirrorLoot;
+        deployBridgeMinterMock?: boolean;
+        l1ToL2AliasAddress?: string;
+    }
 ): Promise<DeevyMinterDeploy> => {
+    const {deployBridgeMinterMock = false} = params;
     if (params.deevy === undefined) {
         const contracts = await deployDeevy(utils, params);
         params.deevy = contracts.deevy;
@@ -111,20 +122,35 @@ export const deployDeevyMinter = async (
     }
     const deevyMinterDeployer = await utils.ethers.getContractFactory(DEEVY_MINTER_NAME);
     const deevyBridgeMinterDeployer = await utils.ethers.getContractFactory(
-        DEEVY_BRIDGE_MINTER_NAME
+        deployBridgeMinterMock ? DEEVY_BRIDGE_MINTER_MOCK_NAME : DEEVY_BRIDGE_MINTER_NAME
     );
     const deevyMinter = (await deevyMinterDeployer
         .connect(utils.deployer)
         .deploy(params.deevy.address)) as DeevyMinter;
-    const deevyBridgeMinter = (await deevyBridgeMinterDeployer
-        .connect(utils.deployer)
-        .deploy(
-            params.deevy.address,
-            (params.warpLoot as MirrorLoot).address
-        )) as DeevyBridgeMinter;
+
+    let deevyBridgeMinter;
+    if (deployBridgeMinterMock) {
+        deevyBridgeMinter = (await deevyBridgeMinterDeployer
+            .connect(utils.deployer)
+            .deploy(
+                params.l1ToL2AliasAddress,
+                params.deevy.address,
+                (params.warpLoot as MirrorLoot).address
+            )) as DeevyBridgeMinter;
+    } else {
+        deevyBridgeMinter = (await deevyBridgeMinterDeployer
+            .connect(utils.deployer)
+            .deploy(
+                params.deevy.address,
+                (params.warpLoot as MirrorLoot).address
+            )) as DeevyBridgeMinter;
+    }
 
     const setMinterResult = await params.deevy.setMinter(deevyMinter.address);
     await setMinterResult.wait();
+
+    const setBridgeMinterResult = await params.deevy.setBridgeMinter(deevyBridgeMinter.address);
+    await setBridgeMinterResult.wait();
     return {
         deevy: params.deevy,
         deevyMinter,

@@ -10,19 +10,18 @@
     "build": "npm run compile",
     "compile": "npx hardhat compile",
     "typechain": "hardhat typechain",
-
     "tx-l2-info": "npx hardhat tx-l2-info",
-
+    "tx-l2-hashes": "npx hardhat tx-l2-hashes",
     "set-l2-target:eth_rinkeby": "npx hardhat set-l2-target --network eth_rinkeby",
     "deploy-l1-rinkeby:eth_rinkeby": "npx hardhat deploy-l1-rinkeby --network eth_rinkeby",
     "loot-mint:eth_rinkeby": "npx hardhat loot-mint --network eth_rinkeby",
+    "loot-transfer:eth_rinkeby": "npx hardhat loot-transfer --network eth_rinkeby",
     "warp-loot:eth_rinkeby": "npx hardhat warp-loot --network eth_rinkeby",
-
-    "set-l1-target:arb_testnet": "npx hardhat set-l1-target --network arb_testnet",
+    "bridge-set-l1-target:arb_testnet": "npx hardhat bridge-set-l1-target --network arb_testnet",
     "deploy-l2-testnet:arb_testnet": "npx hardhat deploy-l2-testnet --network arb_testnet",
     "set-minter:arb_testnet": "npx hardhat set-minter --network arb_testnet",
     "print-info:arb_testnet": "npx hardhat print-info --network arb_testnet",
-
+    "deevy-print-token-info:arb_testnet": "npx hardhat deevy-print-token-info --network arb_testnet",
     "format:sol": "prettier --write contracts/**/**.sol",
     "format:ts": "prettier --write \"{scripts,src,tasks,test}/**/*.ts\"",
     "format:all": "yarn format:sol && yarn format:ts",
@@ -59,6 +58,7 @@
     "hardhat-gas-reporter": "^1.0.4",
     "hardhat-typechain": "^0.3.3",
     "husky": "^4.3.0",
+    "is-svg": "^4.3.1",
     "leche": "^2.3.0",
     "lodash": "^4.17.20",
     "prettier": "^2.2.0",

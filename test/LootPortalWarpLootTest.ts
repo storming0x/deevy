@@ -71,34 +71,7 @@ describe("LootPortalWarpLootTest", () => {
                 {}, // Expected
                 toExpect("SENDER_ISNT_LOOT_ID_OWNER"), // Expected result
             ],
-            _3_loot_already_claimed: [
-                toAccountIndex(0),
-                {
-                    lootClaim: {
-                        senderIndex: toAccountIndex(2),
-                        lootId: 12,
-                    },
-                    previousWarpLootInfo: {
-                        senderIndex: toAccountIndex(2),
-                        lootId: 12,
-                        msgValue: Amount.fromString("0.1"),
-                        maxSubmissionCost: Amount.from(100),
-                        maxGas: Amount.from(100000),
-                        gasPriceBid: Amount.from(100),
-                    },
-                    warpLootInfo: {
-                        senderIndex: toAccountIndex(2),
-                        lootId: 12,
-                        msgValue: Amount.fromString("0.1"),
-                        maxSubmissionCost: Amount.from(100),
-                        maxGas: Amount.from(100000),
-                        gasPriceBid: Amount.from(100),
-                    },
-                }, // User Actions
-                {}, // Expected
-                toExpect("ALREADY_CLAIMED"), // Expected result
-            ],
-            _4_no_msg_value: [
+            _3_no_msg_value: [
                 toAccountIndex(0),
                 {
                     lootClaim: {

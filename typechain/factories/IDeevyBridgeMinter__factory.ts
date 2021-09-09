@@ -5,14 +5,14 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { IDeevyMinter } from "../IDeevyMinter";
+import type { IDeevyBridgeMinter } from "../IDeevyBridgeMinter";
 
-export class IDeevyMinter__factory {
+export class IDeevyBridgeMinter__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IDeevyMinter {
-    return new Contract(address, _abi, signerOrProvider) as IDeevyMinter;
+  ): IDeevyBridgeMinter {
+    return new Contract(address, _abi, signerOrProvider) as IDeevyBridgeMinter;
   }
 }
 
@@ -30,7 +30,7 @@ const _abi = [
         type: "uint256",
       },
     ],
-    name: "claim",
+    name: "warpBag",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

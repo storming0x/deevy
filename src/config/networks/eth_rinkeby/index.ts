@@ -20,17 +20,17 @@ const config: ContractAddresses = {
     mirrorLoot: EMPTY_CONTRACT_INFO,
     loot: {
         name: "Loot",
-        address: "0x795F0716e50dD1BCF49dF40296767A1edD74b4a3",
-        url: "https://rinkeby.etherscan.io/address/0x795F0716e50dD1BCF49dF40296767A1edD74b4a3",
+        address: "0xd5324E6cA25b0E7CfAcC4290e65647DF31d81a82",
+        url: "https://rinkeby.etherscan.io/address/0xd5324E6cA25b0E7CfAcC4290e65647DF31d81a82",
         verifyCli:
-            "npx hardhat verify --network eth_rinkeby 0x795F0716e50dD1BCF49dF40296767A1edD74b4a3 ",
+            "npx hardhat verify --network eth_rinkeby 0xd5324E6cA25b0E7CfAcC4290e65647DF31d81a82 ",
     },
     portalLoot: {
         name: "LootPortal",
-        address: "0xDE332365D25f1f29dD480949fA5c980B589A6508",
-        url: "https://rinkeby.etherscan.io/address/0xDE332365D25f1f29dD480949fA5c980B589A6508",
+        address: "0x3cAefeE592c5470B74B2408AB830eCCEf61c5811",
+        url: "https://rinkeby.etherscan.io/address/0x3cAefeE592c5470B74B2408AB830eCCEf61c5811",
         verifyCli:
-            "npx hardhat verify --network eth_rinkeby 0xDE332365D25f1f29dD480949fA5c980B589A6508 0x795F0716e50dD1BCF49dF40296767A1edD74b4a3 0xA44b7Ec2b425501117dADFF2a6D65aa4D994B532 0x578BAde599406A8fE3d24Fd7f7211c0911F5B29e",
+            "npx hardhat verify --network eth_rinkeby 0x3cAefeE592c5470B74B2408AB830eCCEf61c5811 0xd5324E6cA25b0E7CfAcC4290e65647DF31d81a82 0x088cd3712F893eee1444CE7A6DBDD26B891C3980 0x578BAde599406A8fE3d24Fd7f7211c0911F5B29e",
     },
 };
 

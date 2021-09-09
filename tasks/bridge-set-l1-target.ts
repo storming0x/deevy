@@ -5,13 +5,13 @@ import {task, types} from "hardhat/config";
 import {HardhatRuntimeEnvironment} from "hardhat/types";
 import getConfig from "../src/config";
 import {GetContracts} from "../src/config/GetContracts";
-import {DeevyMinter} from "../typechain";
+import {DeevyBridgeMinter} from "../typechain";
 
 /**
     Example: 
-    yarn set-l1-target:arb_testnet --l1-target 0x123...123 --send-tx false
+    yarn bridge-set-l1-target:arb_testnet --l1-target 0x123...123 --send-tx false
  */
-task("set-l1-target", "Set the L1 target address.")
+task("bridge-set-l1-target", "Set the L1 target address to the BridgeMinter.")
     .addParam("senderIndex", "Defines the sender account index (0-based) for the tx.", 0, types.int)
     .addParam("l1Target", "L1 target contract address.")
     .addParam("sendTx", "Defines whether it sends or not the tx.", false, types.boolean)
@@ -28,22 +28,22 @@ task("set-l1-target", "Set the L1 target address.")
             throw new Error(`Network is not L2 ('${env.network.name}')`);
         }
 
-        const deevyMinter = (await getContracts.getDeevyMinter()) as DeevyMinter;
+        const deevyBridgeMinter = (await getContracts.getDeevyBridgeMinter()) as DeevyBridgeMinter;
 
-        const currentL1Target = await deevyMinter.l1Target();
+        const currentL1Target = await deevyBridgeMinter.l1Target();
 
         console.log(`Using network:     ${env.network.name}`);
         console.log(`Sender account:    ${sender.address}`);
-        console.log(`Deevy Minter (L2): ${deevyMinter.address}`);
+        console.log(`Deevy Bridge Minter (L2): ${deevyBridgeMinter.address}`);
         console.log(`Current L1 Target: ${currentL1Target}`);
         console.log(`New L1 Target:     ${l1Target}`);
 
         if (sendTx) {
-            const setL1TargetResult = await deevyMinter.setL1Target(l1Target);
+            const setL1TargetResult = await deevyBridgeMinter.setL1Target(l1Target);
             const receipt = await setL1TargetResult.wait();
             explorer.printTx("SetL1Target tx hash:", receipt.transactionHash);
         } else {
-            console.log(`DeevyMinter.setL1Target: not sending tx.`);
+            console.log(`DeevyBridgeMinter.setL1Target: not sending tx.`);
         }
     });
 

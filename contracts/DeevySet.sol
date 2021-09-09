@@ -9,9 +9,13 @@ import {IDeevySet} from "./IDeevySet.sol";
 contract DeevySet is IDeevySet {
     string public constant SET_NAME = "ELDRITCH LEGENDS";
     string public setName;
+    string public foreColor;
+    string public backColor;
 
-    constructor(string memory _name) public {
+    constructor(string memory _name, string memory _foreColor, string memory _backColor) public {
         setName = _name;
+        foreColor = _foreColor;
+        backColor = _backColor;
     }
 
     // weapons
@@ -396,42 +400,47 @@ contract DeevySet is IDeevySet {
         override
         returns (string memory)
     {
-        string[17] memory parts;
+        string memory setSymbol = symbol();
+        string[19] memory parts;
         parts[
             0
-        ] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
+        ] = string(abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: ', foreColor, '; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="', backColor, '" /><text x="10" y="20" class="base">'));
 
-        parts[1] = getArmament(tokenId);
+        parts[1] = string(abi.encodePacked(setName, " - ", setSymbol));
 
         parts[2] = '</text><text x="10" y="40" class="base">';
 
-        parts[3] = getBody(tokenId);
+        parts[3] = getArmament(tokenId);
 
         parts[4] = '</text><text x="10" y="60" class="base">';
 
-        parts[5] = getItem(tokenId);
+        parts[5] = getBody(tokenId);
 
         parts[6] = '</text><text x="10" y="80" class="base">';
 
-        parts[7] = getRelic(tokenId);
+        parts[7] = getItem(tokenId);
 
         parts[8] = '</text><text x="10" y="100" class="base">';
 
-        parts[9] = getTalent(tokenId);
+        parts[9] = getRelic(tokenId);
 
         parts[10] = '</text><text x="10" y="120" class="base">';
 
-        parts[11] = getWeakness(tokenId);
+        parts[11] = getTalent(tokenId);
 
         parts[12] = '</text><text x="10" y="140" class="base">';
 
-        parts[13] = getAlly(tokenId);
+        parts[13] = getWeakness(tokenId);
 
         parts[14] = '</text><text x="10" y="160" class="base">';
 
-        parts[15] = getClass(tokenId);
+        parts[15] = getAlly(tokenId);
 
-        parts[16] = "</text></svg>";
+        parts[16] = '</text><text x="10" y="180" class="base">';
+
+        parts[17] = getClass(tokenId);
+
+        parts[18] = "</text></svg>";
 
         string memory output =
             string(
@@ -444,20 +453,22 @@ contract DeevySet is IDeevySet {
                     parts[5],
                     parts[6],
                     parts[7],
-                    parts[8]
+                    parts[8],
+                    parts[9]
                 )
             );
         output = string(
             abi.encodePacked(
                 output,
-                parts[9],
                 parts[10],
                 parts[11],
                 parts[12],
                 parts[13],
                 parts[14],
                 parts[15],
-                parts[16]
+                parts[16],
+                parts[17],
+                parts[18]
             )
         );
 
@@ -468,6 +479,8 @@ contract DeevySet is IDeevySet {
                         abi.encodePacked(
                             '{"name": "Deevy #',
                             toString(tokenId),
+                            ' - ',
+                            setName,
                             '", "description": "Deevy is a randomized trading game with unique sets generated and stored on chain inspired by Loot and Rarity. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Deevy in any way you want.", "image": "data:image/svg+xml;base64,',
                             Base64.encode(bytes(output)),
                             '"}'

@@ -23,8 +23,6 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
 interface LootPortalInterface extends ethers.utils.Interface {
   functions: {
-    "c_0x31b82192(bytes32)": FunctionFragment;
-    "claimed(uint256)": FunctionFragment;
     "inbox()": FunctionFragment;
     "l2Target()": FunctionFragment;
     "loot()": FunctionFragment;
@@ -36,14 +34,6 @@ interface LootPortalInterface extends ethers.utils.Interface {
     "warpLoot(uint256,uint256,uint256,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "c_0x31b82192",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimed",
-    values: [BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "inbox", values?: undefined): string;
   encodeFunctionData(functionFragment: "l2Target", values?: undefined): string;
   encodeFunctionData(functionFragment: "loot", values?: undefined): string;
@@ -66,11 +56,6 @@ interface LootPortalInterface extends ethers.utils.Interface {
     values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "c_0x31b82192",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "claimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "inbox", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "l2Target", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "loot", data: BytesLike): Result;
@@ -116,34 +101,6 @@ export class LootPortal extends Contract {
   interface: LootPortalInterface;
 
   functions: {
-    c_0x31b82192(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    "c_0x31b82192(bytes32)"(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    claimed(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
-
-    "claimed(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
-
     inbox(
       overrides?: CallOverrides
     ): Promise<{
@@ -247,23 +204,6 @@ export class LootPortal extends Contract {
     ): Promise<ContractTransaction>;
   };
 
-  c_0x31b82192(
-    c__0x31b82192: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "c_0x31b82192(bytes32)"(
-    c__0x31b82192: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  claimed(arg0: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
-
-  "claimed(uint256)"(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   inbox(overrides?: CallOverrides): Promise<string>;
 
   "inbox()"(overrides?: CallOverrides): Promise<string>;
@@ -331,23 +271,6 @@ export class LootPortal extends Contract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    c_0x31b82192(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "c_0x31b82192(bytes32)"(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    claimed(arg0: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
-
-    "claimed(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     inbox(overrides?: CallOverrides): Promise<string>;
 
     "inbox()"(overrides?: CallOverrides): Promise<string>;
@@ -422,23 +345,6 @@ export class LootPortal extends Contract {
   };
 
   estimateGas: {
-    c_0x31b82192(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "c_0x31b82192(bytes32)"(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    claimed(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "claimed(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     inbox(overrides?: CallOverrides): Promise<BigNumber>;
 
     "inbox()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -504,26 +410,6 @@ export class LootPortal extends Contract {
   };
 
   populateTransaction: {
-    c_0x31b82192(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "c_0x31b82192(bytes32)"(
-      c__0x31b82192: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    claimed(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "claimed(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     inbox(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "inbox()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;

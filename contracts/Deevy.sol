@@ -130,7 +130,7 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
         onlyOwner
     {
-        require(tokenId >= 8000 && tokenId < 8900, "!TOKEN_ID");
+        require(tokenId >= 8000 && tokenId < 8999, "!TOKEN_ID");
         _safeMint(owner(), tokenId);
     }
 
@@ -140,8 +140,9 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         nonReentrant
     {
         require(minter == msg.sender, "!MINTER");
-        require(tokenId > 8889, "!TOKEN_ID");
-        require(tokenId <= setsMax[setsMax.length - 1]);
+        require(tokenId >= 9000, "!TOKEN_ID");
+        require(setsMax.length > 0, "SETS_REQUIRED");
+        require(tokenId <= setsMax[setsMax.length - 1], "TOKEN_ID_OUT_OF_RANGE");
         _safeMint(account, tokenId);
     }
 
@@ -153,13 +154,13 @@ contract Deevy is ERC721, ReentrancyGuard, Ownable, IDeevy {
         returns (string memory)
     {
         address setProperties = getSet(tokenId);
-        return IDeevySet(setProperties).tokenURI(tokenId);
+        return setProperties == address(0x0) ? "" : IDeevySet(setProperties).tokenURI(tokenId);
     }
 
     // based on OZ https://github.com/OpenZeppelin/openzeppelin-contracts/blob/b0cf6fbb7a70f31527f36579ad644e1cf12fdf4e/contracts/utils/Arrays.sol
     function findSetIndex(uint256[] memory array, uint256 element)
         internal
-        view
+        pure
         returns (uint256)
     {
         // return max since array is empty or above max, so this number would not exist

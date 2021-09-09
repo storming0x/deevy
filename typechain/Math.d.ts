@@ -21,16 +21,16 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
 interface MathInterface extends ethers.utils.Interface {
   functions: {
-    "c_0x3e3c53dc(bytes32)": FunctionFragment;
+    "c_0x7de476bc(bytes32)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "c_0x3e3c53dc",
+    functionFragment: "c_0x7de476bc",
     values: [BytesLike]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "c_0x3e3c53dc",
+    functionFragment: "c_0x7de476bc",
     data: BytesLike
   ): Result;
 
@@ -51,39 +51,39 @@ export class Math extends Contract {
   interface: MathInterface;
 
   functions: {
-    c_0x3e3c53dc(
-      c__0x3e3c53dc: BytesLike,
+    c_0x7de476bc(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<{
       0: void;
     }>;
 
-    "c_0x3e3c53dc(bytes32)"(
-      c__0x3e3c53dc: BytesLike,
+    "c_0x7de476bc(bytes32)"(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<{
       0: void;
     }>;
   };
 
-  c_0x3e3c53dc(
-    c__0x3e3c53dc: BytesLike,
+  c_0x7de476bc(
+    c__0x7de476bc: BytesLike,
     overrides?: CallOverrides
   ): Promise<void>;
 
-  "c_0x3e3c53dc(bytes32)"(
-    c__0x3e3c53dc: BytesLike,
+  "c_0x7de476bc(bytes32)"(
+    c__0x7de476bc: BytesLike,
     overrides?: CallOverrides
   ): Promise<void>;
 
   callStatic: {
-    c_0x3e3c53dc(
-      c__0x3e3c53dc: BytesLike,
+    c_0x7de476bc(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "c_0x3e3c53dc(bytes32)"(
-      c__0x3e3c53dc: BytesLike,
+    "c_0x7de476bc(bytes32)"(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -91,25 +91,25 @@ export class Math extends Contract {
   filters: {};
 
   estimateGas: {
-    c_0x3e3c53dc(
-      c__0x3e3c53dc: BytesLike,
+    c_0x7de476bc(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "c_0x3e3c53dc(bytes32)"(
-      c__0x3e3c53dc: BytesLike,
+    "c_0x7de476bc(bytes32)"(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    c_0x3e3c53dc(
-      c__0x3e3c53dc: BytesLike,
+    c_0x7de476bc(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "c_0x3e3c53dc(bytes32)"(
-      c__0x3e3c53dc: BytesLike,
+    "c_0x7de476bc(bytes32)"(
+      c__0x7de476bc: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

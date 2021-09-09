@@ -35,6 +35,9 @@ const config: HardhatUserConfig = {
       }
     }],
   },
+  mocha: {
+    timeout: 0,
+  },
   contractSizer: {
     alphaSort: true,
     runOnCompile: true,

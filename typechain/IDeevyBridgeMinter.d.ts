@@ -20,22 +20,22 @@ import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
-interface IDeevyMinterInterface extends ethers.utils.Interface {
+interface IDeevyBridgeMinterInterface extends ethers.utils.Interface {
   functions: {
-    "claim(address,uint256)": FunctionFragment;
+    "warpBag(address,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "claim",
+    functionFragment: "warpBag",
     values: [string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "warpBag", data: BytesLike): Result;
 
   events: {};
 }
 
-export class IDeevyMinter extends Contract {
+export class IDeevyBridgeMinter extends Contract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -46,42 +46,42 @@ export class IDeevyMinter extends Contract {
   removeAllListeners(eventName: EventFilter | string): this;
   removeListener(eventName: any, listener: Listener): this;
 
-  interface: IDeevyMinterInterface;
+  interface: IDeevyBridgeMinterInterface;
 
   functions: {
-    claim(
+    warpBag(
       account: string,
       tokenId: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
-    "claim(address,uint256)"(
+    "warpBag(address,uint256)"(
       account: string,
       tokenId: BigNumberish,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
   };
 
-  claim(
+  warpBag(
     account: string,
     tokenId: BigNumberish,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  "claim(address,uint256)"(
+  "warpBag(address,uint256)"(
     account: string,
     tokenId: BigNumberish,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    claim(
+    warpBag(
       account: string,
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "claim(address,uint256)"(
+    "warpBag(address,uint256)"(
       account: string,
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -91,13 +91,13 @@ export class IDeevyMinter extends Contract {
   filters: {};
 
   estimateGas: {
-    claim(
+    warpBag(
       account: string,
       tokenId: BigNumberish,
       overrides?: Overrides
     ): Promise<BigNumber>;
 
-    "claim(address,uint256)"(
+    "warpBag(address,uint256)"(
       account: string,
       tokenId: BigNumberish,
       overrides?: Overrides
@@ -105,13 +105,13 @@ export class IDeevyMinter extends Contract {
   };
 
   populateTransaction: {
-    claim(
+    warpBag(
       account: string,
       tokenId: BigNumberish,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
-    "claim(address,uint256)"(
+    "warpBag(address,uint256)"(
       account: string,
       tokenId: BigNumberish,
       overrides?: Overrides

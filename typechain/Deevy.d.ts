@@ -28,8 +28,6 @@ interface DeevyInterface extends ethers.utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
     "bridgeMinter()": FunctionFragment;
-    "c_0x7c3bb3ad(bytes32)": FunctionFragment;
-    "c_0x97a117f3(bytes32)": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getChest(uint256)": FunctionFragment;
@@ -86,14 +84,6 @@ interface DeevyInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "bridgeMinter",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "c_0x7c3bb3ad",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "c_0x97a117f3",
-    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "claim",
@@ -233,14 +223,6 @@ interface DeevyInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "bridgeMinter",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "c_0x7c3bb3ad",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "c_0x97a117f3",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
@@ -424,34 +406,6 @@ export class Deevy extends Contract {
       overrides?: CallOverrides
     ): Promise<{
       0: string;
-    }>;
-
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
-    }>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: void;
     }>;
 
     claim(
@@ -1011,26 +965,6 @@ export class Deevy extends Contract {
 
   "bridgeMinter()"(overrides?: CallOverrides): Promise<string>;
 
-  c_0x7c3bb3ad(
-    c__0x7c3bb3ad: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "c_0x7c3bb3ad(bytes32)"(
-    c__0x7c3bb3ad: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  c_0x97a117f3(
-    c__0x97a117f3: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "c_0x97a117f3(bytes32)"(
-    c__0x97a117f3: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
   claim(
     account: string,
     tokenId: BigNumberish,
@@ -1424,26 +1358,6 @@ export class Deevy extends Contract {
     bridgeMinter(overrides?: CallOverrides): Promise<string>;
 
     "bridgeMinter()"(overrides?: CallOverrides): Promise<string>;
-
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     claim(
       account: string,
@@ -1872,26 +1786,6 @@ export class Deevy extends Contract {
 
     "bridgeMinter()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     claim(
       account: string,
       tokenId: BigNumberish,
@@ -2283,26 +2177,6 @@ export class Deevy extends Contract {
     bridgeMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "bridgeMinter()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    c_0x7c3bb3ad(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "c_0x7c3bb3ad(bytes32)"(
-      c__0x7c3bb3ad: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    c_0x97a117f3(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "c_0x97a117f3(bytes32)"(
-      c__0x97a117f3: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     claim(
       account: string,
