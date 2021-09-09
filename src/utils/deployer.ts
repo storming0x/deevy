@@ -107,9 +107,14 @@ export type DeevyMinterDeploy = {
 
 export const deployDeevyMinter = async (
     utils: {ethers: any; deployer: SignerWithAddress},
-    params: {deevy?: Deevy; warpLoot?: MirrorLoot; deployBridgeMinterMock?: boolean, l1ToL2AliasAddress?: string}
+    params: {
+        deevy?: Deevy;
+        warpLoot?: MirrorLoot;
+        deployBridgeMinterMock?: boolean;
+        l1ToL2AliasAddress?: string;
+    }
 ): Promise<DeevyMinterDeploy> => {
-    const { deployBridgeMinterMock = false } = params;
+    const {deployBridgeMinterMock = false} = params;
     if (params.deevy === undefined) {
         const contracts = await deployDeevy(utils, params);
         params.deevy = contracts.deevy;
@@ -122,7 +127,7 @@ export const deployDeevyMinter = async (
     const deevyMinter = (await deevyMinterDeployer
         .connect(utils.deployer)
         .deploy(params.deevy.address)) as DeevyMinter;
-    
+
     let deevyBridgeMinter;
     if (deployBridgeMinterMock) {
         deevyBridgeMinter = (await deevyBridgeMinterDeployer

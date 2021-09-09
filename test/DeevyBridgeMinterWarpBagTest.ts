@@ -63,7 +63,7 @@ describe("DeevyBridgeMinterWarpBagTest", () => {
                     claimSenderDeevyBalance: 0,
                     claimToDeevyBalance: 0,
                 }, // Expected
-                toExpect('!TOKEN_ID'), // Expected result
+                toExpect("!TOKEN_ID"), // Expected result
             ],
             _3_already_claimed_to_sender: [
                 toAccountIndex(0),
@@ -85,7 +85,7 @@ describe("DeevyBridgeMinterWarpBagTest", () => {
                     claimSenderDeevyBalance: 1,
                     claimToDeevyBalance: 1,
                 }, // Expected
-                toExpect('ALREADY_CLAIMED'), // Expected result
+                toExpect("ALREADY_CLAIMED"), // Expected result
             ],
             _4_msg_sender_not_allowed: [
                 toAccountIndex(0),
@@ -103,7 +103,7 @@ describe("DeevyBridgeMinterWarpBagTest", () => {
                     claimSenderDeevyBalance: 0,
                     claimToDeevyBalance: 0,
                 }, // Expected
-                toExpect('INVALID_L1_TARGET'), // Expected result
+                toExpect("INVALID_L1_TARGET"), // Expected result
             ],
         },
         (
@@ -116,11 +116,13 @@ describe("DeevyBridgeMinterWarpBagTest", () => {
                     backColor: string;
                     end: number;
                 }>;
-                previousWarpBag: {
-                    toIndex: AccountIndex;
-                    senderIndex: AccountIndex;
-                    tokenId: number;
-                } | undefined;
+                previousWarpBag:
+                    | {
+                          toIndex: AccountIndex;
+                          senderIndex: AccountIndex;
+                          tokenId: number;
+                      }
+                    | undefined;
                 warpBag: {
                     toIndex: AccountIndex;
                     senderIndex: AccountIndex;
@@ -141,52 +143,57 @@ describe("DeevyBridgeMinterWarpBagTest", () => {
                 const l1ToL2Alias = signers.getSignerBy(l1ToL2AliasIndex);
 
                 const deployer = signers.getSignerBy(deployerIndex);
-                
+
                 const contracts = await deployDeevyMinter(
                     {ethers, deployer},
                     {deployBridgeMinterMock: true, l1ToL2AliasAddress: l1ToL2Alias.address}
                 );
 
                 if (userActions.previousWarpBag) {
-                    const previousWarpBagSender = signers.getSignerBy(userActions.previousWarpBag.senderIndex);
-                    const previousWarpBagTo = signers.getSignerBy(userActions.previousWarpBag.toIndex);
-                    await contracts
-                        .deevyBridgeMinter
+                    const previousWarpBagSender = signers.getSignerBy(
+                        userActions.previousWarpBag.senderIndex
+                    );
+                    const previousWarpBagTo = signers.getSignerBy(
+                        userActions.previousWarpBag.toIndex
+                    );
+                    await contracts.deevyBridgeMinter
                         .connect(previousWarpBagSender)
-                        .warpBag(
-                            previousWarpBagTo.address,
-                            userActions.previousWarpBag.tokenId
-                        );
+                        .warpBag(previousWarpBagTo.address, userActions.previousWarpBag.tokenId);
                 }
 
                 try {
                     // Invocation
-                    const result = await contracts
-                        .deevyBridgeMinter
+                    const result = await contracts.deevyBridgeMinter
                         .connect(warpBagSender)
-                        .warpBag(
-                            warpBagTo.address,
-                            userActions.warpBag.tokenId
-                        );
+                        .warpBag(warpBagTo.address, userActions.warpBag.tokenId);
 
                     // Assertions
                     const receipt = await result.wait();
                     expectedResult.assertSuccess(receipt);
-
                 } catch (error) {
                     expectedResult.assertError(error, true);
                 }
 
-                const claimedLootId = await contracts
-                        .deevyBridgeMinter
-                        .claimed(userActions.warpBag.tokenId.toFixed(0));
-                expect(claimedLootId, 'Claimed loot id should be equal.').to.be.eq(expected.claimedTokenId);
+                const claimedLootId = await contracts.deevyBridgeMinter.claimed(
+                    userActions.warpBag.tokenId.toFixed(0)
+                );
+                expect(claimedLootId, "Claimed loot id should be equal.").to.be.eq(
+                    expected.claimedTokenId
+                );
 
-                const deevyClaimSenderBalance = await contracts.deevy.balanceOf(warpBagSender.address);
-                expect(deevyClaimSenderBalance.toString(), 'Claim sender Deevy balance should be equal.').to.be.eq(expected.claimSenderDeevyBalance.toFixed(0));
+                const deevyClaimSenderBalance = await contracts.deevy.balanceOf(
+                    warpBagSender.address
+                );
+                expect(
+                    deevyClaimSenderBalance.toString(),
+                    "Claim sender Deevy balance should be equal."
+                ).to.be.eq(expected.claimSenderDeevyBalance.toFixed(0));
 
                 const deevyClaimToBalance = await contracts.deevy.balanceOf(warpBagTo.address);
-                expect(deevyClaimToBalance.toString(), 'Claim to Deevy balance should be equal.').to.be.eq(expected.claimToDeevyBalance.toFixed(0));
+                expect(
+                    deevyClaimToBalance.toString(),
+                    "Claim to Deevy balance should be equal."
+                ).to.be.eq(expected.claimToDeevyBalance.toFixed(0));
             });
         }
     );

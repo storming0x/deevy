@@ -77,7 +77,7 @@ describe("DeevyMinterClaimTest", () => {
                     claimSenderDeevyBalance: 0,
                     claimToDeevyBalance: 0,
                 }, // Expected
-                toExpect('!TOKEN_ID'), // Expected result
+                toExpect("!TOKEN_ID"), // Expected result
             ],
             _3_already_claimed_to_sender: [
                 toAccountIndex(0),
@@ -106,7 +106,7 @@ describe("DeevyMinterClaimTest", () => {
                     claimSenderDeevyBalance: 1,
                     claimToDeevyBalance: 1,
                 }, // Expected
-                toExpect('ALREADY_CLAIMED'), // Expected result
+                toExpect("ALREADY_CLAIMED"), // Expected result
             ],
             _4_already_claimed_to_another_account: [
                 toAccountIndex(0),
@@ -135,7 +135,7 @@ describe("DeevyMinterClaimTest", () => {
                     claimSenderDeevyBalance: 0,
                     claimToDeevyBalance: 0,
                 }, // Expected
-                toExpect('ALREADY_CLAIMED'), // Expected result
+                toExpect("ALREADY_CLAIMED"), // Expected result
             ],
             _5_without_sets: [
                 toAccountIndex(0),
@@ -153,7 +153,7 @@ describe("DeevyMinterClaimTest", () => {
                     claimSenderDeevyBalance: 0,
                     claimToDeevyBalance: 0,
                 }, // Expected
-                toExpect('SETS_REQUIRED'), // Expected result
+                toExpect("SETS_REQUIRED"), // Expected result
             ],
             _6_token_id_gt_max_set: [
                 toAccountIndex(0),
@@ -178,7 +178,7 @@ describe("DeevyMinterClaimTest", () => {
                     claimSenderDeevyBalance: 0,
                     claimToDeevyBalance: 0,
                 }, // Expected
-                toExpect('TOKEN_ID_OUT_OF_RANGE'), // Expected result
+                toExpect("TOKEN_ID_OUT_OF_RANGE"), // Expected result
             ],
         },
         (
@@ -190,11 +190,13 @@ describe("DeevyMinterClaimTest", () => {
                     backColor: string;
                     end: number;
                 }>;
-                previousClaim: {
-                    toIndex: AccountIndex;
-                    senderIndex: AccountIndex;
-                    tokenId: number;
-                } | undefined;
+                previousClaim:
+                    | {
+                          toIndex: AccountIndex;
+                          senderIndex: AccountIndex;
+                          tokenId: number;
+                      }
+                    | undefined;
                 claim: {
                     toIndex: AccountIndex;
                     senderIndex: AccountIndex;
@@ -221,20 +223,16 @@ describe("DeevyMinterClaimTest", () => {
                         foreColor: addSet.foreColor,
                         backColor: addSet.backColor,
                     });
-                    await contracts.deevy
-                        .connect(deployer)
-                        .addSet(deevySet.address, addSet.end);   
+                    await contracts.deevy.connect(deployer).addSet(deevySet.address, addSet.end);
                 }
                 if (userActions.previousClaim) {
-                    const previousClaimSender = signers.getSignerBy(userActions.previousClaim.senderIndex);
+                    const previousClaimSender = signers.getSignerBy(
+                        userActions.previousClaim.senderIndex
+                    );
                     const previousClaimTo = signers.getSignerBy(userActions.previousClaim.toIndex);
-                    await contracts
-                        .deevyMinter
+                    await contracts.deevyMinter
                         .connect(previousClaimSender)
-                        .claim(
-                            previousClaimTo.address,
-                            userActions.previousClaim.tokenId
-                        );
+                        .claim(previousClaimTo.address, userActions.previousClaim.tokenId);
                 }
 
                 const claimSender = signers.getSignerBy(userActions.claim.senderIndex);
@@ -242,32 +240,35 @@ describe("DeevyMinterClaimTest", () => {
 
                 try {
                     // Invocation
-                    const result = await contracts
-                        .deevyMinter
+                    const result = await contracts.deevyMinter
                         .connect(claimSender)
-                        .claim(
-                            claimTo.address,
-                            userActions.claim.tokenId
-                        );
+                        .claim(claimTo.address, userActions.claim.tokenId);
 
                     // Assertions
                     const receipt = await result.wait();
                     expectedResult.assertSuccess(receipt);
-
                 } catch (error) {
                     expectedResult.assertError(error, true);
                 }
 
-                const claimedSender = await contracts
-                        .deevyMinter
-                        .claimed(claimSender.address);
-                expect(claimedSender, 'Claimed sender should be equal.').to.be.eq(expected.claimedSender);
+                const claimedSender = await contracts.deevyMinter.claimed(claimSender.address);
+                expect(claimedSender, "Claimed sender should be equal.").to.be.eq(
+                    expected.claimedSender
+                );
 
-                const deevyClaimSenderBalance = await contracts.deevy.balanceOf(claimSender.address);
-                expect(deevyClaimSenderBalance.toString(), 'Claim sender Deevy balance should be equal.').to.be.eq(expected.claimSenderDeevyBalance.toFixed(0));
+                const deevyClaimSenderBalance = await contracts.deevy.balanceOf(
+                    claimSender.address
+                );
+                expect(
+                    deevyClaimSenderBalance.toString(),
+                    "Claim sender Deevy balance should be equal."
+                ).to.be.eq(expected.claimSenderDeevyBalance.toFixed(0));
 
                 const deevyClaimToBalance = await contracts.deevy.balanceOf(claimTo.address);
-                expect(deevyClaimToBalance.toString(), 'Claim to Deevy balance should be equal.').to.be.eq(expected.claimToDeevyBalance.toFixed(0));
+                expect(
+                    deevyClaimToBalance.toString(),
+                    "Claim to Deevy balance should be equal."
+                ).to.be.eq(expected.claimToDeevyBalance.toFixed(0));
             });
         }
     );
