@@ -44,6 +44,7 @@ interface DeevyInterface extends ethers.utils.Interface {
     "getWeapon(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "loot()": FunctionFragment;
+    "lootMinter()": FunctionFragment;
     "lootTokenURI(uint256)": FunctionFragment;
     "minter()": FunctionFragment;
     "name(uint256)": FunctionFragment;
@@ -148,6 +149,10 @@ interface DeevyInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "loot", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "lootMinter",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "lootTokenURI",
     values: [BigNumberish]
@@ -263,6 +268,7 @@ interface DeevyInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "loot", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "lootMinter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "lootTokenURI",
     data: BytesLike
@@ -661,6 +667,18 @@ export class Deevy extends Contract {
     }>;
 
     "loot()"(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    lootMinter(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: string;
+    }>;
+
+    "lootMinter()"(
       overrides?: CallOverrides
     ): Promise<{
       0: string;
@@ -1160,6 +1178,10 @@ export class Deevy extends Contract {
 
   "loot()"(overrides?: CallOverrides): Promise<string>;
 
+  lootMinter(overrides?: CallOverrides): Promise<string>;
+
+  "lootMinter()"(overrides?: CallOverrides): Promise<string>;
+
   lootTokenURI(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -1576,6 +1598,10 @@ export class Deevy extends Contract {
     loot(overrides?: CallOverrides): Promise<string>;
 
     "loot()"(overrides?: CallOverrides): Promise<string>;
+
+    lootMinter(overrides?: CallOverrides): Promise<string>;
+
+    "lootMinter()"(overrides?: CallOverrides): Promise<string>;
 
     lootTokenURI(
       tokenId: BigNumberish,
@@ -2030,6 +2056,10 @@ export class Deevy extends Contract {
 
     "loot()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    lootMinter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "lootMinter()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     lootTokenURI(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -2441,6 +2471,10 @@ export class Deevy extends Contract {
     loot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "loot()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    lootMinter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "lootMinter()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     lootTokenURI(
       tokenId: BigNumberish,

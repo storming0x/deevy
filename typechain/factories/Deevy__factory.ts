@@ -604,6 +604,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "lootMinter",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",

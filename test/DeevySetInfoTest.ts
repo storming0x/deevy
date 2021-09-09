@@ -9,7 +9,6 @@ import chai, {assert} from "chai";
 import {solidity} from "ethereum-waffle";
 import {
     AccountIndex,
-    Amount,
     ExpectedInfo,
     Signers,
     toAccountIndex,
@@ -17,12 +16,11 @@ import {
     toTitle,
 } from "@dogdefidev/utils";
 import {deployDeevy, deployDeevySet} from "../src/utils/deployer";
-import events from "../src/utils/events";
 
 chai.use(solidity);
 const {withData} = leche;
 
-describe("DeevySol setInfo", () => {
+describe("DeevySetInfoTest", () => {
     let signers: Signers;
 
     beforeEach(async () => {

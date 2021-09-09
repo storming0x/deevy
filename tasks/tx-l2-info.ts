@@ -9,8 +9,7 @@ import {arbLog} from "../src/utils/arbitrum/arb-shared-dependencies";
 
 /**
     Example: 
-    yarn set-l2-target:eth_rinkeby --l2-target 0x123...123 --send-tx false
-    yarn set-l2-target:eth_mainnet --l2-target 0x123...123 --send-tx false
+    yarn tx-l2-info
  */
 task("tx-l2-info", "Print info about the L2 tx.")
     .addParam("lootId", "Loot id.", 0, types.int)
