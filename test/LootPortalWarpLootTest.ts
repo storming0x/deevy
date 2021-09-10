@@ -134,7 +134,7 @@ describe("LootPortalWarpLootTest", () => {
                     },
                 }, // User Actions
                 {}, // Expected
-                toExpect('Pausable: paused'), // Expected result
+                toExpect("Pausable: paused"), // Expected result
             ],
         },
         (
@@ -154,8 +154,7 @@ describe("LootPortalWarpLootTest", () => {
                           gasPriceBid: Amount;
                       }
                     | undefined;
-                pause: {
-                } | undefined,
+                pause: {} | undefined;
                 warpLootInfo: {
                     senderIndex: AccountIndex;
                     lootId: number;
@@ -189,11 +188,14 @@ describe("LootPortalWarpLootTest", () => {
                         gasPriceBid,
                         maxGas,
                         maxSubmissionCost,
-                        msgValue
+                        msgValue,
                     } = userActions.previousWarpLootInfo;
-                    const msgValueToSend = msgValue ?
-                            Amount.fromString(msgValue.toFixed()) :
-                            Amount.from(maxSubmissionCost.getNumber() + (gasPriceBid.getNumber() * maxGas.getNumber()));
+                    const msgValueToSend = msgValue
+                        ? Amount.fromString(msgValue.toFixed())
+                        : Amount.from(
+                              maxSubmissionCost.getNumber() +
+                                  gasPriceBid.getNumber() * maxGas.getNumber()
+                          );
 
                     await contracts.lootPortal
                         .connect(warpLootSender)
@@ -212,15 +214,13 @@ describe("LootPortalWarpLootTest", () => {
                 if (userActions.pause) {
                     await contracts.lootPortal.connect(deployer).pause();
                 }
-                const {
-                    gasPriceBid,
-                    maxGas,
-                    maxSubmissionCost,
-                    msgValue
-                } = userActions.warpLootInfo;
-                const msgValueToSend = msgValue ?
-                        Amount.fromString(msgValue.toFixed()) :
-                        Amount.from(maxSubmissionCost.getNumber() + (gasPriceBid.getNumber() * maxGas.getNumber()));
+                const {gasPriceBid, maxGas, maxSubmissionCost, msgValue} = userActions.warpLootInfo;
+                const msgValueToSend = msgValue
+                    ? Amount.fromString(msgValue.toFixed())
+                    : Amount.from(
+                          maxSubmissionCost.getNumber() +
+                              gasPriceBid.getNumber() * maxGas.getNumber()
+                      );
 
                 try {
                     // Invocation
