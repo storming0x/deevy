@@ -6,6 +6,7 @@ const config: ContractAddresses = {
 
     // Contracts
     arbitrumInbox: EMPTY_CONTRACT_INFO,
+    arbitrumArbRetryableTx: EMPTY_CONTRACT_INFO,
     // It SHOULD BE EMPTY.
     portalLoot: EMPTY_CONTRACT_INFO,
     // deevyMinter: EMPTY_CONTRACT_INFO,

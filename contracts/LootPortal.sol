@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 
+import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IInbox} from "./arbitrum/IInbox.sol";
 import {IDeevyBridgeMinter} from "./IDeevyBridgeMinter.sol";
 
-contract LootPortal is Ownable {
+contract LootPortal is Ownable, Pausable {
+    using SafeMath for uint256;
+
     address public l2Target;
     IERC721 public loot;
     IInbox public inbox;
@@ -28,6 +32,10 @@ contract LootPortal is Ownable {
         l2Target = newL2Target;
     }
 
+    function setInbox(address newInbox) external onlyOwner {
+        inbox = IInbox(newInbox);
+    }
+
     /*
         @notice This claims your deevy bag in L2.
     */
@@ -36,8 +44,10 @@ contract LootPortal is Ownable {
         uint256 maxSubmissionCost,
         uint256 maxGas,
         uint256 gasPriceBid
-    ) external payable returns (uint256) {
+    ) external whenNotPaused() payable returns (uint256) {
+        require(l2Target != address(0x0), "L2_TARGET_REQUIRED");
         require(msg.value > 0, "MSG_VALUE_IS_REQUIRED");
+        require(msg.value == gasPriceBid.mul(maxGas).add(maxSubmissionCost), "MSG_VALUE_INVALID");
         require(
             loot.ownerOf(lootId) == msg.sender,
             "SENDER_ISNT_LOOT_ID_OWNER"
@@ -63,11 +73,29 @@ contract LootPortal is Ownable {
             );
 
         lootsToTickets[lootId] = ticketID;
-        emit RetryableTicketCreated(ticketID);
+        emit RetryableTicketCreated(
+            ticketID,
+            maxSubmissionCost,
+            maxGas,
+            gasPriceBid
+        );
         return ticketID;
+    }
+
+    function pause() external onlyOwner() {
+        super._pause();
+    }
+
+    function unpause() external onlyOwner() {
+        super._unpause();
     }
 
     /* Events */
 
-    event RetryableTicketCreated(uint256 indexed ticketId);
+    event RetryableTicketCreated(
+        uint256 indexed ticketId,
+        uint256 maxSubmissionCost,
+        uint256 maxGas,
+        uint256 gasPriceBid
+    );
 }

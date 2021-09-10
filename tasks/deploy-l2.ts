@@ -21,9 +21,10 @@ import {Deevy} from "../typechain";
 
 /**
     Example: 
-    yarn deploy-l2-testnet:arb_testnet --sender-index 0 --set-name "Eldritch Legends" --set-fore-color black --set-back-color "#8EB12A" --set-end 10000 --l1-target 0x0000000000000000000000000000000000000000 --send-tx false
+    yarn deploy-l2:arb_testnet --sender-index 0 --set-name "Eldritch Legends" --set-fore-color black --set-back-color "#8EB12A" --set-end 10000 --l1-target 0x0000000000000000000000000000000000000000 --send-tx false
+    yarn deploy-l2:arb_mainnet --sender-index 0 --set-name "Eldritch Legends" --set-fore-color black --set-back-color "#8EB12A" --set-end 10000 --l1-target 0x0000000000000000000000000000000000000000 --send-tx false
  */
-task("deploy-l2-testnet", "Deploys the platform in the L2 testnet network.")
+task("deploy-l2", "Deploys the platform in the L2 testnet network.")
     .addParam("senderIndex", "Defines the sender account index (0-based) for the tx.", 0, types.int)
     .addParam("setName", "Initial Set Name.")
     .addParam("setForeColor", "Fore color for set.", "white", types.string)
@@ -46,7 +47,10 @@ task("deploy-l2-testnet", "Deploys the platform in the L2 testnet network.")
         const signers = new Signers(await env.ethers.getSigners());
         const sender = signers.getSigner(senderIndex);
 
-        if (!env.network.name.toLowerCase().includes("arb_testnet")) {
+        if (
+            !env.network.name.toLowerCase().includes("arb_testnet") &&
+            !env.network.name.toLowerCase().includes("arb_mainnet")
+        ) {
             throw new Error(`Network is not L2 ('${env.network.name}')`);
         }
 

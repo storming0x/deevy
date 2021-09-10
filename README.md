@@ -8,23 +8,42 @@ https://developer.offchainlabs.com/docs/public_testnet
 
 - Deploy Contracts in L2
 
+L2 Testnet
 ```sh
-yarn deploy-l2-testnet:arb_testnet --sender-index 0 --set-name "Eldritch Legends" --set-fore-color black --set-back-color "#8EB12A" --set-end 10000 --l1-target 0x0000000000000000000000000000000000000000 --send-tx false
+yarn deploy-l2:arb_testnet --sender-index 0 --set-name "Eldritch Legends" --set-fore-color black --set-back-color "#8EB12A" --set-end 10000 --l1-target 0x0000000000000000000000000000000000000000 --send-tx false
+```
+L2 Mainnet
+```sh
+yarn deploy-l2:arb_mainnet --sender-index 0 --set-name "Eldritch Legends" --set-fore-color black --set-back-color "#8EB12A" --set-end 11111 --l1-target 0x0000000000000000000000000000000000000000 --send-tx false
 ```
 
-- Update config `./arb_testnet/index.ts` file.
+- Update config `./arb_testnet/index.ts` or `./arb_mainnet/index.ts` file.
 - Deploy Contracts in L1. Copy / paste the DeevyBridgeMinter address to inject it into the LootPortal.
 
+L1 Rinkeby
 ```sh
 yarn deploy-l1-rinkeby:eth_rinkeby --sender-index 0 --l2-target PASTE_L2_MINTER_ADDRESS --send-tx false
 ```
 
-- Update config `./eth_rinkeby/index.ts` file.
+L1 Mainnet
+```sh
+yarn deploy-l1-mainnet:eth_mainnet --sender-index 0 --l2-target PASTE_L2_BRIDGE_MINTER_ADDRESS --send-tx false
+```
+
+- Update config `./eth_rinkeby/index.ts` or `./eth_mainnet/index.ts` file.
 
 - DeevyBridgeMinter: Set L1 target
 
+L2 Testnet
+
 ```sh
 yarn bridge-set-l1-target:arb_testnet --l1-target PASTE_L1_LOOT_PORTAL --send-tx false
+```
+
+L2 Mainnet
+
+```sh
+yarn bridge-set-l1-target:arb_mainnet --l1-target PASTE_L1_LOOT_PORTAL --send-tx false
 ```
 
 ## Other Scripts

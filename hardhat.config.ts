@@ -46,9 +46,9 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {},
     arb_mainnet: {
-      url: '',
-      chainId: 250,
-      gasPrice: 20000000000,
+      url: 'https://arb1.arbitrum.io/rpc',
+      chainId: 42161,
+      gasPrice: 2700000000, // 2.7 gwei
       accounts: accounts.getPKs(),
     },
     arb_testnet: {
@@ -64,6 +64,12 @@ const config: HardhatUserConfig = {
       url: `https://rinkeby.infura.io/v3/${providerApiKey}`,
       chainId: 4,
       gasPrice: 2000000000,
+      accounts: accounts.getPKs(),
+    },
+    eth_mainnet: {
+      url: `https://mainnet.infura.io/v3/${providerApiKey}`,
+      chainId: 1,
+      gasPrice: 180000000000,
       accounts: accounts.getPKs(),
     },
     coverage: {

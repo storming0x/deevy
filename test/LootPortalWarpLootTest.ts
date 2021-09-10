@@ -5,7 +5,7 @@
 /* eslint-disable no-await-in-loop */
 import leche from "leche";
 import {ethers} from "hardhat";
-import chai, {expect} from "chai";
+import chai from "chai";
 import {solidity} from "ethereum-waffle";
 import {
     AccountIndex,
@@ -39,10 +39,11 @@ describe("LootPortalWarpLootTest", () => {
                         lootId: 10,
                     },
                     previousWarpLootInfo: undefined,
+                    pause: undefined,
                     warpLootInfo: {
                         senderIndex: toAccountIndex(1),
                         lootId: 10,
-                        msgValue: Amount.fromString("0.1"),
+                        msgValue: undefined,
                         maxSubmissionCost: Amount.from(100),
                         maxGas: Amount.from(100000),
                         gasPriceBid: Amount.from(100),
@@ -59,13 +60,14 @@ describe("LootPortalWarpLootTest", () => {
                         lootId: 12,
                     },
                     previousWarpLootInfo: undefined,
+                    pause: undefined,
                     warpLootInfo: {
                         senderIndex: toAccountIndex(1),
                         lootId: 12,
-                        msgValue: Amount.fromString("0.1"),
-                        maxSubmissionCost: Amount.from(100),
+                        msgValue: undefined,
+                        maxSubmissionCost: Amount.from(1),
                         maxGas: Amount.from(100000),
-                        gasPriceBid: Amount.from(100),
+                        gasPriceBid: Amount.from(1.2),
                     },
                 }, // User Actions
                 {}, // Expected
@@ -79,17 +81,60 @@ describe("LootPortalWarpLootTest", () => {
                         lootId: 10,
                     },
                     previousWarpLootInfo: undefined,
+                    pause: undefined,
                     warpLootInfo: {
                         senderIndex: toAccountIndex(1),
                         lootId: 10,
                         msgValue: Amount.from(0),
+                        maxSubmissionCost: Amount.from(0.1),
+                        maxGas: Amount.from(100000),
+                        gasPriceBid: Amount.from(1.2),
+                    },
+                }, // User Actions
+                {}, // Expected
+                toExpect("MSG_VALUE_IS_REQUIRED"), // Expected result
+            ],
+            _4_msg_value_invalid: [
+                toAccountIndex(0),
+                {
+                    lootClaim: {
+                        senderIndex: toAccountIndex(1),
+                        lootId: 10,
+                    },
+                    previousWarpLootInfo: undefined,
+                    pause: undefined,
+                    warpLootInfo: {
+                        senderIndex: toAccountIndex(1),
+                        lootId: 10,
+                        msgValue: Amount.from(1.1),
+                        maxSubmissionCost: Amount.from(0.1),
+                        maxGas: Amount.from(100000),
+                        gasPriceBid: Amount.from(1.2),
+                    },
+                }, // User Actions
+                {}, // Expected
+                toExpect("MSG_VALUE_INVALID"), // Expected result
+            ],
+            _5_paused: [
+                toAccountIndex(0),
+                {
+                    lootClaim: {
+                        senderIndex: toAccountIndex(1),
+                        lootId: 10,
+                    },
+                    previousWarpLootInfo: undefined,
+                    pause: {},
+                    warpLootInfo: {
+                        senderIndex: toAccountIndex(1),
+                        lootId: 10,
+                        msgValue: undefined,
                         maxSubmissionCost: Amount.from(100),
                         maxGas: Amount.from(100000),
                         gasPriceBid: Amount.from(100),
                     },
                 }, // User Actions
                 {}, // Expected
-                toExpect("MSG_VALUE_IS_REQUIRED"), // Expected result
+                toExpect('Pausable: paused'), // Expected result
             ],
         },
         (
@@ -103,12 +148,14 @@ describe("LootPortalWarpLootTest", () => {
                     | {
                           senderIndex: AccountIndex;
                           lootId: number;
-                          msgValue: Amount;
+                          msgValue: Amount | undefined;
                           maxSubmissionCost: Amount;
                           maxGas: Amount;
                           gasPriceBid: Amount;
                       }
                     | undefined;
+                pause: {
+                } | undefined,
                 warpLootInfo: {
                     senderIndex: AccountIndex;
                     lootId: number;
@@ -138,6 +185,16 @@ describe("LootPortalWarpLootTest", () => {
                 }
 
                 if (userActions.previousWarpLootInfo) {
+                    const {
+                        gasPriceBid,
+                        maxGas,
+                        maxSubmissionCost,
+                        msgValue
+                    } = userActions.previousWarpLootInfo;
+                    const msgValueToSend = msgValue ?
+                            Amount.fromString(msgValue.toFixed()) :
+                            Amount.from(maxSubmissionCost.getNumber() + (gasPriceBid.getNumber() * maxGas.getNumber()));
+
                     await contracts.lootPortal
                         .connect(warpLootSender)
                         .warpLoot(
@@ -148,12 +205,22 @@ describe("LootPortalWarpLootTest", () => {
                             userActions.previousWarpLootInfo.maxGas.toDecimals(18).toFixed(),
                             userActions.previousWarpLootInfo.gasPriceBid.toDecimals(18).toFixed(),
                             {
-                                value: userActions.previousWarpLootInfo.msgValue
-                                    .toDecimals(18)
-                                    .toFixed(),
+                                value: msgValueToSend.toFixed(),
                             }
                         );
                 }
+                if (userActions.pause) {
+                    await contracts.lootPortal.connect(deployer).pause();
+                }
+                const {
+                    gasPriceBid,
+                    maxGas,
+                    maxSubmissionCost,
+                    msgValue
+                } = userActions.warpLootInfo;
+                const msgValueToSend = msgValue ?
+                        Amount.fromString(msgValue.toFixed()) :
+                        Amount.from(maxSubmissionCost.getNumber() + (gasPriceBid.getNumber() * maxGas.getNumber()));
 
                 try {
                     // Invocation
@@ -161,11 +228,11 @@ describe("LootPortalWarpLootTest", () => {
                         .connect(warpLootSender)
                         .warpLoot(
                             userActions.warpLootInfo.lootId,
-                            userActions.warpLootInfo.maxSubmissionCost.toDecimals(18).toFixed(),
-                            userActions.warpLootInfo.maxGas.toDecimals(18).toFixed(),
-                            userActions.warpLootInfo.gasPriceBid.toDecimals(18).toFixed(),
+                            userActions.warpLootInfo.maxSubmissionCost.toFixed(),
+                            userActions.warpLootInfo.maxGas.toFixed(),
+                            userActions.warpLootInfo.gasPriceBid.toFixed(),
                             {
-                                value: userActions.warpLootInfo.msgValue.toDecimals(18).toString(),
+                                value: msgValueToSend.toFixed(), // Amount.fromString(msgValueToSend).toDecimals(18).toFixed(0),
                             }
                         );
 

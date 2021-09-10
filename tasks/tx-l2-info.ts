@@ -76,7 +76,17 @@ task("tx-l2-info", "Print info about the L2 tx.")
         /**
          * For the gas limit, we'll simply use a hard-coded value (for more precise / dynamic estimates, see the estimateRetryableTicket method in the NodeInterface L2 "precompile")
          */
-        const maxGas = 200000000;
+        /**
+            Based on these TXs
+            - https://arbiscan.io/tx/0x12ec6425c9302bbdfc182bfadbe980f6b66dcbb190ebceab9c70aa83e6b4b071
+            - https://arbiscan.io/tx/0x70f623cec56fddf857a1ee2192a98d497260e171929607904e8dba90413b03df
+            - https://arbiscan.io/tx/0xd916644d4091ee6f8d308ffff53ea5bbc80e5f57cad457346f3817a79e05f6ea
+            - https://arbiscan.io/tx/0xf63636a666f11c268db6b1eb28af8729dab6bd97a41f0b34ebe179e95fcb0081
+            - https://arbiscan.io/tx/0xd4a239900ac567feb3708e842d2281a2c8e3a3920b4d260c1f65c2f22166e49c
+
+            we will use 2600000 as max gas. 
+         */
+        const maxGas = 2600000;
         /**
          * With these three values, we can calculate the total callvalue we'll need our L1 transaction to send to L2
          */
