@@ -82,6 +82,35 @@ contract LootPortal is Ownable, Pausable {
         return ticketID;
     }
 
+    function rescue(
+        uint256 maxSubmissionCost,
+        uint256 maxGas,
+        uint256 gasPriceBid
+    ) external onlyOwner() payable returns (uint256) {
+        require(l2Target != address(0x0), "L2_TARGET_REQUIRED");
+        bytes memory data =
+            abi.encodeWithSelector(IDeevyBridgeMinter.rescue.selector);
+
+        uint256 ticketID =
+            inbox.createRetryableTicket{value: msg.value}(
+                l2Target,
+                0,
+                maxSubmissionCost,
+                msg.sender,
+                msg.sender,
+                maxGas,
+                gasPriceBid,
+                data
+            );
+
+        emit RetryableTicketCreated(
+            ticketID,
+            maxSubmissionCost,
+            maxGas,
+            gasPriceBid
+        );
+    }
+
     function pause() external onlyOwner() {
         super._pause();
     }

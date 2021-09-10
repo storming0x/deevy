@@ -45,6 +45,18 @@ contract DeevyBridgeMinter is Ownable, IDeevyBridgeMinter {
         deevy.warpLoot(account, lootId);
     }
 
+    /**
+        Emergency function to rescue ETH in L2 alias
+     */
+    function rescue() external override {
+        require(
+            msg.sender == _getL1ToL2Alias(),
+            "INVALID_L1_TARGET"
+        );
+
+        revert();
+    }
+
     function _getL1ToL2Alias() internal virtual view returns (address) {
         return AddressAliasHelper.applyL1ToL2Alias(l1Target);
     }
