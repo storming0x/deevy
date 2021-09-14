@@ -2,6 +2,7 @@
 export * from "./deevy";
 export * from "./deevy-minter";
 export * from "./deploy-l2";
+export * from "./deploy-l2-bridge-minter";
 export * from "./deploy-l1-rinkeby";
 export * from "./deploy-l1-mainnet";
 export * from "./loot";

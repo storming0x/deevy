@@ -27,6 +27,8 @@
     "bridge-set-l1-target:arb_mainnet": "npx hardhat bridge-set-l1-target --network arb_mainnet",
     "deploy-l2:arb_testnet": "npx hardhat deploy-l2 --network arb_testnet",
     "deploy-l2:arb_mainnet": "npx hardhat deploy-l2 --network arb_mainnet",
+    "deploy-l2-bridge-minter:arb_mainnet": "npx hardhat deploy-l2-bridge-minter --network arb_mainnet",
+    "deploy-l2-bridge-minter:arb_testnet": "npx hardhat deploy-l2-bridge-minter --network arb_testnet",
     "set-minter:arb_testnet": "npx hardhat set-minter --network arb_testnet",
     "print-info:arb_testnet": "npx hardhat print-info --network arb_testnet",
     "deevy-print-token-info:arb_testnet": "npx hardhat deevy-print-token-info --network arb_testnet",

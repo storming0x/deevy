@@ -27,10 +27,10 @@ const config: ContractAddresses = {
     },
     portalLoot: {
         name: "LootPortal",
-        address: "0xEc2075a71c208F9A9219BD73d4B40053F0C84Dd3",
-        url: "https://www.etherscan.io/address/0xEc2075a71c208F9A9219BD73d4B40053F0C84Dd3",
+        address: "0xa5e24bb4B7Fd816583A5C6aD30807Cc202A416B4",
+        url: "https://www.etherscan.io/address/0xa5e24bb4B7Fd816583A5C6aD30807Cc202A416B4",
         verifyCli:
-            "npx hardhat verify --network eth_mainnet 0xEc2075a71c208F9A9219BD73d4B40053F0C84Dd3 0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7 0x8cFC63F0F8CD6887d221aa848a89695389f57d14 0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f",
+            "npx hardhat verify --network eth_mainnet 0xa5e24bb4B7Fd816583A5C6aD30807Cc202A416B4 0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7 0x0000000000000000000000000000000000000000 0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f",
     },
 };
 

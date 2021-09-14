@@ -40,10 +40,10 @@ const config: ContractAddresses = {
     },
     deevyBridgeMinter: {
         name: "DeevyBridgeMinter",
-        address: "0x8cFC63F0F8CD6887d221aa848a89695389f57d14",
-        url: "https://explorer.arbitrum.io/address/0x8cFC63F0F8CD6887d221aa848a89695389f57d14",
+        address: "0x351fcB506bF8640E6BaCccc53E61d461De14b679",
+        url: "https://explorer.arbitrum.io/address/0x351fcB506bF8640E6BaCccc53E61d461De14b679",
         verifyCli:
-            "npx hardhat verify --network arb_mainnet 0x8cFC63F0F8CD6887d221aa848a89695389f57d14 0x8F4cBC81589Ba28B67C371EaB3d696Ad67B25c24 0x0000000000000000000000000000000000000000",
+            "npx hardhat verify --network arb_mainnet 0x351fcB506bF8640E6BaCccc53E61d461De14b679 0x8F4cBC81589Ba28B67C371EaB3d696Ad67B25c24 0xa5e24bb4B7Fd816583A5C6aD30807Cc202A416B4",
     },
     deevyMinter: {
         name: "DeevyMinter",
