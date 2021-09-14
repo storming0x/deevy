@@ -12,6 +12,7 @@ export type ContractAddresses = {
     // It should exist ONLY in L1 testnet.
     loot: ContractInfo;
     arbitrumInbox: ContractInfo;
+    arbitrumArbRetryableTx: ContractInfo;
     // It should exist ONLY in L1
     portalLoot: ContractInfo;
     // It should exist ONLY in L2

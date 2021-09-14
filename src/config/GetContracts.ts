@@ -11,6 +11,7 @@ import {
     INBOX_NAME,
     LOOT_NAME,
     LOOT_PORTAL_NAME,
+    ARB_RETRYABLE_TX_NAME,
 } from "../utils/consts/consts";
 
 export class GetContracts {
@@ -61,5 +62,12 @@ export class GetContracts {
 
     async getDeevy(): Promise<Contract> {
         return (await this.getContractAt(DEEVY_NAME, this.addresses.deevy.address)) as Contract;
+    }
+
+    async getArbRetryableTx(): Promise<Contract> {
+        return (await this.getContractAt(
+            ARB_RETRYABLE_TX_NAME,
+            this.addresses.arbitrumArbRetryableTx.address
+        )) as Contract;
     }
 }

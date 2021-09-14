@@ -28,9 +28,14 @@ interface LootPortalInterface extends ethers.utils.Interface {
     "loot()": FunctionFragment;
     "lootsToTickets(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "rescue(uint256,uint256,uint256)": FunctionFragment;
+    "setInbox(address)": FunctionFragment;
     "setL2Target(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "unpause()": FunctionFragment;
     "warpLoot(uint256,uint256,uint256,uint256)": FunctionFragment;
   };
 
@@ -42,15 +47,23 @@ interface LootPortalInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "rescue",
+    values: [BigNumberish, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "setInbox", values: [string]): string;
   encodeFunctionData(functionFragment: "setL2Target", values: [string]): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "warpLoot",
     values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
@@ -64,10 +77,14 @@ interface LootPortalInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "rescue", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setInbox", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setL2Target",
     data: BytesLike
@@ -76,15 +93,20 @@ interface LootPortalInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "warpLoot", data: BytesLike): Result;
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
-    "RetryableTicketCreated(uint256)": EventFragment;
+    "Paused(address)": EventFragment;
+    "RetryableTicketCreated(uint256,uint256,uint256,uint256)": EventFragment;
+    "Unpaused(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RetryableTicketCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
 export class LootPortal extends Contract {
@@ -163,9 +185,49 @@ export class LootPortal extends Contract {
       0: string;
     }>;
 
+    pause(overrides?: Overrides): Promise<ContractTransaction>;
+
+    "pause()"(overrides?: Overrides): Promise<ContractTransaction>;
+
+    paused(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
+    "paused()"(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
+
     renounceOwnership(overrides?: Overrides): Promise<ContractTransaction>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
+
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
+    setInbox(
+      newInbox: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
+
+    "setInbox(address)"(
+      newInbox: string,
+      overrides?: Overrides
+    ): Promise<ContractTransaction>;
 
     setL2Target(
       newL2Target: string,
@@ -186,6 +248,10 @@ export class LootPortal extends Contract {
       newOwner: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
+
+    unpause(overrides?: Overrides): Promise<ContractTransaction>;
+
+    "unpause()"(overrides?: Overrides): Promise<ContractTransaction>;
 
     warpLoot(
       lootId: BigNumberish,
@@ -230,9 +296,41 @@ export class LootPortal extends Contract {
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
 
+  pause(overrides?: Overrides): Promise<ContractTransaction>;
+
+  "pause()"(overrides?: Overrides): Promise<ContractTransaction>;
+
+  paused(overrides?: CallOverrides): Promise<boolean>;
+
+  "paused()"(overrides?: CallOverrides): Promise<boolean>;
+
   renounceOwnership(overrides?: Overrides): Promise<ContractTransaction>;
 
   "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
+
+  rescue(
+    maxSubmissionCost: BigNumberish,
+    maxGas: BigNumberish,
+    gasPriceBid: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
+  "rescue(uint256,uint256,uint256)"(
+    maxSubmissionCost: BigNumberish,
+    maxGas: BigNumberish,
+    gasPriceBid: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
+  setInbox(
+    newInbox: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
+  "setInbox(address)"(
+    newInbox: string,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
 
   setL2Target(
     newL2Target: string,
@@ -253,6 +351,10 @@ export class LootPortal extends Contract {
     newOwner: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
+
+  unpause(overrides?: Overrides): Promise<ContractTransaction>;
+
+  "unpause()"(overrides?: Overrides): Promise<ContractTransaction>;
 
   warpLoot(
     lootId: BigNumberish,
@@ -297,9 +399,38 @@ export class LootPortal extends Contract {
 
     "owner()"(overrides?: CallOverrides): Promise<string>;
 
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    "pause()"(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
+
+    "paused()"(overrides?: CallOverrides): Promise<boolean>;
+
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
+
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setInbox(newInbox: string, overrides?: CallOverrides): Promise<void>;
+
+    "setInbox(address)"(
+      newInbox: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setL2Target(newL2Target: string, overrides?: CallOverrides): Promise<void>;
 
@@ -317,6 +448,10 @@ export class LootPortal extends Contract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    unpause(overrides?: CallOverrides): Promise<void>;
+
+    "unpause()"(overrides?: CallOverrides): Promise<void>;
 
     warpLoot(
       lootId: BigNumberish,
@@ -341,7 +476,16 @@ export class LootPortal extends Contract {
       newOwner: string | null
     ): EventFilter;
 
-    RetryableTicketCreated(ticketId: BigNumberish | null): EventFilter;
+    Paused(account: null): EventFilter;
+
+    RetryableTicketCreated(
+      ticketId: BigNumberish | null,
+      maxSubmissionCost: null,
+      maxGas: null,
+      gasPriceBid: null
+    ): EventFilter;
+
+    Unpaused(account: null): EventFilter;
   };
 
   estimateGas: {
@@ -371,9 +515,38 @@ export class LootPortal extends Contract {
 
     "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    pause(overrides?: Overrides): Promise<BigNumber>;
+
+    "pause()"(overrides?: Overrides): Promise<BigNumber>;
+
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "paused()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceOwnership(overrides?: Overrides): Promise<BigNumber>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<BigNumber>;
+
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
+    setInbox(newInbox: string, overrides?: Overrides): Promise<BigNumber>;
+
+    "setInbox(address)"(
+      newInbox: string,
+      overrides?: Overrides
+    ): Promise<BigNumber>;
 
     setL2Target(newL2Target: string, overrides?: Overrides): Promise<BigNumber>;
 
@@ -391,6 +564,10 @@ export class LootPortal extends Contract {
       newOwner: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
+
+    unpause(overrides?: Overrides): Promise<BigNumber>;
+
+    "unpause()"(overrides?: Overrides): Promise<BigNumber>;
 
     warpLoot(
       lootId: BigNumberish,
@@ -436,9 +613,41 @@ export class LootPortal extends Contract {
 
     "owner()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    pause(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    "pause()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "paused()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceOwnership(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setInbox(
+      newInbox: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
+
+    "setInbox(address)"(
+      newInbox: string,
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
 
     setL2Target(
       newL2Target: string,
@@ -459,6 +668,10 @@ export class LootPortal extends Contract {
       newOwner: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
+
+    unpause(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    "unpause()"(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     warpLoot(
       lootId: BigNumberish,

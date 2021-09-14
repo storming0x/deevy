@@ -11,6 +11,7 @@ const config: ContractAddresses = {
         url: "https://rinkeby.etherscan.io/address/0x578BAde599406A8fE3d24Fd7f7211c0911F5B29e",
         verifyCli: "",
     },
+    arbitrumArbRetryableTx: EMPTY_CONTRACT_INFO,
 
     // It SHOULD NOT exist in L1.
     deevyMinter: EMPTY_CONTRACT_INFO,

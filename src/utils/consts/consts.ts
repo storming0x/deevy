@@ -9,3 +9,4 @@ export const DEEVY_SET_NAME = "DeevySet";
 export const LOOT_PORTAL_NAME = "LootPortal";
 export const MOCK_NAME = "Mock";
 export const LOOT_NAME = "Loot";
+export const ARB_RETRYABLE_TX_NAME = "ArbRetryableTx";
