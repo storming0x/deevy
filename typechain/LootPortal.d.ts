@@ -31,6 +31,7 @@ interface LootPortalInterface extends ethers.utils.Interface {
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "rescue(uint256,uint256,uint256)": FunctionFragment;
     "setInbox(address)": FunctionFragment;
     "setL2Target(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -51,6 +52,10 @@ interface LootPortalInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "rescue",
+    values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setInbox", values: [string]): string;
   encodeFunctionData(functionFragment: "setL2Target", values: [string]): string;
@@ -78,6 +83,7 @@ interface LootPortalInterface extends ethers.utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "rescue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setInbox", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setL2Target",
@@ -199,6 +205,20 @@ export class LootPortal extends Contract {
 
     "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
 
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
+
     setInbox(
       newInbox: string,
       overrides?: Overrides
@@ -288,6 +308,20 @@ export class LootPortal extends Contract {
 
   "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
 
+  rescue(
+    maxSubmissionCost: BigNumberish,
+    maxGas: BigNumberish,
+    gasPriceBid: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
+  "rescue(uint256,uint256,uint256)"(
+    maxSubmissionCost: BigNumberish,
+    maxGas: BigNumberish,
+    gasPriceBid: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
+
   setInbox(
     newInbox: string,
     overrides?: Overrides
@@ -376,6 +410,20 @@ export class LootPortal extends Contract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
+
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     setInbox(newInbox: string, overrides?: CallOverrides): Promise<void>;
 
@@ -479,6 +527,20 @@ export class LootPortal extends Contract {
 
     "renounceOwnership()"(overrides?: Overrides): Promise<BigNumber>;
 
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<BigNumber>;
+
     setInbox(newInbox: string, overrides?: Overrides): Promise<BigNumber>;
 
     "setInbox(address)"(
@@ -562,6 +624,20 @@ export class LootPortal extends Contract {
     renounceOwnership(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    rescue(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "rescue(uint256,uint256,uint256)"(
+      maxSubmissionCost: BigNumberish,
+      maxGas: BigNumberish,
+      gasPriceBid: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
 
     setInbox(
       newInbox: string,

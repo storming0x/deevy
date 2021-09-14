@@ -53,8 +53,6 @@ contract DeevyBridgeMinter is Ownable, IDeevyBridgeMinter {
             msg.sender == _getL1ToL2Alias(),
             "INVALID_L1_TARGET"
         );
-
-        revert();
     }
 
     function _getL1ToL2Alias() internal virtual view returns (address) {

@@ -28,6 +28,7 @@ interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
     "l1Target()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "rescue()": FunctionFragment;
     "setL1Target(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "warpBag(address,uint256)": FunctionFragment;
@@ -45,6 +46,7 @@ interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "rescue", values?: undefined): string;
   encodeFunctionData(functionFragment: "setL1Target", values: [string]): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
@@ -64,6 +66,7 @@ interface DeevyBridgeMinterInterface extends ethers.utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "rescue", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setL1Target",
     data: BytesLike
@@ -161,6 +164,10 @@ export class DeevyBridgeMinter extends Contract {
 
     "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
 
+    rescue(overrides?: Overrides): Promise<ContractTransaction>;
+
+    "rescue()"(overrides?: Overrides): Promise<ContractTransaction>;
+
     setL1Target(
       newL1Target: string,
       overrides?: Overrides
@@ -221,6 +228,10 @@ export class DeevyBridgeMinter extends Contract {
 
   "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
 
+  rescue(overrides?: Overrides): Promise<ContractTransaction>;
+
+  "rescue()"(overrides?: Overrides): Promise<ContractTransaction>;
+
   setL1Target(
     newL1Target: string,
     overrides?: Overrides
@@ -280,6 +291,10 @@ export class DeevyBridgeMinter extends Contract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
+
+    rescue(overrides?: CallOverrides): Promise<void>;
+
+    "rescue()"(overrides?: CallOverrides): Promise<void>;
 
     setL1Target(newL1Target: string, overrides?: CallOverrides): Promise<void>;
 
@@ -346,6 +361,10 @@ export class DeevyBridgeMinter extends Contract {
 
     "renounceOwnership()"(overrides?: Overrides): Promise<BigNumber>;
 
+    rescue(overrides?: Overrides): Promise<BigNumber>;
+
+    "rescue()"(overrides?: Overrides): Promise<BigNumber>;
+
     setL1Target(newL1Target: string, overrides?: Overrides): Promise<BigNumber>;
 
     "setL1Target(address)"(
@@ -406,6 +425,10 @@ export class DeevyBridgeMinter extends Contract {
     renounceOwnership(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    rescue(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    "rescue()"(overrides?: Overrides): Promise<PopulatedTransaction>;
 
     setL1Target(
       newL1Target: string,

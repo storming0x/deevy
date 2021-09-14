@@ -22,14 +22,17 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
 interface IDeevyBridgeMinterInterface extends ethers.utils.Interface {
   functions: {
+    "rescue()": FunctionFragment;
     "warpBag(address,uint256)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "rescue", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "warpBag",
     values: [string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "rescue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "warpBag", data: BytesLike): Result;
 
   events: {};
@@ -49,6 +52,10 @@ export class IDeevyBridgeMinter extends Contract {
   interface: IDeevyBridgeMinterInterface;
 
   functions: {
+    rescue(overrides?: Overrides): Promise<ContractTransaction>;
+
+    "rescue()"(overrides?: Overrides): Promise<ContractTransaction>;
+
     warpBag(
       account: string,
       tokenId: BigNumberish,
@@ -61,6 +68,10 @@ export class IDeevyBridgeMinter extends Contract {
       overrides?: Overrides
     ): Promise<ContractTransaction>;
   };
+
+  rescue(overrides?: Overrides): Promise<ContractTransaction>;
+
+  "rescue()"(overrides?: Overrides): Promise<ContractTransaction>;
 
   warpBag(
     account: string,
@@ -75,6 +86,10 @@ export class IDeevyBridgeMinter extends Contract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    rescue(overrides?: CallOverrides): Promise<void>;
+
+    "rescue()"(overrides?: CallOverrides): Promise<void>;
+
     warpBag(
       account: string,
       tokenId: BigNumberish,
@@ -91,6 +106,10 @@ export class IDeevyBridgeMinter extends Contract {
   filters: {};
 
   estimateGas: {
+    rescue(overrides?: Overrides): Promise<BigNumber>;
+
+    "rescue()"(overrides?: Overrides): Promise<BigNumber>;
+
     warpBag(
       account: string,
       tokenId: BigNumberish,
@@ -105,6 +124,10 @@ export class IDeevyBridgeMinter extends Contract {
   };
 
   populateTransaction: {
+    rescue(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    "rescue()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+
     warpBag(
       account: string,
       tokenId: BigNumberish,

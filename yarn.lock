@@ -38,10 +38,10 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@dogdefidev/utils@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@dogdefidev/utils/-/utils-0.2.1.tgz#f425d2ae8fdd872b75e6b42a66701cf3bc6ef933"
-  integrity sha512-UXrgFHL48SNzzCPJr9d9UCWXErrf8QLFIRJKGJ7kR8sHWJNaRPeyFjuHwZfSWvZ3keu0w8l3cdI5ePiuN/9NHw==
+"@dogdefidev/utils@^0.2.2":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@dogdefidev/utils/-/utils-0.2.3.tgz#14f27518ac9be78d112c3f3e527dd574388fce35"
+  integrity sha512-JLVGNjrPNvtLO8sXY+a3Ot2nJuHCc8zjUPX3OAB9GbJjfolHKvP4msL+rli3U1PvNBmAy1UodbK/0uf8T3uD2A==
   dependencies:
     "@nomiclabs/hardhat-ethers" "^2.0.2"
     "@types/object-hash" "^1.3.4"

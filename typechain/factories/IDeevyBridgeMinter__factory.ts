@@ -18,6 +18,13 @@ export class IDeevyBridgeMinter__factory {
 
 const _abi = [
   {
+    inputs: [],
+    name: "rescue",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
